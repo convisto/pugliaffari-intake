@@ -797,7 +797,7 @@
       <!-- CH5.5 Renovatie -->
       <section class="step" data-step="c5-renovatie">
         <span class="kicker">Hoofdstuk 5 — Het pand</span>
-        <h2>Ben je bereid een renovatie te begeleiden?</h2>
+        <h2>Ben je bereid een renovatie te laten begeleiden?</h2>
         <p class="hint">Wij werken samen met betrouwbare vakmensen en kunnen het proces van A tot Z begeleiden.</p>
         <div class="field">
           <div class="option-grid single-col" data-group="renovationSupport" data-type="radio">
@@ -841,16 +841,17 @@
       <section class="step" data-step="c6-gebruik">
         <span class="kicker">Hoofdstuk 6 — Leefstijl</span>
         <h2>Wie gaat de woning voornamelijk gebruiken?</h2>
+        <p class="hint">Meerdere keuzes mogelijk.</p>
         <div class="field">
-          <div class="option-grid" data-group="mainUse" data-type="radio">
-            <label class="option-card"><input type="radio" name="mainUse" value="Alleen wij twee"><div class="box"><span class="txt">Alleen wij twee</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="mainUse" value="Gezin"><div class="box"><span class="txt">Gezin</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="mainUse" value="Familie"><div class="box"><span class="txt">Familie</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="mainUse" value="Verhuur"><div class="box"><span class="txt">Verhuur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="mainUse" value="Retreats"><div class="box"><span class="txt">Retreats</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="mainUse" value="Anders"><div class="box"><span class="txt">Anders</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          <div class="option-grid" data-group="mainUse" data-type="checkbox">
+            <label class="option-card"><input type="checkbox" name="mainUse" value="Alleen wij twee"><div class="box"><span class="txt">Alleen wij twee</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="mainUse" value="Gezin"><div class="box"><span class="txt">Gezin</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="mainUse" value="Familie"><div class="box"><span class="txt">Familie</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="mainUse" value="Verhuur"><div class="box"><span class="txt">Verhuur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="mainUse" value="Retreats"><div class="box"><span class="txt">Retreats</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="mainUse" value="Anders"><div class="box"><span class="txt">Anders</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
           </div>
-          <div class="error-msg" data-for="mainUse">Kies een optie.</div>
+          <div class="error-msg" data-for="mainUse">Kies minstens één optie.</div>
         </div>
       </section>
 
@@ -1232,7 +1233,7 @@ function collectData(){
     condition: fd.getAll('condition'),
     renovationSupport: fd.get('renovationSupport')||'',
     avoid: fd.getAll('avoid'), avoidOther: fd.get('avoidOther')||'',
-    mainUse: fd.get('mainUse')||'',
+    mainUse: fd.getAll('mainUse'),
     householdTravel: fd.getAll('householdTravel'),
     bedrooms: bedrooms,
     rentalManagement: fd.get('rentalManagement')||'',
@@ -1306,10 +1307,10 @@ function applyData(d){
     const el = form.elements[n]; if(el) el.value = d[n]||'';
   });
   const setRadio = (name,val)=>{ if(val===undefined||val===null||val==='') return; form.querySelectorAll('input[name="'+name+'"]').forEach(i=>{ i.checked = (i.value===val); }); };
-  ['contactPreference','source','purpose','reason','processStage','timeline','visitInterest','budget','budgetIncludesCosts','financing','distanceImportance','landSize','renovationSupport','mainUse','rentalManagement','rentalYieldImportance','seenHomes'].forEach(n=>setRadio(n,d[n]));
+  ['contactPreference','source','purpose','reason','processStage','timeline','visitInterest','budget','budgetIncludesCosts','financing','distanceImportance','landSize','renovationSupport','rentalManagement','rentalYieldImportance','seenHomes'].forEach(n=>setRadio(n,d[n]));
   if(d.visitedBefore===true){ form.querySelectorAll('input[name="visitedBefore"]').forEach(i=>{ i.checked = (i.value==='yes'); }); }
   const setChecks = (name,arr)=>{ arr = arr||[]; form.querySelectorAll('input[name="'+name+'"]').forEach(i=>{ i.checked = arr.indexOf(i.value)>=0; }); };
-  ['region','propertyType','amenities','condition','avoid','householdTravel'].forEach(n=>setChecks(n,d[n]));
+  ['region','propertyType','amenities','condition','avoid','householdTravel','mainUse'].forEach(n=>setChecks(n,d[n]));
   bedrooms = (typeof d.bedrooms==='number') ? d.bedrooms : bedrooms;
   updateBedroomsUI();
   document.getElementById('reasonOtherWrap').style.display = (d.reason==='Anders') ? 'block' : 'none';

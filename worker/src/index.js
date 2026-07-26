@@ -214,7 +214,7 @@ async function writeToNotion(data, env) {
   select("Renovatiebegeleiding gewenst", data.renovationSupport);
   multi("Te vermijden", data.avoid);
   text("Te vermijden toelichting", data.avoidOther);
-  select("Wie gebruikt de woning", data.mainUse);
+  multi("Wie gebruikt de woning", data.mainUse);
   multi("Reist met", data.householdTravel);
   num("Slaapkamers", data.bedrooms);
   select("Interesse verhuurbeheer", data.rentalManagement);
