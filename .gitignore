@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+worker/node_modules/
+
+# Wrangler / Cloudflare
+.wrangler/
+worker/.wrangler/
+.dev.vars
+
+# Claude Code local overrides
+.claude/settings.local.json
+
+# OS / editor
+.DS_Store
+*.log
+
+# Build/test artifacts
+worker/_test.pdf
+worker/_test.pdf.png
+worker/_pdftest.mjs
+assets/_*.png
+assets/_*.html
+assets/_*.svg

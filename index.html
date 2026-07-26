@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vind jouw droomhuis in Puglia — Pugliaffari</title>
+<meta name="description" content="Droom je van een woning in Puglia? Vertel ons hoe jij wilt leven in het hart van Zuid-Italië en wij gaan gericht voor je op zoek.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1D3528;
+    --green-deep:#142720;
+    --green-light:#2B4A38;
+    --green-pale:#E7EDE8;
+    --gold:#C9A84C;
+    --gold-light:#DCC079;
+    --gold-text:#8A6A24;
+    --cream:#FBF8F2;
+    --cream-deep:#F1EAD9;
+    --white:#FFFFFF;
+    --text:#23231C;
+    --text-light:#6E6E64;
+    --border:#E6E0D2;
+    --error:#B5473A;
+    --shadow:0 24px 70px -24px rgba(20,39,32,0.28), 0 6px 18px -8px rgba(20,39,32,0.10);
+    --shadow-sm:0 4px 16px -4px rgba(29,53,40,0.12);
+    --radius:20px;
+    --ease:cubic-bezier(.4,0,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Jost',sans-serif;
+    font-weight:300;
+    background:var(--cream);
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(ellipse at 10% 0%, rgba(201,168,76,0.13) 0%, transparent 45%),
+      radial-gradient(ellipse at 100% 20%, rgba(29,53,40,0.09) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 110%, rgba(201,168,76,0.08) 0%, transparent 55%);
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500;color:var(--green);letter-spacing:0.005em;}
+  strong{font-weight:500;}
+  .app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
+  a{color:var(--gold-text);}
+
+  /* Top bar */
+  .topbar{
+    padding:26px 6vw 12px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:13px;}
+  .brand-mark-img{height:58px;width:auto;display:block;}
+  .brand-word{display:flex;flex-direction:column;line-height:1;}
+  .brand-name{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.95rem;
+    color:var(--green);letter-spacing:0.06em;
+  }
+  .brand-sub{
+    font-family:'Jost',sans-serif;font-weight:400;font-size:0.62rem;
+    letter-spacing:0.3em;text-transform:uppercase;color:var(--green-light);margin-top:5px;
+  }
+  @media (max-width:640px){
+    .brand-mark-img{height:46px;}
+    .brand-name{font-size:1.5rem;letter-spacing:0.05em;}
+    .brand-sub{font-size:0.53rem;letter-spacing:0.22em;}
+  }
+
+  /* Chapter progress */
+  .chapter-progress{padding:0 6vw 18px;}
+  .chapter-track{display:flex;gap:6px;margin-bottom:10px;}
+  .chapter-seg{flex:1;height:4px;border-radius:2px;background:var(--border);overflow:hidden;position:relative;}
+  .chapter-seg .fill{
+    position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--green),var(--gold));
+    border-radius:2px;transition:width .5s var(--ease);
+  }
+  .chapter-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:0.76rem;color:var(--text-light);letter-spacing:0.04em;
+  }
+  .chapter-label .name{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+    font-size:1.02rem;color:var(--green);letter-spacing:0.02em;
+  }
+  @media (max-width:640px){
+    .topbar{padding:20px 5vw 8px;}
+    .chapter-progress{padding:0 5vw 14px;}
+  }
+
+  /* Main */
+  main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2vh 5vw 7vh;}
+  .card{
+    width:100%;max-width:680px;
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:50px 48px 40px;
+    position:relative;
+    border:1px solid rgba(29,53,40,0.05);
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--gold),var(--gold-light) 45%,transparent 90%);
+  }
+  @media (max-width:640px){
+    .card{padding:34px 22px 26px;border-radius:16px;}
+  }
+
+  /* Intro */
+  #intro .eyebrow{
+    font-size:0.7rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold-text);
+    font-weight:600;margin-bottom:16px;display:block;font-family:'Jost',sans-serif;
+  }
+  #intro h1{font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.08;margin-bottom:8px;}
+  #intro h1 em{font-style:italic;font-weight:500;}
+  #intro .intro-rule{width:44px;height:2px;background:var(--gold);margin:20px 0 22px;}
+  #intro p.lead{color:var(--text-light);font-size:1.06rem;margin-bottom:30px;max-width:52ch;font-weight:300;}
+  .meta-row{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:36px;}
+  .meta-item{display:flex;align-items:center;gap:9px;font-size:0.85rem;color:var(--text-light);font-weight:400;}
+  .meta-item svg{flex-shrink:0;color:var(--gold-text);}
+
+  /* Steps */
+  .step{display:none;animation:fadeSlide .45s var(--ease);}
+  .step.active{display:block;}
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){
+    .step{animation:none;}
+    .chapter-seg .fill{transition:none;}
+  }
+  .step .kicker{
+    font-size:0.68rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold-text);
+    font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:10px;
+  }
+  .step .kicker .tag-optional{
+    font-size:0.62rem;letter-spacing:0.06em;text-transform:none;color:var(--text-light);
+    background:var(--cream-deep);padding:2px 10px;border-radius:100px;font-weight:500;
+  }
+  .step h2{font-size:clamp(1.55rem,3.4vw,2.05rem);margin-bottom:10px;line-height:1.18;}
+  .step .hint{color:var(--text-light);font-size:0.93rem;margin-bottom:28px;font-weight:300;}
+
+  .field{margin-bottom:24px;}
+  .field label.field-label{display:block;font-size:0.83rem;font-weight:500;color:var(--text);margin-bottom:8px;letter-spacing:0.02em;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:520px){.field-row{grid-template-columns:1fr;}}
+
+  input[type=text],input[type=email],input[type=tel],textarea{
+    width:100%;font-family:'Jost',sans-serif;font-weight:300;font-size:1rem;color:var(--text);
+    padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;
+    background:var(--cream);transition:border-color .2s, box-shadow .2s;outline:none;
+  }
+  textarea{resize:vertical;min-height:104px;font-size:0.96rem;}
+  input::placeholder,textarea::placeholder{color:#A8A79B;}
+  input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.16);background:var(--white);}
+  input.invalid{border-color:var(--error);}
+  .error-msg{color:var(--error);font-size:0.78rem;margin-top:6px;display:none;}
+  .error-msg.show{display:block;}
+
+  /* Option cards */
+  .option-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .option-grid.single-col{grid-template-columns:1fr;}
+  .option-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+  @media (max-width:560px){.option-grid,.option-grid.cols-3{grid-template-columns:1fr;}}
+  .option-card{position:relative;cursor:pointer;}
+  .option-card input{position:absolute;opacity:0;width:0;height:0;}
+  .option-card .box{
+    display:flex;align-items:center;gap:12px;
+    padding:15px 16px;border:1.5px solid var(--border);border-radius:14px;
+    background:var(--cream);transition:border-color .15s var(--ease), background .15s var(--ease), box-shadow .15s var(--ease), transform .15s var(--ease);
+  }
+  .option-card .box .txt{font-size:0.92rem;font-weight:400;color:var(--text);line-height:1.32;}
+  .option-card .box .sub{display:block;font-size:0.76rem;color:var(--text-light);margin-top:2px;font-weight:300;}
+  .option-card .box .check{
+    margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s var(--ease);background:var(--white);
+  }
+  .option-card .box .check svg{opacity:0;transform:scale(0.5);transition:all .15s var(--ease);}
+  .option-card input:checked + .box{
+    border-color:var(--green);background:var(--green-pale);
+    box-shadow:0 6px 18px -8px rgba(29,53,40,0.35);
+  }
+  .option-card input:checked + .box .check{background:var(--green);border-color:var(--green);}
+  .option-card input:checked + .box .check svg{opacity:1;transform:scale(1);}
+  .option-card:hover .box{border-color:var(--gold);transform:translateY(-1px);}
+  .option-card input:focus-visible + .box{outline:2px solid var(--green);outline-offset:2px;}
+
+  /* Chips */
+  .chip-grid{display:flex;flex-wrap:wrap;gap:9px;}
+  .chip{position:relative;cursor:pointer;}
+  .chip input{position:absolute;opacity:0;width:0;height:0;}
+  .chip .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 18px;border-radius:100px;border:1.5px solid var(--border);
+    background:var(--cream);font-size:0.87rem;font-weight:400;color:var(--text);
+    transition:all .15s var(--ease);
+  }
+  .chip input:checked + .pill{background:var(--green);border-color:var(--green);color:#fff;}
+  .chip:hover .pill{border-color:var(--gold);transform:translateY(-1px);}
+  .chip input:focus-visible + .pill{outline:2px solid var(--green);outline-offset:2px;}
+
+  /* Scale pills */
+  .scale-row{display:flex;gap:8px;}
+  .scale-pill{position:relative;cursor:pointer;flex:1;}
+  .scale-pill input{position:absolute;opacity:0;width:0;height:0;}
+  .scale-pill .box{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    padding:15px 6px;border:1.5px solid var(--border);border-radius:14px;background:var(--cream);
+    transition:all .15s var(--ease);text-align:center;
+  }
+  .scale-pill .num{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:500;color:var(--green);line-height:1;}
+  .scale-pill .lbl{font-size:0.66rem;color:var(--text-light);line-height:1.25;font-weight:400;}
+  .scale-pill input:checked + .box{border-color:var(--green);background:var(--green-pale);box-shadow:0 6px 18px -8px rgba(29,53,40,0.35);}
+  .scale-pill:hover .box{border-color:var(--gold);transform:translateY(-1px);}
+  .scale-pill input:focus-visible + .box{outline:2px solid var(--green);outline-offset:2px;}
+  @media (max-width:560px){.scale-row{flex-wrap:wrap;}.scale-pill{flex:1 1 30%;}}
+
+  /* Stepper */
+  .stepper{display:flex;align-items:center;gap:20px;}
+  .stepper button{
+    width:48px;height:48px;border-radius:50%;border:1.5px solid var(--border);
+    background:var(--cream);color:var(--green);font-size:1.4rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s var(--ease);
+    font-family:'Jost',sans-serif;font-weight:300;
+  }
+  .stepper button:hover{border-color:var(--gold);background:rgba(201,168,76,0.1);}
+  .stepper .count{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:500;color:var(--green);min-width:76px;text-align:center;}
+
+  .toggle-row{display:flex;gap:12px;}
+  .toggle-row .option-card{flex:1;}
+  .toggle-row .box{justify-content:center;}
+
+  /* Interstitial */
+  .interstitial{text-align:center;padding:34px 10px 14px;position:relative;}
+  .interstitial .qmark{
+    font-family:'Cormorant Garamond',serif;font-size:5rem;line-height:0.5;color:var(--gold);
+    opacity:0.55;display:block;margin-bottom:18px;font-style:italic;
+  }
+  .interstitial p.quote{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+    font-size:clamp(1.45rem,3.2vw,1.85rem);
+    color:var(--green);line-height:1.45;max-width:36ch;margin:0 auto 8px;
+  }
+  .interstitial .rule{width:36px;height:2px;background:var(--gold);margin:24px auto 0;}
+
+  /* Nav */
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:36px;gap:14px;}
+  .btn{
+    font-family:'Jost',sans-serif;font-weight:500;font-size:0.9rem;letter-spacing:0.06em;
+    padding:15px 30px;border-radius:100px;border:none;cursor:pointer;
+    transition:all .2s var(--ease);display:inline-flex;align-items:center;gap:9px;
+    text-transform:uppercase;
+  }
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 24px -8px rgba(20,39,32,0.5);}
+  .btn-primary:hover{background:var(--green-deep);transform:translateY(-1px);box-shadow:0 12px 28px -8px rgba(20,39,32,0.55);}
+  .btn-primary:hover svg{transform:translateX(3px);}
+  .btn-primary svg{transition:transform .2s var(--ease);}
+  .btn-ghost{background:transparent;color:var(--text-light);padding:15px 10px;text-transform:none;letter-spacing:0.02em;}
+  .btn-ghost:hover{color:var(--green);}
+  .spacer{flex:1;}
+
+  /* Review */
+  .review-list{display:flex;flex-direction:column;border-top:1px solid var(--border);}
+  .review-item{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid var(--border);}
+  .review-item .k{font-size:0.8rem;color:var(--text-light);min-width:42%;font-weight:400;}
+  .review-item .v{font-size:0.89rem;color:var(--text);font-weight:400;text-align:right;}
+
+  /* Success */
+  #success{text-align:center;padding:24px 0;}
+  .success-icon{
+    width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-light));
+    display:flex;align-items:center;justify-content:center;margin:0 auto 28px;
+    box-shadow:0 14px 34px -10px rgba(20,39,32,0.45);
+    animation:pop .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop{0%{transform:scale(0);}70%{transform:scale(1.12);}100%{transform:scale(1);}}
+  #success h2{font-size:2rem;margin-bottom:12px;}
+  #success p{color:var(--text-light);max-width:44ch;margin:0 auto 8px;font-weight:300;}
+
+  .submitting{display:flex;flex-direction:column;align-items:center;gap:18px;padding:34px 0;}
+  .ring{width:46px;height:46px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--gold);animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .banner-error{
+    background:rgba(181,71,58,0.07);border:1px solid rgba(181,71,58,0.3);color:var(--error);
+    padding:14px 18px;border-radius:12px;font-size:0.87rem;margin-bottom:22px;display:none;line-height:1.5;
+  }
+  .banner-error.show{display:block;}
+
+  footer.foot{text-align:center;padding:20px;color:var(--text-light);font-size:0.75rem;position:relative;z-index:1;letter-spacing:0.03em;}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  /* ---- Refinements added in polish pass ---- */
+  h1,h2,h3{text-wrap:balance;}
+  p.lead,.step .hint,.interstitial p.quote{text-wrap:pretty;}
+  input::placeholder,textarea::placeholder{color:#8C8B7C;opacity:1;}
+
+  /* Tactile press feedback */
+  .option-card:active .box,.chip:active .pill,.scale-pill:active .box{transform:translateY(0) scale(0.985);}
+  .btn:active{transform:translateY(1px);}
+  .stepper button:active{transform:scale(0.94);}
+  .stepper button:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+  .stepper button:disabled{opacity:0.4;cursor:not-allowed;}
+  .stepper button:disabled:hover{border-color:var(--border);background:var(--cream);}
+  /* Focus moves to the step heading for screen readers — no visible outline on the heading itself */
+  h1[tabindex]:focus,h2[tabindex]:focus{outline:none;}
+
+  /* Disabled primary button (consent gate) */
+  .btn-primary:disabled{background:var(--border);color:#fff;box-shadow:none;cursor:not-allowed;transform:none;}
+  .btn-primary:disabled:hover{background:var(--border);transform:none;box-shadow:none;}
+  .btn-primary:disabled svg{transform:none;}
+
+  /* Resume banner */
+  .resume-banner{
+    display:none;align-items:center;gap:14px;flex-wrap:wrap;
+    background:var(--green-pale);border:1px solid rgba(29,53,40,0.14);
+    padding:14px 18px;border-radius:14px;margin-bottom:22px;
+  }
+  .resume-banner.show{display:flex;animation:fadeSlide .4s var(--ease);}
+  .resume-banner .rb-text{font-size:0.9rem;color:var(--green);flex:1;min-width:180px;line-height:1.45;}
+  .resume-banner .rb-actions{display:flex;gap:8px;}
+  .btn-mini{
+    font-family:'Jost',sans-serif;font-weight:500;font-size:0.78rem;letter-spacing:0.03em;
+    padding:8px 16px;border-radius:100px;cursor:pointer;transition:all .18s var(--ease);
+    border:1.5px solid var(--green);background:var(--green);color:#fff;
+  }
+  .btn-mini:hover{background:var(--green-deep);}
+  .btn-mini.ghost{background:transparent;color:var(--green);}
+  .btn-mini.ghost:hover{background:rgba(29,53,40,0.06);}
+  .btn-mini:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+
+  /* Grouped, editable review */
+  .review-list{border-top:none;}
+  .review-group{margin-bottom:8px;}
+  .review-group + .review-group{margin-top:18px;}
+  .review-group-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding-bottom:8px;border-bottom:2px solid var(--green-pale);margin-bottom:2px;
+  }
+  .review-group-head h3{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+    font-size:1.2rem;color:var(--green);letter-spacing:0.01em;
+  }
+  .review-edit{
+    background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;
+    font-size:0.78rem;font-weight:500;color:var(--gold-text);letter-spacing:0.03em;
+    display:inline-flex;align-items:center;gap:5px;padding:4px 6px;border-radius:8px;
+    transition:background .15s var(--ease),color .15s var(--ease);
+  }
+  .review-edit:hover{background:rgba(201,168,76,0.12);color:var(--green);}
+  .review-edit:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+  .review-item .v{max-width:56%;}
+  .review-item .v.empty{color:var(--text-light);font-style:italic;}
+
+  /* Consent */
+  .consent{
+    display:flex;gap:12px;align-items:flex-start;margin-top:26px;
+    padding:16px 18px;border:1.5px solid var(--border);border-radius:14px;background:var(--cream);
+    transition:border-color .15s var(--ease),background .15s var(--ease);
+  }
+  .consent.checked{border-color:var(--green);background:var(--green-pale);}
+  .consent input{
+    appearance:none;-webkit-appearance:none;flex-shrink:0;margin-top:1px;
+    width:22px;height:22px;border:1.5px solid var(--border);border-radius:7px;
+    background:var(--white);cursor:pointer;position:relative;transition:all .15s var(--ease);
+  }
+  .consent input:checked{background:var(--green);border-color:var(--green);}
+  .consent input:checked::after{
+    content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;
+    border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg);
+  }
+  .consent input:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+  .consent label{font-size:0.86rem;color:var(--text);line-height:1.5;cursor:pointer;font-weight:300;}
+  .consent .error-msg{margin-top:4px;}
+
+  /* Live region for validation announcements */
+  .sr-status{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  /* Brand ornament (inline symbol, recolored via currentColor) */
+  .ornament{display:block;color:var(--gold);width:150px;height:16px;}
+  .ornament.center{margin-left:auto;margin-right:auto;}
+  #intro .intro-ornament{width:160px;height:17px;color:var(--gold);margin:20px 0 24px;}
+  .interstitial .ornament{width:180px;height:19px;margin:26px auto 0;}
+  #success .ornament{width:170px;height:18px;margin:2px auto 24px;}
+
+  /* Subtle tree watermark behind sparse steps */
+  .watermark{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(420px,90%);height:auto;opacity:1;pointer-events:none;z-index:0;user-select:none;
+  }
+  .interstitial{position:relative;z-index:1;padding-top:64px;padding-bottom:44px;}
+  .interstitial > *:not(.watermark){position:relative;z-index:1;}
+  #success{position:relative;}
+  #success > *:not(.watermark){position:relative;z-index:1;}
+
+  /* Interactive Puglia region map */
+  .region-layout{display:grid;grid-template-columns:1fr 296px;gap:24px;align-items:start;}
+  .region-layout .option-grid{grid-template-columns:1fr;}
+  .region-map{position:sticky;top:16px;}
+  .map-frame{
+    background:radial-gradient(120% 100% at 70% 8%,#fff,#F6F1E6);
+    border:1px solid var(--border);border-radius:16px;padding:14px 14px 10px;
+    box-shadow:0 12px 34px -20px rgba(20,39,32,0.45);
+  }
+  .map-cap{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:var(--gold-text);text-align:center;margin-bottom:2px;}
+  .puglia-map{width:100%;height:auto;display:block;overflow:visible;}
+  .puglia-outline{fill:#EFEAD9;stroke:var(--gold);stroke-width:2.2;stroke-linejoin:round;}
+  .puglia-base{pointer-events:none;}
+  .pin{cursor:pointer;}
+  .pin-dot{fill:#fff;stroke:var(--green);stroke-width:2;transition:stroke .2s, r .2s cubic-bezier(.34,1.56,.64,1);}
+  .pin-core{fill:var(--green);opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:all .22s cubic-bezier(.34,1.56,.64,1);}
+  .pin:hover .pin-dot{stroke:var(--gold);}
+  .pin.on .pin-dot{r:11;}
+  .pin.on .pin-core{opacity:1;transform:scale(1);}
+  .pin-label{font-family:'Jost',sans-serif;font-size:12px;fill:var(--text-light);pointer-events:none;opacity:0;transition:opacity .18s;paint-order:stroke;stroke:#fff;stroke-width:3.4px;stroke-linejoin:round;}
+  .pin.on .pin-label,.pin:hover .pin-label,.pin.hi .pin-label{opacity:1;}
+  .pin.on .pin-label{fill:var(--green);font-weight:600;}
+  .pin:focus{outline:none;}
+  .pin:focus-visible .pin-dot{stroke:var(--gold);stroke-width:3;}
+  .map-hint{font-size:0.72rem;color:var(--text-light);text-align:center;margin-top:8px;}
+  @media (max-width:760px){
+    .region-layout{grid-template-columns:1fr;}
+    .region-map{position:static;order:-1;width:100%;max-width:320px;margin:0 auto 6px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pin-dot,.pin-core{transition:none;}
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden;"><defs>
+<symbol id="pa-ornament" viewBox="0 0 141 15"><path fill="currentColor" d="M70.4056 4.56983C70.1028 3.68348 70.1511 2.77127 70.4283 1.98463C70.7013 1.20169 71.27 0.492605 72.0344 0.186074C72.4116 0.0309626 72.8066 -0.0170472 73.1647 0.00511092C73.2533 0.0161903 73.3419 0.0309626 73.427 0.0457357L73.5561 0.0642009L73.7078 0.108519C73.9071 0.174996 74.0773 0.278403 74.2212 0.400277C74.7785 0.891464 74.9409 1.57839 74.7785 2.13975C74.6934 2.43519 74.4942 2.66417 74.2985 2.79343C74.1028 2.92638 73.9 2.98916 73.7149 3.01132C73.3419 3.05933 73.0505 2.91899 72.9207 2.78235C72.7881 2.64201 72.7846 2.53122 72.8179 2.50906C72.8583 2.47582 72.9392 2.51645 73.0689 2.54599C73.198 2.57184 73.3824 2.57923 73.5929 2.4869C73.7965 2.39826 74.0212 2.19514 74.0255 1.96617C74.0588 1.71503 73.8957 1.34572 73.6227 1.17214C73.5561 1.13152 73.4859 1.10198 73.4192 1.09089L73.3717 1.0835H73.2902L73.1243 1.07243C72.9066 1.0835 72.696 1.13152 72.5038 1.23123C72.1195 1.42328 71.7947 1.84799 71.6359 2.39088C71.4771 2.92269 71.477 3.56161 71.6841 4.11188C71.8869 4.66585 72.3003 5.10903 72.8839 5.33062C73.176 5.44141 73.5008 5.5005 73.8298 5.52266C74.1545 5.53005 74.5275 5.51896 74.8232 5.46357C75.4252 5.35278 75.9897 5.04255 76.4924 4.65846C77.5007 3.8829 78.2318 2.85252 79.033 2.08435C79.8123 1.30509 80.6136 0.810217 81.2156 0.610788C81.8176 0.411356 82.1757 0.455676 82.1941 0.536923C82.2204 0.640328 81.914 0.776975 81.4524 1.09459C80.9908 1.41219 80.3888 1.94401 79.7535 2.74173C79.111 3.51359 78.4608 4.64 77.2972 5.64822C76.7179 6.13941 75.9826 6.60475 75.0849 6.7931C74.631 6.88545 74.2283 6.9002 73.7667 6.89651C73.3164 6.87432 72.8435 6.79679 72.3818 6.62321C71.4437 6.27975 70.6907 5.45249 70.4056 4.56983ZM58.2039 0.536923C58.2223 0.455676 58.5805 0.411356 59.1826 0.610788C59.7845 0.810217 60.5859 1.30509 61.3652 2.08435C62.1666 2.85252 62.8978 3.8829 63.906 4.65846C64.4084 5.04255 64.9734 5.35278 65.5754 5.46357C65.8708 5.51896 66.2438 5.53005 66.5688 5.52266C66.8975 5.5005 67.2225 5.44141 67.5143 5.33062C68.0978 5.10903 68.5114 4.66585 68.7145 4.11188C68.9213 3.56161 68.9213 2.92269 68.7625 2.39088C68.6037 1.84799 68.2787 1.42328 67.8946 1.23123C67.7026 1.13152 67.4921 1.0835 67.2742 1.07243L67.108 1.0835H67.0268L66.9788 1.09089C66.9123 1.10198 66.8421 1.13152 66.7756 1.17214C66.5023 1.34572 66.3398 1.71503 66.3731 1.96617C66.3768 2.19514 66.602 2.39826 66.8052 2.4869C67.0156 2.57923 67.2004 2.57184 67.3296 2.54599C67.4588 2.51645 67.5401 2.47582 67.5807 2.50906C67.614 2.53122 67.6103 2.64201 67.4773 2.78235C67.3481 2.91899 67.0563 3.05933 66.6833 3.01132C66.4987 2.98916 66.2955 2.92638 66.0998 2.79343C65.904 2.66417 65.7046 2.43519 65.6197 2.13975C65.4535 1.57839 65.6197 0.891464 66.1773 0.400277C66.3214 0.278403 66.4913 0.174996 66.6907 0.108519L66.8421 0.0642009L66.9713 0.0457357C67.0563 0.0309626 67.1449 0.0161903 67.2335 0.00511092C67.5918 -0.0170472 67.987 0.0309626 68.3637 0.186074C69.1281 0.492605 69.6969 1.20169 69.9702 1.98463C70.2475 2.77127 70.295 3.68348 69.9924 4.56983C69.708 5.45249 68.9546 6.27975 68.0165 6.62321C67.5549 6.79679 67.0822 6.87432 66.6316 6.89651C66.1699 6.9002 65.7674 6.88545 65.3131 6.7931C64.4157 6.60475 63.6808 6.13941 63.1009 5.64822C61.9376 4.64 61.2876 3.51359 60.645 2.74173C60.0098 1.94401 59.4078 1.41219 58.9461 1.09459C58.4845 0.776975 58.178 0.640328 58.2039 0.536923ZM82.3161 7.80499C81.8509 8.08571 81.334 8.4772 80.8022 8.96838C80.2668 9.45587 79.7166 10.0468 79.0961 10.6376C78.4714 11.2249 77.8255 11.7567 77.1462 12.1075C76.4662 12.4658 75.7868 12.6431 75.2068 12.6762C74.6275 12.7132 74.1581 12.6098 73.8624 12.4879C73.7851 12.4547 73.7227 12.4252 73.6667 12.3993C73.6114 12.3697 73.5674 12.3402 73.5341 12.318C73.4639 12.27 73.4306 12.2405 73.4384 12.2257C73.4455 12.2109 73.4894 12.2146 73.571 12.2331C73.6114 12.2405 73.6596 12.2553 73.7149 12.27C73.7738 12.2811 73.8404 12.2959 73.9142 12.3106C74.2098 12.3734 74.6459 12.4177 75.1735 12.3476C75.7053 12.2737 76.3222 12.078 76.9356 11.7271C77.5525 11.3837 78.1616 10.8704 78.7707 10.2942C79.3805 9.71433 79.9456 9.13083 80.5143 8.64334C81.0794 8.15584 81.6439 7.76812 82.1572 7.51327C82.6706 7.25843 83.1216 7.13285 83.435 7.08853C83.5166 7.07747 83.5868 7.07009 83.6456 7.06641C83.7087 7.05903 83.7605 7.06272 83.8009 7.06272C83.886 7.06641 83.9299 7.07378 83.9342 7.09222C83.9448 7.16979 83.2471 7.24368 82.3161 7.80499ZM66.8643 12.318C66.831 12.3402 66.7867 12.3697 66.7313 12.3993C66.6759 12.4252 66.6131 12.4547 66.5356 12.4879C66.2401 12.6098 65.7711 12.7132 65.1912 12.6762C64.6114 12.6431 63.9319 12.4658 63.2523 12.1075C62.5728 11.7567 61.9266 11.2249 61.3024 10.6376C60.6819 10.0468 60.1317 9.45587 59.5962 8.96838C59.0643 8.4772 58.5473 8.08571 58.082 7.80499C57.1513 7.24368 56.4533 7.16979 56.4644 7.09222C56.468 7.07378 56.5124 7.06641 56.5973 7.06272C56.6379 7.06272 56.6896 7.05903 56.7525 7.06641C56.8115 7.07009 56.8817 7.07747 56.963 7.08853C57.2769 7.13285 57.7274 7.25843 58.2407 7.51327C58.7541 7.76812 59.3192 8.15584 59.8842 8.64334C60.4529 9.13083 61.018 9.71433 61.6274 10.2942C62.2368 10.8704 62.8461 11.3837 63.4629 11.7271C64.0759 12.078 64.6927 12.2737 65.2245 12.3476C65.7526 12.4177 66.1884 12.3734 66.4838 12.3106C66.5577 12.2959 66.6242 12.2811 66.6833 12.27C66.7387 12.2553 66.7867 12.2405 66.8273 12.2331C66.9086 12.2146 66.9529 12.2109 66.9603 12.2257C66.9676 12.2405 66.9344 12.27 66.8643 12.318ZM140.398 9.58883L99.3894 9.02007C99.0908 8.34049 98.3449 7.74592 96.9374 7.56496C97.65 7.79761 98.4108 8.12266 98.7618 8.78742C98.8023 8.85755 98.8285 8.93512 98.8576 9.0127L97.7904 9.00156C97.5691 8.52152 97.0927 8.18541 96.5275 8.18541C95.7553 8.18541 95.1278 8.81323 95.1278 9.58883C95.1278 10.3607 95.7553 10.9885 96.5275 10.9885C97.0927 10.9885 97.5691 10.6525 97.7904 10.176L98.832 10.1613C98.7321 10.4567 98.5661 10.73 98.3449 10.9479C97.7904 11.5019 96.9636 11.7271 96.1765 11.6828C95.0427 11.6237 94.0202 11.0697 93.0636 10.4309C92.8233 10.272 92.5942 10.1095 92.3652 9.94705C92.3432 9.93224 92.3248 9.91749 92.3028 9.90642C92.1028 9.76241 91.8554 9.58145 91.5895 9.38936C91.5937 9.38936 91.5937 9.38936 91.5937 9.38936C91.6157 9.35979 91.5342 9.2601 91.4051 9.07545C91.2796 8.89081 91.1059 8.61015 90.9988 8.23342C90.9435 8.04877 90.9031 7.83824 90.8995 7.61297C90.8917 7.38769 90.9102 7.14391 90.9839 6.91126C91.0576 6.68231 91.1874 6.47549 91.3831 6.3573C91.5824 6.23543 91.8554 6.19112 92.0922 6.25759C92.2142 6.28714 92.3177 6.34992 92.4021 6.42378C92.4907 6.50503 92.5574 6.60475 92.602 6.71554C92.6907 6.93346 92.6758 7.17348 92.5687 7.336C92.4758 7.49476 92.2695 7.5834 92.0773 7.5834C91.8852 7.59085 91.7192 7.51327 91.6341 7.39138C91.5455 7.26949 91.5306 7.10704 91.5675 6.99621C91.5788 6.96664 91.5895 6.94083 91.6043 6.91863C91.6192 6.89651 91.6377 6.878 91.6561 6.85957C91.6972 6.82631 91.7447 6.80418 91.7894 6.7894C91.8781 6.76355 91.9554 6.77463 92.0071 6.7894C92.0589 6.80418 92.0922 6.82263 92.1028 6.80787C92.1142 6.80048 92.1106 6.75986 92.0589 6.70816C92.0071 6.66015 91.9036 6.60475 91.7632 6.60844C91.693 6.61213 91.6121 6.6269 91.5341 6.67492C91.4937 6.69338 91.4533 6.72662 91.42 6.75986C91.3867 6.79679 91.3533 6.83745 91.3314 6.88545C91.2314 7.07378 91.2207 7.33231 91.3533 7.56496C91.4164 7.68317 91.5235 7.78655 91.649 7.85675C91.7745 7.92688 91.9185 7.96751 92.066 7.97488C92.2177 7.98226 92.373 7.96014 92.524 7.89731C92.6758 7.83456 92.8233 7.73117 92.9303 7.57971C93.1374 7.28431 93.1629 6.88176 93.0303 6.54566C92.9637 6.37577 92.8637 6.21328 92.7233 6.08402C92.5793 5.95106 92.4021 5.85135 92.2177 5.80333C91.8412 5.70362 91.4498 5.7701 91.1392 5.96583C90.9882 6.06555 90.8549 6.20219 90.7627 6.34253C90.6705 6.49026 90.6109 6.64168 90.567 6.7894C90.4188 7.39138 90.5187 7.93794 90.6847 8.34424C90.8066 8.64702 90.969 8.87974 91.1137 9.0422C90.545 8.6249 89.9536 8.19279 89.5438 7.90107C88.8233 7.37663 88.1589 6.95189 87.5385 6.61952C86.187 5.00562 87.0691 4.04541 87.6009 4.07864C87.7377 4.29285 87.9703 4.45165 88.2256 4.46642C88.6645 4.49228 89.1594 4.07864 89.2523 3.65024C89.514 2.43889 88.2142 1.78151 86.9662 2.59769C86.2905 3.03718 85.234 4.78772 87.2279 6.45333V6.45702C84.1632 4.90591 82.3054 5.59652 80.5476 6.55673C79.1585 7.31749 78.058 8.5252 76.6697 9.28598C75.4621 9.94705 73.6894 10.0098 72.5591 9.23797C72.8619 9.94337 73.4192 10.5416 74.1099 10.8814C73.8404 11.0033 73.5454 11.0587 73.2533 11.0882C72.1861 11.1843 71.0856 10.9035 70.1993 10.2979C69.3128 10.9035 68.2122 11.1843 67.1449 11.0882C66.8532 11.0587 66.5577 11.0033 66.2881 10.8814C66.9788 10.5416 67.5364 9.94337 67.8392 9.23797C66.7091 10.0098 64.9364 9.94705 63.7288 9.28598C62.3402 8.5252 61.2396 7.31749 59.851 6.55673C58.093 5.59652 56.2354 4.90591 53.1701 6.45702V6.45333C55.1644 4.78772 54.1081 3.03718 53.4323 2.59769C52.1841 1.78151 50.884 2.43889 51.1462 3.65024C51.2386 4.07864 51.7335 4.49228 52.1729 4.46642C52.4278 4.45165 52.6604 4.29285 52.7971 4.07864C53.3289 4.04541 54.2115 5.00562 52.8599 6.61952C52.2394 6.95189 51.5747 7.37663 50.8545 7.90107C50.4445 8.19279 49.8536 8.6249 49.2849 9.0422C49.429 8.87974 49.5914 8.64702 49.7133 8.34424C49.8795 7.93794 49.9792 7.39138 49.8315 6.7894C49.7872 6.64168 49.7281 6.49026 49.6358 6.34253C49.5434 6.20219 49.4105 6.06555 49.2591 5.96583C48.9489 5.7701 48.5574 5.70362 48.1806 5.80333C47.996 5.85135 47.8187 5.95106 47.6747 6.08402C47.5344 6.21328 47.4347 6.37577 47.3682 6.54566C47.2352 6.88176 47.2611 7.28431 47.4679 7.57971C47.575 7.73117 47.7227 7.83456 47.8741 7.89731C48.0256 7.96014 48.1806 7.98226 48.3321 7.97488C48.4798 7.96751 48.6238 7.92688 48.7494 7.85675C48.875 7.78655 48.9821 7.68317 49.0449 7.56496C49.1778 7.33231 49.1668 7.07378 49.067 6.88545C49.0449 6.83745 49.0116 6.79679 48.9784 6.75986C48.9452 6.72662 48.9045 6.69338 48.8639 6.67492C48.7863 6.6269 48.7051 6.61213 48.6349 6.60844C48.4946 6.60475 48.3912 6.66015 48.3395 6.70816C48.2878 6.75986 48.2841 6.80048 48.2952 6.80787C48.3062 6.82263 48.3395 6.80418 48.3912 6.7894C48.4429 6.77463 48.5204 6.76355 48.6091 6.7894C48.6534 6.80418 48.7014 6.82631 48.742 6.85957C48.7605 6.878 48.779 6.89651 48.7937 6.91863C48.8085 6.94083 48.8196 6.96664 48.8307 6.99621C48.8676 7.10704 48.8528 7.26949 48.7642 7.39138C48.6793 7.51327 48.5131 7.59085 48.321 7.5834C48.1289 7.5834 47.9222 7.49476 47.8298 7.336C47.7227 7.17348 47.708 6.93346 47.7966 6.71554C47.8446 6.60475 47.9074 6.50503 47.996 6.42378C48.081 6.34992 48.1843 6.28714 48.3062 6.25759C48.5426 6.19112 48.8159 6.23543 49.0153 6.3573C49.2111 6.47549 49.3404 6.68231 49.4142 6.91126C49.4881 7.14391 49.5065 7.38769 49.4991 7.61297C49.4954 7.83824 49.4548 8.04877 49.3994 8.23342C49.2923 8.61015 49.1188 8.89081 48.9932 9.07545C48.8639 9.2601 48.7827 9.35979 48.8048 9.38936C48.8048 9.38936 48.8048 9.38936 48.8085 9.38936C48.5426 9.58145 48.2952 9.76241 48.0957 9.90642C48.0736 9.91749 48.0551 9.93224 48.0329 9.94705C47.804 10.1095 47.575 10.272 47.3349 10.4309C46.3784 11.0697 45.3554 11.6237 44.2216 11.6828C43.435 11.7271 42.6078 11.5019 42.0537 10.9479C41.8322 10.73 41.666 10.4567 41.5663 10.1613L42.6078 10.176C42.8293 10.6525 43.3057 10.9885 43.8708 10.9885C44.6427 10.9885 45.2705 10.3607 45.2705 9.58883C45.2705 8.81323 44.6427 8.18541 43.8708 8.18541C43.3057 8.18541 42.8293 8.52152 42.6078 9.00156L41.5404 9.0127C41.5699 8.93512 41.5958 8.85755 41.6365 8.78742C41.9873 8.12266 42.7481 7.79761 43.4608 7.56496C42.0537 7.74592 41.3077 8.34049 41.0086 9.02007L0 9.58883L40.8867 10.1501C40.9052 10.2573 40.92 10.3643 40.9569 10.464C41.341 11.5609 42.5339 12.2183 43.6935 12.2922C44.8568 12.366 45.9906 11.9635 47.0616 11.5055C47.6193 11.2692 48.1733 11.0107 48.7199 10.7374C48.971 10.6118 49.2221 10.4826 49.4695 10.3496C49.8869 10.1243 50.3005 9.88792 50.7067 9.64421C50.8508 9.55926 50.9948 9.47062 51.1352 9.38567C51.2091 9.40418 51.3494 9.42262 51.5562 9.43368C51.859 9.45587 52.2948 9.46325 52.8266 9.50388C53.0925 9.526 53.3806 9.55557 53.6687 9.62201C53.8127 9.66264 53.9419 9.70327 54.0638 9.78085C54.1857 9.85842 54.3039 9.95812 54.4073 10.0763C54.6142 10.309 54.7618 10.6192 54.8099 10.9552C54.8579 11.2876 54.7877 11.6422 54.5956 11.9377C54.4073 12.2331 54.1081 12.4473 53.8053 12.499C53.4988 12.547 53.1701 12.4473 52.9559 12.2553C52.738 12.0706 52.6493 11.7936 52.6826 11.5425C52.7159 11.284 52.8636 11.0883 53.063 10.9922C53.2587 10.8962 53.4766 10.8962 53.6317 10.97C53.7869 11.0402 53.8939 11.1768 53.9494 11.295C54.0638 11.5425 54.0048 11.7124 54.0454 11.7234C54.0565 11.7308 54.0934 11.6976 54.1229 11.6163C54.1525 11.5351 54.1747 11.3984 54.134 11.2323C54.0934 11.0661 53.9863 10.8666 53.7647 10.7263C53.5431 10.5859 53.2255 10.5527 52.9226 10.6709C52.7712 10.7263 52.6235 10.8297 52.5053 10.97C52.3945 11.1104 52.3096 11.284 52.2764 11.4723C52.2431 11.6606 52.2468 11.8638 52.3096 12.0632C52.3724 12.2589 52.4869 12.4473 52.6457 12.595C52.9596 12.8905 53.4138 13.0456 53.8792 12.9791C54.3482 12.909 54.7618 12.6061 55.013 12.2073C55.2751 11.8121 55.3638 11.3209 55.2937 10.8851C55.2235 10.4493 55.0241 10.0578 54.7471 9.7661C54.6104 9.61832 54.4516 9.4965 54.2854 9.40411C54.1118 9.30441 53.9198 9.25272 53.7573 9.21947C53.4213 9.1604 53.1184 9.15302 52.8414 9.15302C52.2911 9.15671 51.8516 9.20103 51.5488 9.24166C51.4601 9.25272 51.379 9.26378 51.3161 9.27492C52.0363 8.8428 52.7712 8.42912 53.5874 8.24448C54.7286 7.9897 55.8439 8.20753 56.8817 8.71354C57.3212 8.92775 57.7459 9.18997 58.1521 9.49275C58.1521 9.49275 58.1521 9.4965 58.1558 9.4965C59.0791 10.1797 59.9064 11.055 60.5859 11.9524C61.2248 12.7871 61.849 13.6992 62.7907 14.1646C63.8802 14.7038 65.2134 14.5302 66.2992 13.991C67.385 13.4518 68.5853 12.547 70.1993 10.2979C71.8132 12.547 73.0136 13.4518 74.0992 13.991C75.1848 14.5302 76.5179 14.7038 77.6078 14.1646C78.5494 13.6992 79.1734 12.7871 79.8123 11.9524C80.4916 11.055 81.3191 10.1797 82.2423 9.4965C82.2459 9.4965 82.2459 9.49275 82.2459 9.49275C82.6522 9.18997 83.0769 8.92775 83.5166 8.71354C84.5547 8.20753 85.67 7.9897 86.811 8.24448C87.6271 8.42912 88.3617 8.8428 89.0821 9.27492C89.019 9.26378 88.9382 9.25272 88.8496 9.24166C88.5468 9.20103 88.1072 9.15671 87.5569 9.15302C87.2797 9.15302 86.9769 9.1604 86.6408 9.21947C86.4784 9.25272 86.2862 9.30441 86.1132 9.40411C85.9466 9.4965 85.7878 9.61832 85.6509 9.7661C85.3744 10.0578 85.1751 10.4493 85.1049 10.8851C85.0347 11.3209 85.1233 11.8121 85.385 12.2073C85.6367 12.6061 86.0501 12.909 86.5188 12.9791C86.9847 13.0456 87.4385 12.8905 87.7526 12.595C87.9114 12.4473 88.0256 12.2589 88.0887 12.0632C88.1518 11.8638 88.1554 11.6606 88.122 11.4723C88.0887 11.284 88.0036 11.1104 87.893 10.97C87.7746 10.8297 87.6271 10.7263 87.4754 10.6709C87.1726 10.5527 86.8549 10.5859 86.6337 10.7263C86.4117 10.8666 86.3047 11.0661 86.2642 11.2323C86.2238 11.3984 86.2458 11.5351 86.2756 11.6163C86.3047 11.6976 86.3415 11.7308 86.3529 11.7234C86.3933 11.7124 86.3345 11.5425 86.4486 11.295C86.5046 11.1768 86.6117 11.0402 86.7663 10.97C86.9216 10.8962 87.1393 10.8962 87.335 10.9922C87.5349 11.0883 87.6824 11.284 87.7157 11.5425C87.7491 11.7936 87.6604 12.0706 87.4427 12.2553C87.2279 12.4473 86.8996 12.547 86.5933 12.499C86.2905 12.4473 85.9913 12.2331 85.8026 11.9377C85.6105 11.6422 85.5403 11.2876 85.5885 10.9552C85.6367 10.6192 85.7842 10.309 85.9913 10.0763C86.0941 9.95812 86.2125 9.85842 86.3344 9.78085C86.4564 9.70327 86.5819 9.66264 86.7294 9.62201C87.018 9.55557 87.3059 9.526 87.5718 9.50388C88.1036 9.46325 88.539 9.45587 88.8418 9.43368C89.0488 9.42262 89.1892 9.40418 89.263 9.38567C89.4034 9.47062 89.5473 9.55926 89.6912 9.64421C90.0976 9.88792 90.5117 10.1243 90.9286 10.3496C91.1761 10.4826 91.4271 10.6118 91.6781 10.7374C92.2248 11.0107 92.7793 11.2692 93.3366 11.5055C94.4074 11.9635 95.5412 12.366 96.7048 12.2922C97.8641 12.2183 99.0575 11.5609 99.4411 10.464C99.478 10.3643 99.4929 10.2573 99.5113 10.1501L140.398 9.58883Z"/></symbol>
+</defs></svg>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/pugliaffari-mark.svg" alt="" aria-hidden="true" class="brand-mark-img">
+      <span class="brand-word">
+        <span class="brand-name">PUGLIAFFARI</span>
+        <span class="brand-sub">Property management &amp; investments</span>
+      </span>
+    </div>
+  </div>
+  <div class="chapter-progress" id="chapterProgress" style="display:none;">
+    <div class="chapter-track" id="chapterTrack"></div>
+    <div class="chapter-label"><span class="name" id="chapterName"></span><span id="chapterCounter"></span></div>
+  </div>
+
+  <main>
+    <form class="card" id="quizForm" novalidate>
+
+      <input type="text" name="website" id="website" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="banner-error" id="submitError" role="alert"></div>
+      <div class="resume-banner" id="resumeBanner">
+        <span class="rb-text">We hebben je eerdere antwoorden bewaard. Wil je verdergaan waar je gebleven was?</span>
+        <span class="rb-actions">
+          <button type="button" class="btn-mini" id="resumeYes">Verdergaan</button>
+          <button type="button" class="btn-mini ghost" id="resumeNo">Opnieuw beginnen</button>
+        </span>
+      </div>
+      <div class="sr-status" role="status" aria-live="polite" id="srStatus"></div>
+
+      <!-- INTRO -->
+      <section class="step active" id="intro">
+        <span class="eyebrow">Persoonlijke aankoopbegeleiding</span>
+        <h1>Laat je betoveren door<br>de magie van <em>Puglia</em></h1>
+        <svg class="ornament intro-ornament" aria-hidden="true" focusable="false"><use href="#pa-ornament"/></svg>
+        <p class="lead">Iedere zoektocht is anders. Daarom willen we eerst begrijpen hoe jíj wilt leven in Puglia, voordat we woningen voor je gaan zoeken. Vertel ons je verhaal — wij doen de rest.</p>
+        <div class="meta-row">
+          <div class="meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Ongeveer 6-8 minuten</div>
+          <div class="meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/></svg> Vertrouwelijk behandeld</div>
+          <div class="meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Reactie binnen 48 uur</div>
+        </div>
+        <div class="nav-row">
+          <span class="spacer"></span>
+          <button type="button" class="btn btn-primary" onclick="goTo('c1-details')">Start
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- CH1.1 Contact -->
+      <section class="step" data-step="c1-details">
+        <span class="kicker">Hoofdstuk 1 — Contact</span>
+        <h2>Hoe kunnen we je bereiken?</h2>
+        <p class="hint">We gebruiken deze gegevens uitsluitend om je dossier op te volgen.</p>
+        <div class="field-row">
+          <div class="field"><label class="field-label">Voornaam *</label><input type="text" name="firstName" required autocomplete="given-name"><div class="error-msg">Vul je voornaam in.</div></div>
+          <div class="field"><label class="field-label">Achternaam *</label><input type="text" name="lastName" required autocomplete="family-name"><div class="error-msg">Vul je achternaam in.</div></div>
+        </div>
+        <div class="field"><label class="field-label">E-mailadres *</label><input type="email" name="email" required autocomplete="email"><div class="error-msg">Vul een geldig e-mailadres in.</div></div>
+        <div class="field"><label class="field-label">Telefoonnummer *</label><input type="tel" name="phone" required placeholder="+32 4xx xx xx xx" autocomplete="tel"><div class="error-msg">Vul je telefoonnummer in.</div></div>
+      </section>
+
+      <!-- CH1.2 Voorkeur contact + achtergrond -->
+      <section class="step" data-step="c1-prefs">
+        <span class="kicker">Hoofdstuk 1 — Contact</span>
+        <h2>Nog twee korte dingen</h2>
+        <div class="field">
+          <label class="field-label">Hoe neem je het liefst contact op? *</label>
+          <div class="option-grid cols-3" data-group="contactPreference" data-type="radio">
+            <label class="option-card"><input type="radio" name="contactPreference" value="WhatsApp"><div class="box"><span class="txt">WhatsApp</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="contactPreference" value="Telefonisch"><div class="box"><span class="txt">Telefonisch</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="contactPreference" value="E-mail"><div class="box"><span class="txt">E-mail</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="contactPreference">Kies een optie.</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Ben je eerder in Puglia geweest?</label>
+          <div class="toggle-row" data-group="visitedBefore" data-type="radio">
+            <label class="option-card"><input type="radio" name="visitedBefore" value="yes"><div class="box"><span class="txt">Ja</span></div></label>
+            <label class="option-card"><input type="radio" name="visitedBefore" value="no"><div class="box"><span class="txt">Nee</span></div></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Hoe hoorde je van Pugliaffari? *</label>
+          <div class="option-grid" data-group="source" data-type="radio">
+            <label class="option-card"><input type="radio" name="source" value="Referral of mond-tot-mond"><div class="box"><span class="txt">Referral / mond-tot-mond</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="source" value="Google"><div class="box"><span class="txt">Google</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="source" value="Instagram of social media"><div class="box"><span class="txt">Instagram / social media</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="source" value="Anders"><div class="box"><span class="txt">Anders</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="source">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH2.1 Doel -->
+      <section class="step" data-step="c2-doel">
+        <span class="kicker">Hoofdstuk 2 — Jouw zoektocht</span>
+        <h2>Wat is het doel van de aankoop?</h2>
+        <div class="field">
+          <div class="option-grid single-col" data-group="purpose" data-type="radio">
+            <label class="option-card"><input type="radio" name="purpose" value="Permanente woning"><div class="box"><span class="txt">Permanente woning</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="purpose" value="Vakantiehuis"><div class="box"><span class="txt">Vakantiehuis</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="purpose" value="Investering of verhuur"><div class="box"><span class="txt">Investering / verhuur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="purpose" value="Gemengd gebruik"><div class="box"><span class="txt">Gemengd gebruik</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="purpose">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH2.2 Reden -->
+      <section class="step" data-step="c2-reden">
+        <span class="kicker">Hoofdstuk 2 — Jouw zoektocht</span>
+        <h2>Wat is de belangrijkste reden dat je een woning in Puglia zoekt?</h2>
+        <p class="hint">Dit vertelt ons veel meer dan alleen het doel.</p>
+        <div class="field">
+          <div class="option-grid single-col" data-group="reason" data-type="radio">
+            <label class="option-card"><input type="radio" name="reason" value="Droom die we al jaren hebben"><div class="box"><span class="txt">Een droom die we al jaren hebben</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="reason" value="Vakantie met familie"><div class="box"><span class="txt">Vakantie met familie</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="reason" value="Investering"><div class="box"><span class="txt">Investering</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="reason" value="Combinatie eigen gebruik en verhuur"><div class="box"><span class="txt">Combinatie eigen gebruik en verhuur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="reason" value="Emigreren"><div class="box"><span class="txt">Emigreren</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="reason" value="Pensioen"><div class="box"><span class="txt">Pensioen</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="reason" value="Anders"><div class="box"><span class="txt">Anders</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="reason">Kies een optie.</div>
+        </div>
+        <div class="field" id="reasonOtherWrap" style="display:none;">
+          <label class="field-label">Vertel er kort iets meer over</label>
+          <input type="text" name="reasonOther" placeholder="Jouw toelichting...">
+        </div>
+      </section>
+
+      <!-- CH2.3 Fase -->
+      <section class="step" data-step="c2-fase">
+        <span class="kicker">Hoofdstuk 2 — Jouw zoektocht</span>
+        <h2>Waar bevind je je momenteel in het aankoopproces?</h2>
+        <div class="field">
+          <div class="option-grid single-col" data-group="processStage" data-type="radio">
+            <label class="option-card"><input type="radio" name="processStage" value="We orienteren ons nog"><div class="box"><span class="txt">We oriënteren ons nog</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="processStage" value="We hebben al meerdere woningen bekeken"><div class="box"><span class="txt">We hebben al meerdere woningen bekeken</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="processStage" value="We zijn klaar om snel een bod uit te brengen"><div class="box"><span class="txt">We zijn klaar om snel een bod uit te brengen</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="processStage" value="We hebben al eerder een woning misgelopen"><div class="box"><span class="txt">We hebben al eerder een woning misgelopen</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="processStage">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH2.4 Termijn + bezichtiging -->
+      <section class="step" data-step="c2-termijn">
+        <span class="kicker">Hoofdstuk 2 — Jouw zoektocht</span>
+        <h2>Termijn en bezichtiging</h2>
+        <div class="field">
+          <label class="field-label">Binnen welke termijn wil je kopen? *</label>
+          <div class="option-grid" data-group="timeline" data-type="radio">
+            <label class="option-card"><input type="radio" name="timeline" value="Minder dan 3 maanden"><div class="box"><span class="txt">&lt; 3 maanden</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="timeline" value="3 tot 6 maanden"><div class="box"><span class="txt">3 – 6 maanden</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="timeline" value="6 tot 12 maanden"><div class="box"><span class="txt">6 – 12 maanden</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="timeline" value="Verkennend geen haast"><div class="box"><span class="txt">Verkennend, geen haast</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="timeline">Kies een optie.</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Wil je binnenkort een bezichtigingsreis plannen? *</label>
+          <div class="option-grid cols-3" data-group="visitInterest" data-type="radio">
+            <label class="option-card"><input type="radio" name="visitInterest" value="Ja"><div class="box"><span class="txt">Ja</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="visitInterest" value="Misschien"><div class="box"><span class="txt">Misschien</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="visitInterest" value="Nog niet"><div class="box"><span class="txt">Nog niet</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="visitInterest">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH3.1 Budget -->
+      <section class="step" data-step="c3-budget">
+        <span class="kicker">Hoofdstuk 3 — Budget</span>
+        <h2>Wat is je budget?</h2>
+        <div class="field">
+          <label class="field-label">Budgetrange *</label>
+          <div class="option-grid" data-group="budget" data-type="radio">
+            <label class="option-card"><input type="radio" name="budget" value="&lt; €150k"><div class="box"><span class="txt">&lt; €150.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="budget" value="€150k - €300k"><div class="box"><span class="txt">€150.000 – €300.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="budget" value="€300k - €500k"><div class="box"><span class="txt">€300.000 – €500.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="budget" value="€500k - €1M"><div class="box"><span class="txt">€500.000 – €1.000.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="budget" value="€1M+"><div class="box"><span class="txt">€1.000.000+</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="budget">Kies een budgetrange.</div>
+        </div>
+      </section>
+
+      <!-- CH3.2 Budget kosten + financiering -->
+      <section class="step" data-step="c3-budgetkosten">
+        <span class="kicker">Hoofdstuk 3 — Budget</span>
+        <h2>Nog even preciseren</h2>
+        <p class="hint">Veel kopers bedoelen met hun budget eigenlijk het totaal inclusief aankoopkosten — goed om dit meteen scherp te hebben.</p>
+        <div class="field">
+          <label class="field-label">Is dit budget inclusief aankoopkosten (belasting, notaris, etc.)? *</label>
+          <div class="option-grid cols-3" data-group="budgetIncludesCosts" data-type="radio">
+            <label class="option-card"><input type="radio" name="budgetIncludesCosts" value="Ja"><div class="box"><span class="txt">Ja</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="budgetIncludesCosts" value="Nee"><div class="box"><span class="txt">Nee</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="budgetIncludesCosts" value="We weten dit nog niet"><div class="box"><span class="txt">We weten dit nog niet</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="budgetIncludesCosts">Kies een optie.</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Financiering *</label>
+          <div class="option-grid" data-group="financing" data-type="radio">
+            <label class="option-card"><input type="radio" name="financing" value="Cash"><div class="box"><span class="txt">Cash</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="financing" value="Hypotheek"><div class="box"><span class="txt">Hypotheek</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="financing" value="Nog te bepalen"><div class="box"><span class="txt">Nog te bepalen</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="financing">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- INTERSTITIAL 1 -->
+      <section class="step" data-step="int1">
+        <div class="interstitial">
+          <img src="assets/watermark-tree.svg" alt="" aria-hidden="true" class="watermark">
+          <span class="qmark">"</span>
+          <p class="quote">Iedere zoektocht is anders. Daarom proberen we eerst te begrijpen hoe jíj wilt leven in Puglia, voordat we woningen gaan zoeken.</p>
+          <svg class="ornament center" aria-hidden="true" focusable="false"><use href="#pa-ornament"/></svg>
+        </div>
+      </section>
+
+      <!-- CH4.1 Regio -->
+      <section class="step" data-step="c4-regio">
+        <span class="kicker">Hoofdstuk 4 — Locatie</span>
+        <h2>Welke gebieden van Puglia hebben je voorkeur?</h2>
+        <p class="hint">Meerdere keuzes mogelijk — dit dekt heel Puglia, van noord naar zuid. Tik gerust ook op de kaart.</p>
+        <div class="field">
+          <div class="region-layout">
+          <div class="region-options">
+          <div class="option-grid" data-group="region" data-type="checkbox">
+            <label class="option-card"><input type="checkbox" name="region" value="Gargano"><div class="box"><span class="txt">Gargano<span class="sub">Vieste, Peschici, het groene schiereiland</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Foggia en Tavoliere"><div class="box"><span class="txt">Foggia en Tavoliere<span class="sub">Binnenland noord-Puglia</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="BAT - Barletta Andria Trani"><div class="box"><span class="txt">BAT<span class="sub">Barletta, Andria, Trani</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Bari en kust"><div class="box"><span class="txt">Bari en kust<span class="sub">Polignano a Mare, Monopoli, Mola</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Valle d'Itria"><div class="box"><span class="txt">Valle d'Itria<span class="sub">Ostuni, Cisternino, Locorotondo, Martina Franca</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Taranto en Ionische kust"><div class="box"><span class="txt">Taranto<span class="sub">Ionische kust</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Brindisi en kust"><div class="box"><span class="txt">Brindisi en kust<span class="sub">Adriatische zijde</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Salento"><div class="box"><span class="txt">Salento<span class="sub">Lecce, Otranto, Gallipoli</span></span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="region" value="Geen specifieke voorkeur"><div class="box"><span class="txt">Geen specifieke voorkeur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="region">Kies minstens één gebied.</div>
+          </div>
+          <div class="region-map">
+            <div class="map-frame">
+              <div class="map-cap">Puglia</div>
+              <svg class="puglia-map" id="pugliaMap" viewBox="0 0 420 660" role="group" aria-label="Kaart van Puglia — kies gebieden"></svg>
+              <div class="map-hint">Tik een gebied aan op de kaart of in de lijst</div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CH4.2 Bekende plaatsen -->
+      <section class="step" data-step="c4-plaatsen">
+        <span class="kicker">Hoofdstuk 4 — Locatie <span class="tag-optional">optioneel</span></span>
+        <h2>Welke plaatsen in Puglia ken je al?</h2>
+        <p class="hint">Dit helpt ons je verwachtingen goed in te schatten.</p>
+        <div class="field"><textarea name="knownPlaces" placeholder="Bijv. Ostuni, Alberobello — we zijn er twee keer op vakantie geweest..."></textarea></div>
+      </section>
+
+      <!-- CH4.3 Afstand -->
+      <section class="step" data-step="c4-afstand">
+        <span class="kicker">Hoofdstuk 4 — Locatie</span>
+        <h2>Hoe belangrijk is nabijheid van zee of vliegveld?</h2>
+        <div class="field">
+          <div class="option-grid single-col" data-group="distanceImportance" data-type="radio">
+            <label class="option-card"><input type="radio" name="distanceImportance" value="Zeer belangrijk max 15 min"><div class="box"><span class="txt">Zeer belangrijk — max. 15 minuten</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="distanceImportance" value="Belangrijk max 30 min"><div class="box"><span class="txt">Belangrijk — max. 30 minuten</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="distanceImportance" value="Niet doorslaggevend"><div class="box"><span class="txt">Niet doorslaggevend</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="distanceImportance">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH5.1 Type pand -->
+      <section class="step" data-step="c5-type">
+        <span class="kicker">Hoofdstuk 5 — Het pand</span>
+        <h2>Naar welk type pand ben je op zoek?</h2>
+        <p class="hint">Meerdere keuzes mogelijk — van authentieke trullo tot villa aan zee.</p>
+        <div class="field">
+          <div class="option-grid" data-group="propertyType" data-type="checkbox">
+            <label class="option-card"><input type="checkbox" name="propertyType" value="Trullo"><div class="box"><span class="txt">Trullo</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="propertyType" value="Masseria"><div class="box"><span class="txt">Masseria</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="propertyType" value="Moderne villa"><div class="box"><span class="txt">Moderne villa</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="propertyType" value="Stadswoning of palazzo"><div class="box"><span class="txt">Stadswoning / palazzo</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="propertyType" value="Boerderij met land"><div class="box"><span class="txt">Boerderij met land</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="propertyType" value="Appartement"><div class="box"><span class="txt">Appartement</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="propertyType">Kies minstens één type.</div>
+        </div>
+      </section>
+
+      <!-- CH5.2 Perceel -->
+      <section class="step" data-step="c5-perceel">
+        <span class="kicker">Hoofdstuk 5 — Het pand</span>
+        <h2>Hoe groot mag het perceel zijn?</h2>
+        <div class="field">
+          <div class="option-grid single-col" data-group="landSize" data-type="radio">
+            <label class="option-card"><input type="radio" name="landSize" value="Geen voorkeur"><div class="box"><span class="txt">Geen voorkeur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="landSize" value="Tot 2.000 m2"><div class="box"><span class="txt">Tot 2.000 m²</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="landSize" value="2.000 - 10.000 m2"><div class="box"><span class="txt">2.000 – 10.000 m²</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="landSize" value="Meer dan 10.000 m2"><div class="box"><span class="txt">Meer dan 10.000 m²</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="landSize">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH5.3 Voorzieningen -->
+      <section class="step" data-step="c5-voorzieningen">
+        <span class="kicker">Hoofdstuk 5 — Het pand</span>
+        <h2>Welke voorzieningen zijn voor jou belangrijk?</h2>
+        <p class="hint">Meerdere keuzes mogelijk.</p>
+        <div class="field">
+          <div class="chip-grid" data-group="amenities" data-type="checkbox">
+            <label class="chip"><input type="checkbox" name="amenities" value="Zwembad"><span class="pill">Zwembad</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Zeezicht"><span class="pill">Zeezicht</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Privacy"><span class="pill">Privacy</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Wandelafstand dorp"><span class="pill">Wandelafstand dorp</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Horeca dichtbij"><span class="pill">Horeca dichtbij</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Airconditioning"><span class="pill">Airconditioning</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Authentieke uitstraling"><span class="pill">Authentieke uitstraling</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Moderne afwerking"><span class="pill">Moderne afwerking</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Groot perceel"><span class="pill">Groot perceel</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Olijfgaard"><span class="pill">Olijfgaard</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Garage"><span class="pill">Garage</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Gastenverblijf"><span class="pill">Gastenverblijf</span></label>
+            <label class="chip"><input type="checkbox" name="amenities" value="Geen directe buren"><span class="pill">Geen directe buren</span></label>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Nog iets anders?</label><input type="text" name="amenitiesOther" placeholder="Optioneel..."></div>
+      </section>
+
+      <!-- CH5.4 Staat -->
+      <section class="step" data-step="c5-staat">
+        <span class="kicker">Hoofdstuk 5 — Het pand</span>
+        <h2>In welke staat mag het pand zich bevinden?</h2>
+        <p class="hint">Meerdere antwoorden mogelijk — bijvoorbeeld als je openstaat voor zowel instapklaar als een licht opknapproject.</p>
+        <div class="field">
+          <div class="option-grid single-col" data-group="condition" data-type="checkbox">
+            <label class="option-card"><input type="checkbox" name="condition" value="Volledig gerenoveerd of instapklaar"><div class="box"><span class="txt">Volledig gerenoveerd / instapklaar</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="condition" value="Licht opknapwerk oke"><div class="box"><span class="txt">Licht opknapwerk is oké</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="checkbox" name="condition" value="Volledig renovatieproject oke"><div class="box"><span class="txt">Een volledig renovatieproject is oké</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="condition">Kies minstens één optie.</div>
+        </div>
+      </section>
+
+      <!-- CH5.5 Renovatie -->
+      <section class="step" data-step="c5-renovatie">
+        <span class="kicker">Hoofdstuk 5 — Het pand</span>
+        <h2>Ben je bereid een renovatie te begeleiden?</h2>
+        <p class="hint">Wij werken samen met betrouwbare vakmensen en kunnen het proces van A tot Z begeleiden.</p>
+        <div class="field">
+          <div class="option-grid single-col" data-group="renovationSupport" data-type="radio">
+            <label class="option-card"><input type="radio" name="renovationSupport" value="Ja"><div class="box"><span class="txt">Ja</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="renovationSupport" value="Alleen als Pugliaffari dit begeleidt"><div class="box"><span class="txt">Alleen als Pugliaffari de begeleiding verzorgt</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="renovationSupport" value="Nee"><div class="box"><span class="txt">Nee</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="renovationSupport">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH5.6 Vermijden -->
+      <section class="step" data-step="c5-vermijden">
+        <span class="kicker">Hoofdstuk 5 — Het pand <span class="tag-optional">optioneel</span></span>
+        <h2>Wat wil je absoluut vermijden?</h2>
+        <p class="hint">Zo voorkomen we voorstellen die niet bij je passen.</p>
+        <div class="field">
+          <div class="chip-grid" data-group="avoid" data-type="checkbox">
+            <label class="chip"><input type="checkbox" name="avoid" value="Drukke weg"><span class="pill">Drukke weg</span></label>
+            <label class="chip"><input type="checkbox" name="avoid" value="Afgelegen"><span class="pill">Afgelegen</span></label>
+            <label class="chip"><input type="checkbox" name="avoid" value="Renovatie"><span class="pill">Renovatie</span></label>
+            <label class="chip"><input type="checkbox" name="avoid" value="Toeristisch"><span class="pill">Toeristisch</span></label>
+            <label class="chip"><input type="checkbox" name="avoid" value="Appartement"><span class="pill">Appartement</span></label>
+            <label class="chip"><input type="checkbox" name="avoid" value="Veel onderhoud"><span class="pill">Veel onderhoud</span></label>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Nog iets anders om te vermijden?</label><input type="text" name="avoidOther" placeholder="Optioneel..."></div>
+      </section>
+
+      <!-- INTERSTITIAL 2 -->
+      <section class="step" data-step="int2">
+        <div class="interstitial">
+          <img src="assets/watermark-tree.svg" alt="" aria-hidden="true" class="watermark">
+          <span class="qmark">"</span>
+          <p class="quote">Met Pugliaffari koop je niet zomaar een huis; je investeert in een zorgeloos Italiaans avontuur.</p>
+          <svg class="ornament center" aria-hidden="true" focusable="false"><use href="#pa-ornament"/></svg>
+        </div>
+      </section>
+
+      <!-- CH6.1 Gebruik -->
+      <section class="step" data-step="c6-gebruik">
+        <span class="kicker">Hoofdstuk 6 — Leefstijl</span>
+        <h2>Wie gaat de woning voornamelijk gebruiken?</h2>
+        <div class="field">
+          <div class="option-grid" data-group="mainUse" data-type="radio">
+            <label class="option-card"><input type="radio" name="mainUse" value="Alleen wij twee"><div class="box"><span class="txt">Alleen wij twee</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="mainUse" value="Gezin"><div class="box"><span class="txt">Gezin</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="mainUse" value="Familie"><div class="box"><span class="txt">Familie</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="mainUse" value="Verhuur"><div class="box"><span class="txt">Verhuur</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="mainUse" value="Retreats"><div class="box"><span class="txt">Retreats</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="mainUse" value="Anders"><div class="box"><span class="txt">Anders</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="mainUse">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH6.2 Kinderen/huisdieren -->
+      <section class="step" data-step="c6-kinderen">
+        <span class="kicker">Hoofdstuk 6 — Leefstijl <span class="tag-optional">optioneel</span></span>
+        <h2>Reis je regelmatig met kinderen of huisdieren?</h2>
+        <p class="hint">Dit bepaalt vaak of zwembad-beveiliging, tuin of locatie extra aandacht nodig hebben.</p>
+        <div class="field">
+          <div class="chip-grid" data-group="householdTravel" data-type="checkbox">
+            <label class="chip"><input type="checkbox" name="householdTravel" value="Kinderen"><span class="pill">Kinderen</span></label>
+            <label class="chip"><input type="checkbox" name="householdTravel" value="Huisdieren"><span class="pill">Huisdieren</span></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- CH6.3 Slaapkamers -->
+      <section class="step" data-step="c6-slaapkamers">
+        <span class="kicker">Hoofdstuk 6 — Leefstijl</span>
+        <h2>Gewenst aantal slaapkamers</h2>
+        <div class="field">
+          <div class="stepper">
+            <button type="button" onclick="stepBedrooms(-1)" aria-label="Minder slaapkamers">–</button>
+            <div class="count" id="bedroomsCount">2</div>
+            <button type="button" onclick="stepBedrooms(1)" aria-label="Meer slaapkamers">+</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CH7.1 Verhuurbeheer -->
+      <section class="step" data-step="c7-verhuur">
+        <span class="kicker">Hoofdstuk 7 — Investering</span>
+        <h2>Interesse in verhuurbeheer door Pugliaffari?</h2>
+        <p class="hint">Wij beheren je woning professioneel — van online zichtbaarheid tot gastbeleving en nazorg.</p>
+        <div class="field">
+          <div class="option-grid" data-group="rentalManagement" data-type="radio">
+            <label class="option-card"><input type="radio" name="rentalManagement" value="Ja"><div class="box"><span class="txt">Ja</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="rentalManagement" value="Nee"><div class="box"><span class="txt">Nee</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+            <label class="option-card"><input type="radio" name="rentalManagement" value="Nog niet zeker"><div class="box"><span class="txt">Nog niet zeker</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          </div>
+          <div class="error-msg" data-for="rentalManagement">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH7.2 Rendement -->
+      <section class="step" data-step="c7-rendement">
+        <span class="kicker">Hoofdstuk 7 — Investering</span>
+        <h2>Hoe belangrijk is verhuuropbrengst voor jou?</h2>
+        <div class="field">
+          <div class="scale-row" data-group="rentalYieldImportance" data-type="radio">
+            <label class="scale-pill"><input type="radio" name="rentalYieldImportance" value="1 - Helemaal niet"><div class="box"><span class="num">1</span><span class="lbl">Helemaal niet</span></div></label>
+            <label class="scale-pill"><input type="radio" name="rentalYieldImportance" value="2 - Klein beetje"><div class="box"><span class="num">2</span><span class="lbl">Klein beetje</span></div></label>
+            <label class="scale-pill"><input type="radio" name="rentalYieldImportance" value="3 - Redelijk"><div class="box"><span class="num">3</span><span class="lbl">Redelijk</span></div></label>
+            <label class="scale-pill"><input type="radio" name="rentalYieldImportance" value="4 - Belangrijk"><div class="box"><span class="num">4</span><span class="lbl">Belangrijk</span></div></label>
+            <label class="scale-pill"><input type="radio" name="rentalYieldImportance" value="5 - Doorslaggevend"><div class="box"><span class="num">5</span><span class="lbl">Doorslaggevend</span></div></label>
+          </div>
+          <div class="error-msg" data-for="rentalYieldImportance">Kies een optie.</div>
+        </div>
+      </section>
+
+      <!-- CH8.1 Gezien -->
+      <section class="step" data-step="c8-gezien">
+        <span class="kicker">Hoofdstuk 8 — Tot slot</span>
+        <h2>Heb je al woningen gezien die je aanspreken?</h2>
+        <div class="field">
+          <div class="toggle-row" data-group="seenHomes" data-type="radio">
+            <label class="option-card"><input type="radio" name="seenHomes" value="Ja"><div class="box"><span class="txt">Ja</span></div></label>
+            <label class="option-card"><input type="radio" name="seenHomes" value="Nee"><div class="box"><span class="txt">Nee</span></div></label>
+          </div>
+        </div>
+        <div class="field" id="seenHomesLinksWrap" style="display:none;">
+          <label class="field-label">Deel gerust de links hieronder</label>
+          <textarea name="seenHomesLinks" placeholder="Plak hier links naar woningen die je aanspreken..."></textarea>
+        </div>
+      </section>
+
+      <!-- CH8.2 Droom -->
+      <section class="step" data-step="c8-droom">
+        <span class="kicker">Hoofdstuk 8 — Tot slot <span class="tag-optional">optioneel</span></span>
+        <h2>Als je één perfecte woning zou mogen omschrijven, hoe ziet die eruit?</h2>
+        <p class="hint">Laat je fantasie de vrije loop — dit helpt ons meer dan nog een technische specificatie.</p>
+        <div class="field"><textarea name="dreamDescription" placeholder="Jouw droomhuis in Puglia..."></textarea></div>
+        <div class="field"><label class="field-label">Nog opmerkingen of vragen?</label><textarea name="remarks" placeholder="Optioneel — alles wat je ons verder nog wilt meegeven..."></textarea></div>
+      </section>
+
+      <!-- REVIEW -->
+      <section class="step" data-step="review">
+        <span class="kicker">Controle</span>
+        <h2>Klopt alles?</h2>
+        <p class="hint">Controleer je antwoorden en pas ze indien nodig aan voor je het dossier verstuurt.</p>
+        <div class="review-list" id="reviewList"></div>
+        <div class="consent" id="consentWrap">
+          <input type="checkbox" id="consent" name="consent">
+          <label for="consent">Ik ga ermee akkoord dat Pugliaffari mijn gegevens gebruikt om mijn aankoopdossier persoonlijk op te volgen. Ze worden vertrouwelijk behandeld en niet met derden gedeeld.<span class="error-msg" data-for="consent" id="consentError">Vink dit aan om te kunnen versturen.</span></label>
+        </div>
+      </section>
+
+      <!-- SUBMITTING -->
+      <section class="step" data-step="submitting">
+        <div class="submitting"><div class="ring"></div><p style="color:var(--text-light);">Je dossier wordt verstuurd...</p></div>
+      </section>
+
+      <!-- SUCCESS -->
+      <section class="step" id="success" data-step="success">
+        <img src="assets/watermark-tree.svg" alt="" aria-hidden="true" class="watermark">
+        <div class="success-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#DCC079" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h2>Grazie mille — dossier ontvangen!</h2>
+        <svg class="ornament center" aria-hidden="true" focusable="false"><use href="#pa-ornament"/></svg>
+        <p>We hebben je wensen goed genoteerd en nemen binnen 48 uur persoonlijk contact met je op met een eerste selectie van panden.</p>
+        <p style="margin-top:18px;font-size:0.85rem;">Je ontvangt zo meteen ook een bevestiging per e-mail.</p>
+      </section>
+
+      <div class="nav-row" id="navRow">
+        <button type="button" class="btn btn-ghost" id="btnPrev" onclick="prevStep()">← Vorige</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-primary" id="btnNext" onclick="nextStep()">Volgende
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+    </form>
+  </main>
+
+  <footer class="foot">© Pugliaffari — Property management &amp; investments · Puglia, Italië</footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — vul dit in na het deployen van de serverless Worker
+   (zie README.md, stap 3-4)
+   ============================================================ */
+const SUBMIT_ENDPOINT = "https://YOUR-WORKER-SUBDOMAIN.workers.dev/submit";
+const STORAGE_KEY = "pugliaffari-vragenlijst-v1";
+
+/* ============================================================
+   Chapter / step definitions
+   ============================================================ */
+const CHAPTERS = [
+  {name:'Contact', steps:['c1-details','c1-prefs']},
+  {name:'Jouw zoektocht', steps:['c2-doel','c2-reden','c2-fase','c2-termijn']},
+  {name:'Budget', steps:['c3-budget','c3-budgetkosten']},
+  {name:'Locatie', steps:['c4-regio','c4-plaatsen','c4-afstand']},
+  {name:'Het pand', steps:['c5-type','c5-perceel','c5-voorzieningen','c5-staat','c5-renovatie','c5-vermijden']},
+  {name:'Leefstijl', steps:['c6-gebruik','c6-kinderen','c6-slaapkamers']},
+  {name:'Investering', steps:['c7-verhuur','c7-rendement']},
+  {name:'Tot slot', steps:['c8-gezien','c8-droom']},
+];
+const INTERSTITIAL_AFTER = {'c3-budgetkosten':'int1', 'c5-vermijden':'int2'};
+const NUM_CHAPTERS = CHAPTERS.length;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ARROW = ' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const PENCIL = ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+
+const order = ['intro'];
+const stepMeta = {};
+CHAPTERS.forEach((ch, ci) => {
+  ch.steps.forEach((sk, si) => {
+    order.push(sk);
+    stepMeta[sk] = {chapterIndex: ci, stepIndexInChapter: si, stepsInChapter: ch.steps.length};
+    if (INTERSTITIAL_AFTER[sk]) order.push(INTERSTITIAL_AFTER[sk]);
+  });
+});
+order.push('review', 'submitting', 'success');
+
+let current = 'intro';
+let editChapter = null;      // when editing a chapter from the review screen
+let pendingResume = null;
+const steps = Array.from(document.querySelectorAll('.step'));
+const chapterProgress = document.getElementById('chapterProgress');
+const chapterTrack = document.getElementById('chapterTrack');
+const chapterName = document.getElementById('chapterName');
+const chapterCounter = document.getElementById('chapterCounter');
+const navRow = document.getElementById('navRow');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const srStatus = document.getElementById('srStatus');
+const resumeBanner = document.getElementById('resumeBanner');
+let bedrooms = 2;
+
+CHAPTERS.forEach((ch, i) => {
+  const seg = document.createElement('div');
+  seg.className = 'chapter-seg';
+  seg.innerHTML = '<div class="fill" data-seg="'+i+'"></div>';
+  chapterTrack.appendChild(seg);
+});
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function announce(msg){ if(srStatus){ srStatus.textContent=''; srStatus.textContent = msg; } }
+
+function stepEl(key){
+  if(key === 'intro') return document.getElementById('intro');
+  return document.querySelector('.step[data-step="'+key+'"]');
+}
+
+function isFirstInChapter(key){ const m=stepMeta[key]; return m && m.stepIndexInChapter===0; }
+function isLastInChapter(key){ const m=stepMeta[key]; return m && m.stepIndexInChapter===m.stepsInChapter-1; }
+function siblingStep(key, delta){ const m=stepMeta[key]; return CHAPTERS[m.chapterIndex].steps[m.stepIndexInChapter+delta]; }
+
+function updateChapterUI(key){
+  const meta = stepMeta[key];
+  if(!meta){ chapterProgress.style.display = 'none'; return; }
+  chapterProgress.style.display = 'block';
+  chapterName.textContent = CHAPTERS[meta.chapterIndex].name;
+  chapterCounter.textContent = 'Hoofdstuk ' + (meta.chapterIndex+1) + ' van ' + NUM_CHAPTERS;
+  chapterTrack.setAttribute('aria-valuenow', meta.chapterIndex+1);
+  chapterTrack.setAttribute('aria-valuetext', 'Hoofdstuk ' + (meta.chapterIndex+1) + ' van ' + NUM_CHAPTERS + ' — ' + CHAPTERS[meta.chapterIndex].name);
+  const fills = chapterTrack.querySelectorAll('.fill');
+  fills.forEach((f, i) => {
+    if(i < meta.chapterIndex) f.style.width = '100%';
+    else if(i === meta.chapterIndex) f.style.width = Math.round(((meta.stepIndexInChapter+1)/meta.stepsInChapter)*100)+'%';
+    else f.style.width = '0%';
+  });
+}
+
+function showStep(key){
+  steps.forEach(s=>s.classList.remove('active'));
+  stepEl(key).classList.add('active');
+  if(key !== 'intro') resumeBanner.classList.remove('show');
+
+  if(key === 'intro' || key === 'review' || key === 'submitting' || key === 'success'){
+    chapterProgress.style.display = 'none';
+  } else if(key === 'int1' || key === 'int2'){
+    chapterProgress.style.display = 'block';
+    chapterName.textContent = 'Even op adem komen';
+    chapterCounter.textContent = '';
+  } else {
+    updateChapterUI(key);
+  }
+
+  btnNext.disabled = false;
+  if(key === 'intro' || key === 'submitting' || key === 'success'){
+    navRow.style.display = 'none';
+  } else {
+    navRow.style.display = 'flex';
+    if(editChapter !== null && stepMeta[key]){
+      btnPrev.style.visibility = 'visible';
+      btnPrev.textContent = '← Naar overzicht';
+      btnNext.innerHTML = (isLastInChapter(key) ? 'Terug naar overzicht' : 'Volgende') + ARROW;
+    } else {
+      btnPrev.style.visibility = (key === order[1]) ? 'hidden' : 'visible';
+      btnPrev.textContent = '← Vorige';
+      if(key === 'int1' || key === 'int2') btnNext.innerHTML = 'Verder' + ARROW;
+      else if(key === 'review'){ btnNext.innerHTML = 'Dossier versturen' + ARROW; btnNext.disabled = !document.getElementById('consent').checked; }
+      else btnNext.innerHTML = 'Volgende' + ARROW;
+    }
+  }
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+  // Verplaats focus naar de titel van de nieuwe stap zodat schermlezers hem aankondigen
+  if(key !== 'intro' && key !== 'submitting'){
+    const heading = stepEl(key).querySelector('h1, h2');
+    if(heading){ heading.setAttribute('tabindex','-1'); try{ heading.focus({preventScroll:true}); }catch(e){} }
+  }
+}
+
+function goTo(key){ current = key; showStep(key); save(); }
+
+function currentGroupsForStep(key){
+  const el = stepEl(key);
+  if(!el) return [];
+  return Array.from(el.querySelectorAll('[data-group]'));
+}
+
+function validateStep(key){
+  let valid = true, firstInvalid = null;
+  const el = stepEl(key);
+  if(!el) return true;
+
+  el.querySelectorAll('input[required]').forEach(inp=>{
+    const errBox = inp.parentElement.querySelector('.error-msg');
+    let ok = inp.value.trim().length>0;
+    if(inp.type==='email' && ok){ ok = EMAIL_RE.test(inp.value.trim()); }
+    if(!ok){ valid=false; inp.classList.add('invalid'); if(errBox) errBox.classList.add('show'); if(!firstInvalid) firstInvalid=inp; }
+    else { inp.classList.remove('invalid'); if(errBox) errBox.classList.remove('show'); }
+  });
+
+  currentGroupsForStep(key).forEach(group=>{
+    const name = group.dataset.group;
+    const errBox = el.querySelector('.error-msg[data-for="'+name+'"]');
+    if(!errBox) return;
+    const checked = el.querySelectorAll('input[name="'+name+'"]:checked');
+    if(checked.length===0){ valid=false; errBox.classList.add('show'); if(!firstInvalid) firstInvalid=group; }
+    else { errBox.classList.remove('show'); }
+  });
+
+  if(!valid){
+    announce('Enkele antwoorden ontbreken nog. Controleer de gemarkeerde velden.');
+    const focusEl = firstInvalid && (firstInvalid.matches && firstInvalid.matches('input') ? firstInvalid : firstInvalid.querySelector && firstInvalid.querySelector('input'));
+    if(focusEl){ try{ focusEl.focus({preventScroll:true}); }catch(e){ focusEl.focus(); } }
+    if(firstInvalid && firstInvalid.scrollIntoView) firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  return valid;
+}
+
+function returnToReview(){ editChapter=null; current='review'; renderReview(); showStep('review'); save(); }
+
+function nextStep(){
+  if(current === 'review'){
+    if(!document.getElementById('consent').checked){
+      document.getElementById('consentError').classList.add('show');
+      document.getElementById('consentWrap').scrollIntoView({behavior:'smooth', block:'center'});
+      announce('Vink de toestemming aan om te kunnen versturen.');
+      return;
+    }
+    submitForm();
+    return;
+  }
+  if(!validateStep(current)) return;
+
+  if(editChapter !== null){
+    if(isLastInChapter(current)){ returnToReview(); return; }
+    current = siblingStep(current, 1); showStep(current); save(); return;
+  }
+
+  const idx = order.indexOf(current);
+  current = order[idx+1];
+  if(current === 'review') renderReview();
+  showStep(current); save();
+}
+
+function prevStep(){
+  if(editChapter !== null){ returnToReview(); return; }
+  const idx = order.indexOf(current);
+  if(idx<=1){ current='intro'; showStep('intro'); save(); return; }
+  current = order[idx-1];
+  showStep(current); save();
+}
+
+function goToEditChapter(ci){
+  editChapter = ci;
+  current = CHAPTERS[ci].steps[0];
+  showStep(current);
+}
+
+function updateBedroomsUI(){
+  const c = document.getElementById('bedroomsCount');
+  c.textContent = bedrooms + (bedrooms>=8 ? '+' : '');
+  const btns = document.querySelectorAll('.stepper button');
+  if(btns[0]) btns[0].disabled = bedrooms<=1;
+  if(btns[1]) btns[1].disabled = bedrooms>=8;
+}
+function stepBedrooms(delta){
+  bedrooms = Math.max(1, Math.min(8, bedrooms+delta));
+  updateBedroomsUI();
+  save();
+}
+
+document.querySelectorAll('input[name="reason"]').forEach(inp=>{
+  inp.addEventListener('change', ()=>{
+    document.getElementById('reasonOtherWrap').style.display = (inp.value === 'Anders') ? 'block' : 'none';
+  });
+});
+document.querySelectorAll('input[name="seenHomes"]').forEach(inp=>{
+  inp.addEventListener('change', ()=>{
+    document.getElementById('seenHomesLinksWrap').style.display = (inp.value === 'Ja') ? 'block' : 'none';
+  });
+});
+
+function collectData(){
+  const form = document.getElementById('quizForm');
+  const fd = new FormData(form);
+  return {
+    firstName: fd.get('firstName')||'', lastName: fd.get('lastName')||'',
+    email: fd.get('email')||'', phone: fd.get('phone')||'',
+    contactPreference: fd.get('contactPreference')||'',
+    visitedBefore: fd.get('visitedBefore')==='yes',
+    source: fd.get('source')||'',
+    purpose: fd.get('purpose')||'',
+    reason: fd.get('reason')||'', reasonOther: fd.get('reasonOther')||'',
+    processStage: fd.get('processStage')||'',
+    timeline: fd.get('timeline')||'', visitInterest: fd.get('visitInterest')||'',
+    budget: fd.get('budget')||'', budgetIncludesCosts: fd.get('budgetIncludesCosts')||'',
+    financing: fd.get('financing')||'',
+    region: fd.getAll('region'), knownPlaces: fd.get('knownPlaces')||'',
+    distanceImportance: fd.get('distanceImportance')||'',
+    propertyType: fd.getAll('propertyType'),
+    landSize: fd.get('landSize')||'',
+    amenities: fd.getAll('amenities'), amenitiesOther: fd.get('amenitiesOther')||'',
+    condition: fd.getAll('condition'),
+    renovationSupport: fd.get('renovationSupport')||'',
+    avoid: fd.getAll('avoid'), avoidOther: fd.get('avoidOther')||'',
+    mainUse: fd.get('mainUse')||'',
+    householdTravel: fd.getAll('householdTravel'),
+    bedrooms: bedrooms,
+    rentalManagement: fd.get('rentalManagement')||'',
+    rentalYieldImportance: fd.get('rentalYieldImportance')||'',
+    seenHomes: fd.get('seenHomes')||'', seenHomesLinks: fd.get('seenHomesLinks')||'',
+    dreamDescription: fd.get('dreamDescription')||'',
+    remarks: fd.get('remarks')||'',
+    consent: !!(document.getElementById('consent') && document.getElementById('consent').checked),
+    website: fd.get('website')||'',
+    submittedFrom: window.location.href,
+    submittedAt: new Date().toISOString()
+  };
+}
+
+function fmt(v){
+  if(v===undefined || v===null) return '';
+  if(Array.isArray(v)) return v.filter(Boolean).join(', ');
+  return String(v).trim();
+}
+
+function renderReview(){
+  const d = collectData();
+  const groups = [
+    {ci:0, rows:[['Naam',(d.firstName+' '+d.lastName).trim()],['E-mail',d.email],['Telefoon',d.phone],['Voorkeurscontact',d.contactPreference],['Eerder in Puglia geweest',d.visitedBefore?'Ja':'Nee'],['Hoe gehoord',d.source]]},
+    {ci:1, rows:[['Doel aankoop',d.purpose],['Belangrijkste reden', d.reason + (d.reasonOther? ' — '+d.reasonOther : '')],['Fase proces',d.processStage],['Tijdslijn',d.timeline],['Bezichtigingsreis',d.visitInterest]]},
+    {ci:2, rows:[['Budget',d.budget],['Incl. aankoopkosten',d.budgetIncludesCosts],['Financiering',d.financing]]},
+    {ci:3, rows:[['Regio',d.region],['Bekende plaatsen',d.knownPlaces],['Afstand zee/vliegveld',d.distanceImportance]]},
+    {ci:4, rows:[['Type pand',d.propertyType],['Perceel',d.landSize],['Voorzieningen',(d.amenities||[]).concat(d.amenitiesOther?[d.amenitiesOther]:[])],['Staat pand',d.condition],['Renovatiebegeleiding',d.renovationSupport],['Te vermijden',(d.avoid||[]).concat(d.avoidOther?[d.avoidOther]:[])]]},
+    {ci:5, rows:[['Wie gebruikt de woning',d.mainUse],['Reist met',d.householdTravel],['Slaapkamers',d.bedrooms]]},
+    {ci:6, rows:[['Verhuurbeheer',d.rentalManagement],['Belang rendement',d.rentalYieldImportance]]},
+    {ci:7, rows:[['Al woningen gezien', d.seenHomes + (d.seenHomesLinks? ' — '+d.seenHomesLinks : '')],['Droombeschrijving',d.dreamDescription],['Opmerkingen',d.remarks]]},
+  ];
+  const list = document.getElementById('reviewList');
+  list.innerHTML = groups.map(g=>{
+    const rows = g.rows.map(r=>{
+      const v = fmt(r[1]);
+      return '<div class="review-item"><span class="k">'+esc(r[0])+'</span><span class="v'+(v?'':' empty')+'">'+(v?esc(v):'Niet ingevuld')+'</span></div>';
+    }).join('');
+    return '<div class="review-group"><div class="review-group-head"><h3>'+esc(CHAPTERS[g.ci].name)+'</h3>'+
+           '<button type="button" class="review-edit" data-ci="'+g.ci+'" aria-label="Wijzig '+esc(CHAPTERS[g.ci].name)+'">Wijzig'+PENCIL+'</button></div>'+rows+'</div>';
+  }).join('');
+  list.querySelectorAll('.review-edit').forEach(b=>{
+    b.addEventListener('click', ()=>goToEditChapter(parseInt(b.dataset.ci,10)));
+  });
+  syncConsent();
+}
+
+/* ---- Consent ---- */
+function syncConsent(){
+  const c = document.getElementById('consent');
+  document.getElementById('consentWrap').classList.toggle('checked', c.checked);
+  if(current === 'review') btnNext.disabled = !c.checked;
+}
+
+/* ---- Autosave / resume ---- */
+let saveTimer = null;
+function save(){
+  try{
+    const payload = { data: collectData(), step: current, bedrooms: bedrooms, ts: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }catch(e){}
+}
+function debouncedSave(){ clearTimeout(saveTimer); saveTimer = setTimeout(save, 400); }
+function clearSaved(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function loadSaved(){ try{ const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
+
+function applyData(d){
+  if(!d) return;
+  const form = document.getElementById('quizForm');
+  ['firstName','lastName','email','phone','knownPlaces','amenitiesOther','avoidOther','reasonOther','seenHomesLinks','dreamDescription','remarks'].forEach(n=>{
+    const el = form.elements[n]; if(el) el.value = d[n]||'';
+  });
+  const setRadio = (name,val)=>{ if(val===undefined||val===null||val==='') return; form.querySelectorAll('input[name="'+name+'"]').forEach(i=>{ i.checked = (i.value===val); }); };
+  ['contactPreference','source','purpose','reason','processStage','timeline','visitInterest','budget','budgetIncludesCosts','financing','distanceImportance','landSize','renovationSupport','mainUse','rentalManagement','rentalYieldImportance','seenHomes'].forEach(n=>setRadio(n,d[n]));
+  if(d.visitedBefore===true){ form.querySelectorAll('input[name="visitedBefore"]').forEach(i=>{ i.checked = (i.value==='yes'); }); }
+  const setChecks = (name,arr)=>{ arr = arr||[]; form.querySelectorAll('input[name="'+name+'"]').forEach(i=>{ i.checked = arr.indexOf(i.value)>=0; }); };
+  ['region','propertyType','amenities','condition','avoid','householdTravel'].forEach(n=>setChecks(n,d[n]));
+  bedrooms = (typeof d.bedrooms==='number') ? d.bedrooms : bedrooms;
+  updateBedroomsUI();
+  document.getElementById('reasonOtherWrap').style.display = (d.reason==='Anders') ? 'block' : 'none';
+  document.getElementById('seenHomesLinksWrap').style.display = (d.seenHomes==='Ja') ? 'block' : 'none';
+  syncAllPins();
+}
+
+function showSubmitError(msg){
+  const banner = document.getElementById('submitError');
+  banner.textContent = msg;
+  banner.classList.add('show');
+  banner.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+async function submitForm(){
+  const data = collectData();
+  if(data.website){ current='success'; showStep('success'); clearSaved(); return; }
+
+  document.getElementById('submitError').classList.remove('show');
+
+  // Duidelijke melding als de backend nog niet gekoppeld is (i.p.v. vage netwerkfout)
+  if(SUBMIT_ENDPOINT.includes('YOUR-WORKER-SUBDOMAIN')){
+    showSubmitError('De verzendservice is nog niet gekoppeld: de Cloudflare Worker moet eerst gedeployed worden en de SUBMIT_ENDPOINT in dit bestand moet naar de echte Worker-URL wijzen (zie README.md, stap 3-4). Tot die tijd kan het formulier niets versturen en komt er niets in Notion of je mailbox terecht.');
+    return;
+  }
+
+  current='submitting'; showStep('submitting');
+  try{
+    const res = await fetch(SUBMIT_ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+    if(!res.ok) throw new Error('Bad response');
+    current='success'; showStep('success'); clearSaved();
+  }catch(err){
+    current='review'; showStep('review');
+    showSubmitError('Er ging iets mis bij het versturen. Controleer je internetverbinding en probeer opnieuw. Blijft dit gebeuren? Mail ons gerust rechtstreeks op ciao@pugliaffari.com.');
+  }
+}
+
+/* ============================================================
+   Accessibility wiring
+   ============================================================ */
+function initA11y(){
+  document.querySelectorAll('.step .field').forEach((f, idx)=>{
+    const ctrl = f.querySelector(':scope > input:not([type=radio]):not([type=checkbox]), :scope > textarea');
+    if(!ctrl) return;
+    const lbl = f.querySelector(':scope > label.field-label');
+    if(lbl){ if(!ctrl.id) ctrl.id = 'fld-'+idx; lbl.setAttribute('for', ctrl.id); }
+    else if(!ctrl.getAttribute('aria-label')){
+      const h = f.closest('.step').querySelector('h2');
+      if(h) ctrl.setAttribute('aria-label', h.textContent.trim());
+    }
+  });
+  document.querySelectorAll('[data-group]').forEach((g, i)=>{
+    g.setAttribute('role', g.dataset.type==='radio' ? 'radiogroup' : 'group');
+    const field = g.closest('.field');
+    let lbl = field && field.querySelector(':scope > label.field-label');
+    if(!lbl){ lbl = g.closest('.step').querySelector('h2'); }
+    if(lbl){ if(!lbl.id) lbl.id = 'grp-'+i; g.setAttribute('aria-labelledby', lbl.id); }
+  });
+  chapterTrack.setAttribute('role','progressbar');
+  chapterTrack.setAttribute('aria-valuemin','1');
+  chapterTrack.setAttribute('aria-valuemax', String(NUM_CHAPTERS));
+  const bc = document.getElementById('bedroomsCount');
+  if(bc){ bc.setAttribute('aria-live','polite'); bc.setAttribute('aria-atomic','true'); }
+}
+
+/* ============================================================
+   Interactive Puglia region map
+   ============================================================ */
+const PUGLIA_MAP_URL = "assets/puglia-map.svg";
+const PUGLIA_VIEWBOX = "0 0 416.96 328.73";   // originele kaart (4169.6338 x 3287.2678) gedeeld door 10
+const PUGLIA_SCALE = 0.1;
+// Pin-posities geografisch gekalibreerd op de echte kaart (coords in de 417 x 329 viewBox)
+const PUGLIA_REGIONS = [
+  {v:"Gargano", x:123, y:24, lx:132, ly:27, a:"start"},
+  {v:"Foggia en Tavoliere", x:70, y:69, lx:79, ly:72, a:"start"},
+  {v:"BAT - Barletta Andria Trani", short:"BAT", x:157, y:104, lx:166, ly:107, a:"start"},
+  {v:"Bari en kust", short:"Bari", x:224, y:122, lx:233, ly:118, a:"start"},
+  {v:"Valle d'Itria", x:278, y:179, lx:269, ly:182, a:"end"},
+  {v:"Taranto en Ionische kust", short:"Taranto", x:267, y:224, lx:258, ly:234, a:"end"},
+  {v:"Brindisi en kust", short:"Brindisi", x:349, y:198, lx:358, ly:196, a:"start"},
+  {v:"Salento", x:376, y:243, lx:367, ly:252, a:"end"},
+];
+function pinEl(v){ return document.querySelector('#pugliaMap .pin[data-region="'+CSS.escape(v)+'"]'); }
+function regionCb(v){ return document.querySelector('#quizForm input[name="region"][value="'+CSS.escape(v)+'"]'); }
+function syncPin(v){ const p=pinEl(v), c=regionCb(v); if(p&&c){ p.classList.toggle('on', c.checked); p.setAttribute('aria-pressed', c.checked?'true':'false'); } }
+function syncAllPins(){ PUGLIA_REGIONS.forEach(r=>syncPin(r.v)); }
+async function initPugliaMap(){
+  const host = document.getElementById('pugliaMap');
+  if(!host || !window.CSS || !CSS.escape) return;
+  host.setAttribute('viewBox', PUGLIA_VIEWBOX);
+  let baseInner = "";
+  try{
+    const res = await fetch(PUGLIA_MAP_URL);
+    if(res.ok){
+      const doc = new DOMParser().parseFromString(await res.text(), "image/svg+xml");
+      const srcSvg = doc.querySelector("svg");
+      if(srcSvg && !doc.querySelector("parsererror")) baseInner = srcSvg.innerHTML;
+    }
+  }catch(e){ baseInner = ""; }
+  if(!baseInner){
+    // Kaart niet beschikbaar (bv. offline geopend): verberg de kaart, de lijst blijft werken
+    const frame = host.closest(".map-frame"); if(frame) frame.style.display = "none";
+    return;
+  }
+  let svg = '<g class="puglia-base" transform="scale('+PUGLIA_SCALE+')">'+baseInner+'</g>';
+  PUGLIA_REGIONS.forEach(r=>{
+    const label = r.short || r.v;
+    svg += '<g class="pin" data-region="'+esc(r.v)+'" tabindex="0" role="button" aria-pressed="false" aria-label="'+esc(label)+'">'+
+      '<title>'+esc(label)+'</title>'+
+      '<text class="pin-label" x="'+r.lx+'" y="'+r.ly+'" text-anchor="'+r.a+'">'+esc(label)+'</text>'+
+      '<circle class="pin-dot" cx="'+r.x+'" cy="'+r.y+'" r="7"/>'+
+      '<circle class="pin-core" cx="'+r.x+'" cy="'+r.y+'" r="3.4"/>'+
+    '</g>';
+  });
+  host.innerHTML = svg;
+  host.querySelectorAll('.pin').forEach(p=>{
+    const v = p.getAttribute('data-region');
+    const toggle = ()=>{ const c=regionCb(v); if(!c) return; c.checked=!c.checked; c.dispatchEvent(new Event('change', {bubbles:true})); };
+    p.addEventListener('click', toggle);
+    p.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+  });
+  PUGLIA_REGIONS.forEach(r=>{
+    const c = regionCb(r.v); if(!c) return;
+    c.addEventListener('change', ()=>syncPin(r.v));
+    const card = c.closest('.option-card');
+    if(card){
+      card.addEventListener('mouseenter', ()=>{ const p=pinEl(r.v); if(p) p.classList.add('hi'); });
+      card.addEventListener('mouseleave', ()=>{ const p=pinEl(r.v); if(p) p.classList.remove('hi'); });
+    }
+  });
+  syncAllPins();
+}
+
+/* ============================================================
+   Event wiring
+   ============================================================ */
+const form = document.getElementById('quizForm');
+form.addEventListener('submit', e=>e.preventDefault());
+
+// Enter advances (except inside a textarea or on a button)
+form.addEventListener('keydown', e=>{
+  if(e.key !== 'Enter') return;
+  const t = e.target;
+  if(t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON') return;
+  e.preventDefault();
+  if(current === 'intro'){ goTo(order[1]); return; }
+  if(navRow.style.display !== 'none') nextStep();
+});
+
+// Live-clear validation + autosave
+form.addEventListener('input', e=>{
+  const t = e.target;
+  if(t.classList && t.classList.contains('invalid')){
+    let ok = t.value.trim().length>0;
+    if(t.type==='email' && ok) ok = EMAIL_RE.test(t.value.trim());
+    if(ok){ t.classList.remove('invalid'); const eb = t.parentElement.querySelector('.error-msg'); if(eb) eb.classList.remove('show'); }
+  }
+  debouncedSave();
+});
+form.addEventListener('change', e=>{
+  const t = e.target;
+  if(t.name){
+    const el = stepEl(current);
+    if(el){ const eb = el.querySelector('.error-msg[data-for="'+t.name+'"]'); if(eb && el.querySelectorAll('input[name="'+t.name+'"]:checked').length) eb.classList.remove('show'); }
+  }
+  save();
+});
+
+document.getElementById('consent').addEventListener('change', ()=>{
+  document.getElementById('consentError').classList.remove('show');
+  syncConsent();
+});
+
+// Resume banner
+document.getElementById('resumeYes').addEventListener('click', ()=>{
+  if(pendingResume){
+    applyData(pendingResume.data);
+    const step = pendingResume.step;
+    current = order.indexOf(step) >= 0 ? step : order[1];
+    if(current === 'review') renderReview();
+    showStep(current);
+    save();
+  }
+  resumeBanner.classList.remove('show');
+});
+document.getElementById('resumeNo').addEventListener('click', ()=>{
+  clearSaved(); pendingResume = null; resumeBanner.classList.remove('show');
+});
+
+/* ============================================================
+   Init
+   ============================================================ */
+initA11y();
+initPugliaMap();
+updateBedroomsUI();
+const saved = loadSaved();
+if(saved && saved.step && saved.step!=='intro' && saved.step!=='submitting' && saved.step!=='success'){
+  pendingResume = saved;
+  resumeBanner.classList.add('show');
+} else if(saved){
+  clearSaved();
+}
+showStep('intro');
+</script>
+</body>
+</html>

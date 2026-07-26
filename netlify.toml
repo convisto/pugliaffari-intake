@@ -1,0 +1,8 @@
+# Netlify publiceert de statische site (index.html + assets/).
+# Er is geen buildstap nodig; de Cloudflare Worker in worker/ wordt apart via wrangler gedeployed.
+[build]
+  publish = "."
+  command = ""
+
+# Zorg dat de worker-broncode niet publiek als losse route wordt geserveerd is niet nodig
+# (Netlify serveert alleen aangevraagde paden); index.html is automatisch de startpagina.
