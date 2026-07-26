@@ -2,12 +2,15 @@ name = "pugliaffari-vragenlijst"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
 
-# Niet-geheime variabelen mag je hier zetten, bv.:
-# [vars]
-# ALLOWED_ORIGIN = "*"
-# INTERNAL_EMAIL = "ciao@pugliaffari.com"
-# FROM_EMAIL = "Pugliaffari <aankoop@pugliaffari.com>"
-# NOTION_DATABASE_ID = "729f5e4c70a54fd980f1015752a766ec"
+# Niet-geheime variabelen (al ingevuld):
+[vars]
+ALLOWED_ORIGIN = "*"
+INTERNAL_EMAIL = "ciao@pugliaffari.com"
+NOTION_DATABASE_ID = "729f5e4c70a54fd980f1015752a766ec"
+# FROM_EMAIL: pas aan zodra pugliaffari.com in Resend geverifieerd is.
+# Tot die tijd kun je testen met "Pugliaffari <onboarding@resend.dev>"
+# (mail komt dan alleen aan op je eigen Resend-accountadres).
+FROM_EMAIL = "Pugliaffari <onboarding@resend.dev>"
 #
 # Geheimen (RESEND_API_KEY, NOTION_TOKEN) NOOIT hier zetten —
 # stel die in via `wrangler secret put` (zie README.md).
