@@ -7,10 +7,10 @@ compatibility_date = "2024-11-01"
 ALLOWED_ORIGIN = "*"
 INTERNAL_EMAIL = "ciao@pugliaffari.com"
 NOTION_DATABASE_ID = "729f5e4c70a54fd980f1015752a766ec"
-# FROM_EMAIL: pas aan zodra pugliaffari.com in Resend geverifieerd is.
-# Tot die tijd kun je testen met "Pugliaffari <onboarding@resend.dev>"
-# (mail komt dan alleen aan op je eigen Resend-accountadres).
-FROM_EMAIL = "Pugliaffari <onboarding@resend.dev>"
+# FROM_EMAIL: verstuurd vanaf het (gratis) geverifieerde convisto.be-domein,
+# met "Pugliaffari" als weergavenaam. Antwoorden gaan via reply-to naar ciao@pugliaffari.com.
+# Werkt zodra convisto.be in Resend op "Verified" staat. Pas het lokale deel (aankoop@) gerust aan.
+FROM_EMAIL = "Pugliaffari <aankoop@convisto.be>"
 #
 # Geheimen (RESEND_API_KEY, NOTION_TOKEN) NOOIT hier zetten —
 # stel die in via `wrangler secret put` (zie README.md).

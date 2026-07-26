@@ -374,6 +374,7 @@ async function sendEmails(data, env, pdfBase64) {
     resendSend(env, {
       from: fromEmail,
       to: data.email,
+      reply_to: internalEmail,
       subject: "Uw aankoopdossier bij Pugliaffari is ontvangen",
       html: clientEmailHtml(data, fullName, sections),
       attachments,
