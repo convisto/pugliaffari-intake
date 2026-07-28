@@ -154,6 +154,9 @@ Functionaliteit:
 - **Interactieve kaart van Puglia** bij de regiostap: gebieden lichten op de kaart op wanneer je ze
   aanvinkt (en omgekeerd), klikbaar en toetsenbord-toegankelijk.
 - Vrij **"Opmerkingen"-veld** op de laatste stap.
+- **Drietalig** (Nederlands / Italiaans / Engels) via een taalkiezer in de header. Alleen de weergegeven
+  tekst vertaalt; de antwoordwaarden die naar Notion/e-mail gaan blijven canoniek Nederlands. De
+  taalkeuze wordt onthouden. (De backend-e-mails en PDF zijn voorlopig Nederlands — kan later meertalig.)
 
 Bij afronden (in de `worker/`-backend):
 - Er wordt een **nette PDF** van het volledige dossier gegenereerd (pdf-lib, in Pugliaffari-huisstijl).
