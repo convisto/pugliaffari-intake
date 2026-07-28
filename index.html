@@ -385,6 +385,11 @@
   .consent label{font-size:0.86rem;color:var(--text);line-height:1.5;cursor:pointer;font-weight:300;}
   .consent .error-msg{margin-top:4px;}
 
+  /* Open amount input (budget) */
+  .amount-wrap{position:relative;display:flex;align-items:center;}
+  .amount-prefix{position:absolute;left:16px;font-size:1.05rem;color:var(--text-light);pointer-events:none;font-weight:400;}
+  .amount-wrap input{padding-left:34px;font-variant-numeric:tabular-nums;}
+
   /* Language switcher */
   .lang-switch{display:inline-flex;gap:2px;background:var(--cream-deep);border:1px solid var(--border);border-radius:100px;padding:3px;}
   .lang-btn{
@@ -635,17 +640,15 @@
       <!-- CH3.1 Budget -->
       <section class="step" data-step="c3-budget">
         <span class="kicker">Hoofdstuk 3 — Budget</span>
-        <h2>Wat is je budget?</h2>
+        <h2>Wat mag de woning maximaal kosten?</h2>
+        <p class="hint">Geef je maximale aankoopbedrag in euro — zo tonen we alleen wat echt binnen bereik ligt.</p>
         <div class="field">
-          <label class="field-label">Budgetrange *</label>
-          <div class="option-grid" data-group="budget" data-type="radio">
-            <label class="option-card"><input type="radio" name="budget" value="&lt; €150k"><div class="box"><span class="txt">&lt; €150.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="budget" value="€150k - €300k"><div class="box"><span class="txt">€150.000 – €300.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="budget" value="€300k - €500k"><div class="box"><span class="txt">€300.000 – €500.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="budget" value="€500k - €1M"><div class="box"><span class="txt">€500.000 – €1.000.000</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
-            <label class="option-card"><input type="radio" name="budget" value="€1M+"><div class="box"><span class="txt">€1.000.000+</span><span class="check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span></div></label>
+          <label class="field-label">Maximaal budget (€) *</label>
+          <div class="amount-wrap">
+            <span class="amount-prefix" aria-hidden="true">€</span>
+            <input type="text" name="budget" required inputmode="numeric" autocomplete="off" placeholder="bv. 450.000">
           </div>
-          <div class="error-msg" data-for="budget">Kies een budgetrange.</div>
+          <div class="error-msg">Vul je maximale budget in.</div>
         </div>
       </section>
 
@@ -1025,6 +1028,7 @@ const PA_TR = {
     "Ben je eerder in Puglia geweest?":"Sei già stato in Puglia?","Hoe hoorde je van Pugliaffari? *":"Come hai conosciuto Pugliaffari? *",
     "Wat is het doel van de aankoop?":"Qual è lo scopo dell'acquisto?","Wat is de belangrijkste reden dat je een woning in Puglia zoekt?":"Qual è il motivo principale per cui cerchi una casa in Puglia?","Dit vertelt ons veel meer dan alleen het doel.":"Questo ci dice molto più del semplice scopo.","Vertel er kort iets meer over":"Raccontaci qualcosa in più",
     "Waar bevind je je momenteel in het aankoopproces?":"A che punto sei nel processo di acquisto?","Termijn en bezichtiging":"Tempistica e sopralluogo","Binnen welke termijn wil je kopen? *":"Entro quanto tempo vuoi acquistare? *","Wil je binnenkort een bezichtigingsreis plannen? *":"Vuoi organizzare presto un viaggio per le visite? *",
+    "Wat mag de woning maximaal kosten?":"Quanto può costare al massimo l'immobile?","Geef je maximale aankoopbedrag in euro — zo tonen we alleen wat echt binnen bereik ligt.":"Indica il tuo importo massimo di acquisto in euro — così mostriamo solo ciò che è davvero alla tua portata.","Maximaal budget (€) *":"Budget massimo (€) *","Vul je maximale budget in.":"Inserisci il tuo budget massimo.","bv. 450.000":"es. 450.000",
     "Wat is je budget?":"Qual è il tuo budget?","Budgetrange *":"Fascia di budget *","Kies een budgetrange.":"Scegli una fascia di budget.","Nog even preciseren":"Ancora una precisazione","Veel kopers bedoelen met hun budget eigenlijk het totaal inclusief aankoopkosten — goed om dit meteen scherp te hebben.":"Molti acquirenti con 'budget' intendono il totale comprese le spese d'acquisto — meglio chiarirlo subito.","Is dit budget inclusief aankoopkosten (belasting, notaris, etc.)? *":"Questo budget include le spese d'acquisto (tasse, notaio, ecc.)? *","Financiering *":"Finanziamento *",
     "Welke gebieden van Puglia hebben je voorkeur?":"Quali zone della Puglia preferisci?","Meerdere keuzes mogelijk — dit dekt heel Puglia, van noord naar zuid. Tik gerust ook op de kaart.":"Più scelte possibili — copre tutta la Puglia, da nord a sud. Puoi anche toccare la mappa.",
     "Vieste, Peschici, het groene schiereiland":"Vieste, Peschici, la penisola verde","Binnenland noord-Puglia":"Entroterra nord della Puglia","Ionische kust":"Costa ionica","Adriatische zijde":"Lato adriatico","Kies minstens één gebied.":"Scegli almeno una zona.","Tik een gebied aan op de kaart of in de lijst":"Tocca una zona sulla mappa o nell'elenco","optioneel":"facoltativo",
@@ -1077,6 +1081,7 @@ const PA_TR = {
     "Ben je eerder in Puglia geweest?":"Have you been to Puglia before?","Hoe hoorde je van Pugliaffari? *":"How did you hear about Pugliaffari? *",
     "Wat is het doel van de aankoop?":"What is the purpose of the purchase?","Wat is de belangrijkste reden dat je een woning in Puglia zoekt?":"What is the main reason you're looking for a home in Puglia?","Dit vertelt ons veel meer dan alleen het doel.":"This tells us much more than the purpose alone.","Vertel er kort iets meer over":"Tell us a bit more",
     "Waar bevind je je momenteel in het aankoopproces?":"Where are you currently in the buying process?","Termijn en bezichtiging":"Timeline and viewing","Binnen welke termijn wil je kopen? *":"Within what timeframe do you want to buy? *","Wil je binnenkort een bezichtigingsreis plannen? *":"Would you like to plan a viewing trip soon? *",
+    "Wat mag de woning maximaal kosten?":"What is the maximum the property may cost?","Geef je maximale aankoopbedrag in euro — zo tonen we alleen wat echt binnen bereik ligt.":"Enter your maximum purchase amount in euros — so we only show what's genuinely within reach.","Maximaal budget (€) *":"Maximum budget (€) *","Vul je maximale budget in.":"Please enter your maximum budget.","bv. 450.000":"e.g. 450,000",
     "Wat is je budget?":"What is your budget?","Budgetrange *":"Budget range *","Kies een budgetrange.":"Please choose a budget range.","Nog even preciseren":"One more detail","Veel kopers bedoelen met hun budget eigenlijk het totaal inclusief aankoopkosten — goed om dit meteen scherp te hebben.":"Many buyers mean the total including purchase costs when they say 'budget' — good to clarify this right away.","Is dit budget inclusief aankoopkosten (belasting, notaris, etc.)? *":"Does this budget include purchase costs (tax, notary, etc.)? *","Financiering *":"Financing *",
     "Welke gebieden van Puglia hebben je voorkeur?":"Which areas of Puglia do you prefer?","Meerdere keuzes mogelijk — dit dekt heel Puglia, van noord naar zuid. Tik gerust ook op de kaart.":"Multiple choices possible — this covers all of Puglia, from north to south. Feel free to tap the map too.",
     "Vieste, Peschici, het groene schiereiland":"Vieste, Peschici, the green peninsula","Binnenland noord-Puglia":"Inland northern Puglia","Ionische kust":"Ionian coast","Adriatische zijde":"Adriatic side","Kies minstens één gebied.":"Choose at least one area.","Tik een gebied aan op de kaart of in de lijst":"Tap an area on the map or in the list","optioneel":"optional",
@@ -1254,7 +1259,7 @@ function validateStep(key){
   if(!el) return true;
 
   el.querySelectorAll('input[required]').forEach(inp=>{
-    const errBox = inp.parentElement.querySelector('.error-msg');
+    const errBox = inp.parentElement.querySelector('.error-msg') || (inp.closest('.field') && inp.closest('.field').querySelector('.error-msg'));
     let ok = inp.value.trim().length>0;
     if(inp.type==='email' && ok){ ok = EMAIL_RE.test(inp.value.trim()); }
     if(!ok){ valid=false; inp.classList.add('invalid'); if(errBox) errBox.classList.add('show'); if(!firstInvalid) firstInvalid=inp; }
@@ -1402,7 +1407,7 @@ function renderReview(){
   const groups = [
     {ci:0, rows:[['Naam',(d.firstName+' '+d.lastName).trim()],['E-mail',d.email],['Telefoon',d.phone],['Voorkeurscontact',S('contactPreference')],['Eerder in Puglia geweest',S('visitedBefore')],['Hoe gehoord',S('source')]]},
     {ci:1, rows:[['Doel aankoop',S('purpose')],['Belangrijkste reden', other('reason', d.reasonOther)],['Fase proces',S('processStage')],['Tijdslijn',S('timeline')],['Bezichtigingsreis',S('visitInterest')]]},
-    {ci:2, rows:[['Budget',S('budget')],['Incl. aankoopkosten',S('budgetIncludesCosts')],['Financiering',S('financing')]]},
+    {ci:2, rows:[['Budget', d.budget ? '€ '+d.budget : ''],['Incl. aankoopkosten',S('budgetIncludesCosts')],['Financiering',S('financing')]]},
     {ci:3, rows:[['Regio',S('region')],['Bekende plaatsen',d.knownPlaces],['Afstand zee/vliegveld',S('distanceImportance')]]},
     {ci:4, rows:[['Type pand',S('propertyType')],['Perceel',S('landSize')],['Voorzieningen',other('amenities', d.amenitiesOther)],['Staat pand',S('condition')],['Renovatiebegeleiding',S('renovationSupport')],['Te vermijden',other('avoid', d.avoidOther)]]},
     {ci:5, rows:[['Wie gebruikt de woning',S('mainUse')],['Reist met',S('householdTravel')],['Slaapkamers',d.bedrooms]]},
@@ -1447,11 +1452,11 @@ function loadSaved(){ try{ const r = localStorage.getItem(STORAGE_KEY); return r
 function applyData(d){
   if(!d) return;
   const form = document.getElementById('quizForm');
-  ['firstName','lastName','email','phone','knownPlaces','amenitiesOther','avoidOther','reasonOther','seenHomesLinks','dreamDescription','remarks'].forEach(n=>{
+  ['firstName','lastName','email','phone','budget','knownPlaces','amenitiesOther','avoidOther','reasonOther','seenHomesLinks','dreamDescription','remarks'].forEach(n=>{
     const el = form.elements[n]; if(el) el.value = d[n]||'';
   });
   const setRadio = (name,val)=>{ if(val===undefined||val===null||val==='') return; form.querySelectorAll('input[name="'+name+'"]').forEach(i=>{ i.checked = (i.value===val); }); };
-  ['contactPreference','source','purpose','reason','processStage','timeline','visitInterest','budget','budgetIncludesCosts','financing','distanceImportance','landSize','renovationSupport','rentalManagement','rentalYieldImportance','seenHomes'].forEach(n=>setRadio(n,d[n]));
+  ['contactPreference','source','purpose','reason','processStage','timeline','visitInterest','budgetIncludesCosts','financing','distanceImportance','landSize','renovationSupport','rentalManagement','rentalYieldImportance','seenHomes'].forEach(n=>setRadio(n,d[n]));
   if(d.visitedBefore===true){ form.querySelectorAll('input[name="visitedBefore"]').forEach(i=>{ i.checked = (i.value==='yes'); }); }
   const setChecks = (name,arr)=>{ arr = arr||[]; form.querySelectorAll('input[name="'+name+'"]').forEach(i=>{ i.checked = arr.indexOf(i.value)>=0; }); };
   ['region','propertyType','amenities','condition','avoid','householdTravel','mainUse'].forEach(n=>setChecks(n,d[n]));
@@ -1607,13 +1612,15 @@ form.addEventListener('keydown', e=>{
 // Live-clear validation + autosave
 form.addEventListener('input', e=>{
   const t = e.target;
+  if(t.name === 'budget'){ t.value = formatThousands(t.value); }
   if(t.classList && t.classList.contains('invalid')){
     let ok = t.value.trim().length>0;
     if(t.type==='email' && ok) ok = EMAIL_RE.test(t.value.trim());
-    if(ok){ t.classList.remove('invalid'); const eb = t.parentElement.querySelector('.error-msg'); if(eb) eb.classList.remove('show'); }
+    if(ok){ t.classList.remove('invalid'); const eb = t.parentElement.querySelector('.error-msg') || (t.closest('.field') && t.closest('.field').querySelector('.error-msg')); if(eb) eb.classList.remove('show'); }
   }
   debouncedSave();
 });
+function formatThousands(s){ const d = String(s).replace(/\D/g,''); return d ? d.replace(/\B(?=(\d{3})+(?!\d))/g,'.') : ''; }
 form.addEventListener('change', e=>{
   const t = e.target;
   if(t.name){

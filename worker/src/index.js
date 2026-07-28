@@ -142,7 +142,7 @@ function buildSections(d) {
       ["Bezichtigingsreis", d.visitInterest],
     ]},
     { title: "Budget", rows: [
-      ["Budget", d.budget], ["Inclusief aankoopkosten", d.budgetIncludesCosts],
+      ["Maximaal budget", d.budget ? "€ " + d.budget : ""], ["Inclusief aankoopkosten", d.budgetIncludesCosts],
       ["Financiering", d.financing],
     ]},
     { title: "Locatie", rows: [
@@ -200,7 +200,7 @@ async function writeToNotion(data, env) {
   select("Fase aankoopproces", data.processStage);
   select("Tijdslijn aankoop", data.timeline);
   select("Bezichtigingsreis interesse", data.visitInterest);
-  select("Budget", data.budget);
+  num("Budget", String(data.budget || "").replace(/\D/g, ""));
   select("Budget inclusief aankoopkosten", data.budgetIncludesCosts);
   select("Financiering", data.financing);
   multi("Regio voorkeur", data.region);
