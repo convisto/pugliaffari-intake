@@ -57,18 +57,15 @@ export default {
       results.notion = { error: String(err) };
     }
 
-    // 2. PDF (mag falen zonder de submission te blokkeren)
-    let pdfBase64 = null;
-    try {
-      const bytes = await buildPdf(data);
-      pdfBase64 = bytesToBase64(bytes);
-    } catch (err) {
-      results.pdf = { error: String(err) };
-    }
+    // 2. PDF's — Nederlands (klant + team) en Italiaans (team, om door te sturen naar makelaars).
+    //    Mogen falen zonder de submission te blokkeren.
+    let pdfNl = null, pdfIt = null;
+    try { pdfNl = bytesToBase64(await buildPdf(data, "nl")); } catch (err) { results.pdf = { error: String(err) }; }
+    try { pdfIt = bytesToBase64(await buildPdf(data, "it")); } catch (err) { results.pdfIt = { error: String(err) }; }
 
     // 3 + 4. E-mails
     try {
-      results.email = await sendEmails(data, env, pdfBase64);
+      results.email = await sendEmails(data, env, pdfNl, pdfIt);
     } catch (err) {
       results.email = { error: String(err) };
     }
@@ -119,52 +116,90 @@ function bytesToBase64(bytes) {
   return btoa(binary);
 }
 
+/* Italiaanse vertaling (NL-canoniek -> IT) voor de tweede PDF naar makelaarpartners.
+   Bevat sectietitels, veldlabels en de canonieke antwoordwaarden. Vrije tekst
+   (namen, links, toelichtingen) blijft ongewijzigd. Onbekende sleutels vallen terug op NL. */
+const WT_IT = {
+  // sectietitels
+  "Contact":"Contatto","Jouw zoektocht":"La tua ricerca","Budget":"Budget","Locatie":"Posizione","Het pand":"L'immobile","Leefstijl":"Stile di vita","Investering":"Investimento","Tot slot":"Per concludere",
+  // veldlabels
+  "Naam":"Nome","Telefoon":"Telefono","Voorkeurscontact":"Contatto preferito","Eerder in Puglia geweest":"Già stato in Puglia","Hoe gehoord van Pugliaffari":"Come ci ha conosciuti","Doel aankoop":"Scopo dell'acquisto","Belangrijkste reden":"Motivo principale","Fase aankoopproces":"Fase del processo d'acquisto","Tijdslijn aankoop":"Tempistica d'acquisto","Bezichtigingsreis":"Viaggio per le visite","Maximaal budget":"Budget massimo","Inclusief aankoopkosten":"Spese d'acquisto incluse","Financiering":"Finanziamento","Regio voorkeur":"Zone preferite","Bekende plaatsen":"Località conosciute","Belang afstand zee/vliegveld":"Importanza distanza mare/aeroporto","Type pand":"Tipo di immobile","Perceel grootte":"Dimensione del terreno","Voorzieningen":"Comfort","Staat van het pand":"Condizioni dell'immobile","Renovatiebegeleiding gewenst":"Assistenza ristrutturazione desiderata","Te vermijden":"Da evitare","Wie gebruikt de woning":"Chi usa la casa","Reist met":"Viaggia con","Gewenst aantal slaapkamers":"Numero di camere desiderato","Interesse verhuurbeheer":"Interesse gestione affitti","Belang verhuuropbrengst":"Importanza del rendimento","Al woningen gezien":"Immobili già visti","Droombeschrijving":"Descrizione del sogno","Opmerkingen":"Osservazioni",
+  // waarden
+  "Ja":"Sì","Nee":"No","Telefonisch":"Telefono",
+  "Referral of mond-tot-mond":"Passaparola / referral","Instagram of social media":"Instagram / social","Anders":"Altro",
+  "Permanente woning":"Residenza permanente","Vakantiehuis":"Casa vacanze","Investering of verhuur":"Investimento / affitto","Gemengd gebruik":"Uso misto",
+  "Droom die we al jaren hebben":"Un sogno che abbiamo da anni","Vakantie met familie":"Vacanze in famiglia","Investering":"Investimento","Combinatie eigen gebruik en verhuur":"Combinazione di uso proprio e affitto","Emigreren":"Trasferirsi all'estero","Pensioen":"Pensione",
+  "We orienteren ons nog":"Ci stiamo ancora orientando","We hebben al meerdere woningen bekeken":"Abbiamo già visto diversi immobili","We zijn klaar om snel een bod uit te brengen":"Siamo pronti a fare presto un'offerta","We hebben al eerder een woning misgelopen":"Ci è già sfuggito un immobile in passato",
+  "Minder dan 3 maanden":"Meno di 3 mesi","3 tot 6 maanden":"3-6 mesi","6 tot 12 maanden":"6-12 mesi","Verkennend geen haast":"Esplorativo, senza fretta","Misschien":"Forse","Nog niet":"Non ancora",
+  "We weten dit nog niet":"Non lo sappiamo ancora","Cash":"Contanti","Hypotheek":"Mutuo","Nog te bepalen":"Da definire",
+  "Foggia en Tavoliere":"Foggia e Tavoliere","BAT - Barletta Andria Trani":"BAT - Barletta, Andria, Trani","Bari en kust":"Bari e costa","Taranto en Ionische kust":"Taranto e costa ionica","Brindisi en kust":"Brindisi e costa","Geen specifieke voorkeur":"Nessuna preferenza specifica",
+  "Zeer belangrijk max 15 min":"Molto importante — max 15 min","Belangrijk max 30 min":"Importante — max 30 min","Niet doorslaggevend":"Non determinante",
+  "Moderne villa":"Villa moderna","Stadswoning of palazzo":"Casa di città / palazzo","Boerderij met land":"Casale con terreno","Appartement":"Appartamento",
+  "Geen voorkeur":"Nessuna preferenza","Tot 2.000 m2":"Fino a 2.000 m²","2.000 - 10.000 m2":"2.000 - 10.000 m²","Meer dan 10.000 m2":"Più di 10.000 m²",
+  "Zwembad":"Piscina","Zeezicht":"Vista mare","Wandelafstand dorp":"Paese a piedi","Horeca dichtbij":"Ristoranti e bar vicini","Airconditioning":"Aria condizionata","Authentieke uitstraling":"Stile autentico","Moderne afwerking":"Finiture moderne","Groot perceel":"Terreno grande","Olijfgaard":"Uliveto","Gastenverblijf":"Dependance per ospiti","Geen directe buren":"Nessun vicino diretto",
+  "Volledig gerenoveerd of instapklaar":"Completamente ristrutturato / pronto da abitare","Licht opknapwerk oke":"Piccoli lavori vanno bene","Volledig renovatieproject oke":"Un progetto di ristrutturazione completo va bene",
+  "Alleen als Pugliaffari dit begeleidt":"Solo se se ne occupa Pugliaffari",
+  "Drukke weg":"Strada trafficata","Afgelegen":"Isolato","Renovatie":"Ristrutturazione","Toeristisch":"Zona turistica","Veel onderhoud":"Molta manutenzione",
+  "Alleen wij twee":"Solo noi due","Gezin":"Famiglia","Familie":"Famiglia allargata","Verhuur":"Affitto","Retreats":"Retreat",
+  "Kinderen":"Bambini","Huisdieren":"Animali domestici",
+  "Nog niet zeker":"Non ancora sicuro",
+  "1 - Helemaal niet":"1 - Per niente","2 - Klein beetje":"2 - Un po'","3 - Redelijk":"3 - Abbastanza","4 - Belangrijk":"4 - Importante","5 - Doorslaggevend":"5 - Decisivo",
+  // PDF-chrome
+  "Aankoopdossier":"Dossier d'acquisto","Aankoopdossier ontvangen op":"Dossier d'acquisto ricevuto il",
+  "Pugliaffari — Property management & investments · Puglia, Italië":"Pugliaffari — Property management & investments · Puglia, Italia",
+};
+function itT(s){ if(s==null) return s; return WT_IT[s]!=null ? WT_IT[s] : s; }
+
 /**
  * Groepeert alle antwoorden per hoofdstuk. Wordt gebruikt door de PDF,
- * de klant-mail en de interne mail, zodat overal exact dezelfde data staat.
+ * de klant-mail en de interne mail. Met `tr` (vertaalfunctie) worden
+ * sectietitels, labels en canonieke antwoordwaarden vertaald; vrije tekst blijft.
  */
-function buildSections(d) {
+function buildSections(d, tr) {
+  tr = tr || function(s){ return s; };
+  const A = function(arr){ return (Array.isArray(arr) ? arr : (arr ? [arr] : [])).map(function(v){ return tr(v); }); };
+  const R = function(label, value){ return [tr(label), value]; };
   const fullName = `${d.firstName || ""} ${d.lastName || ""}`.trim();
-  const reason = val(d.reason) + (d.reasonOther ? " — " + d.reasonOther : "");
-  const amenities = (d.amenities || []).concat(d.amenitiesOther ? [d.amenitiesOther] : []);
-  const avoid = (d.avoid || []).concat(d.avoidOther ? [d.avoidOther] : []);
-  const seen = val(d.seenHomes) + (d.seenHomesLinks ? " — " + d.seenHomesLinks : "");
+  const reason = tr(val(d.reason)) + (d.reasonOther ? " — " + d.reasonOther : "");
+  const amenities = A(d.amenities).concat(d.amenitiesOther ? [d.amenitiesOther] : []);
+  const avoid = A(d.avoid).concat(d.avoidOther ? [d.avoidOther] : []);
+  const seen = tr(val(d.seenHomes)) + (d.seenHomesLinks ? " — " + d.seenHomesLinks : "");
   return [
-    { title: "Contact", rows: [
-      ["Naam", fullName], ["E-mail", d.email], ["Telefoon", d.phone],
-      ["Voorkeurscontact", d.contactPreference],
-      ["Eerder in Puglia geweest", d.visitedBefore ? "Ja" : "Nee"],
-      ["Hoe gehoord van Pugliaffari", d.source],
+    { title: tr("Contact"), rows: [
+      R("Naam", fullName), R("E-mail", d.email), R("Telefoon", d.phone),
+      R("Voorkeurscontact", tr(d.contactPreference)),
+      R("Eerder in Puglia geweest", tr(d.visitedBefore ? "Ja" : "Nee")),
+      R("Hoe gehoord van Pugliaffari", tr(d.source)),
     ]},
-    { title: "Jouw zoektocht", rows: [
-      ["Doel aankoop", d.purpose], ["Belangrijkste reden", reason],
-      ["Fase aankoopproces", d.processStage], ["Tijdslijn aankoop", d.timeline],
-      ["Bezichtigingsreis", d.visitInterest],
+    { title: tr("Jouw zoektocht"), rows: [
+      R("Doel aankoop", tr(d.purpose)), R("Belangrijkste reden", reason),
+      R("Fase aankoopproces", tr(d.processStage)), R("Tijdslijn aankoop", tr(d.timeline)),
+      R("Bezichtigingsreis", tr(d.visitInterest)),
     ]},
-    { title: "Budget", rows: [
-      ["Maximaal budget", d.budget ? "€ " + d.budget : ""], ["Inclusief aankoopkosten", d.budgetIncludesCosts],
-      ["Financiering", d.financing],
+    { title: tr("Budget"), rows: [
+      R("Maximaal budget", d.budget ? "€ " + d.budget : ""), R("Inclusief aankoopkosten", tr(d.budgetIncludesCosts)),
+      R("Financiering", tr(d.financing)),
     ]},
-    { title: "Locatie", rows: [
-      ["Regio voorkeur", d.region], ["Bekende plaatsen", d.knownPlaces],
-      ["Belang afstand zee/vliegveld", d.distanceImportance],
+    { title: tr("Locatie"), rows: [
+      R("Regio voorkeur", A(d.region)), R("Bekende plaatsen", d.knownPlaces),
+      R("Belang afstand zee/vliegveld", tr(d.distanceImportance)),
     ]},
-    { title: "Het pand", rows: [
-      ["Type pand", d.propertyType], ["Perceel grootte", d.landSize],
-      ["Voorzieningen", amenities], ["Staat van het pand", d.condition],
-      ["Renovatiebegeleiding gewenst", d.renovationSupport], ["Te vermijden", avoid],
+    { title: tr("Het pand"), rows: [
+      R("Type pand", A(d.propertyType)), R("Perceel grootte", tr(d.landSize)),
+      R("Voorzieningen", amenities), R("Staat van het pand", A(d.condition)),
+      R("Renovatiebegeleiding gewenst", tr(d.renovationSupport)), R("Te vermijden", avoid),
     ]},
-    { title: "Leefstijl", rows: [
-      ["Wie gebruikt de woning", d.mainUse], ["Reist met", d.householdTravel],
-      ["Gewenst aantal slaapkamers", d.bedrooms],
+    { title: tr("Leefstijl"), rows: [
+      R("Wie gebruikt de woning", A(d.mainUse)), R("Reist met", A(d.householdTravel)),
+      R("Gewenst aantal slaapkamers", d.bedrooms),
     ]},
-    { title: "Investering", rows: [
-      ["Interesse verhuurbeheer", d.rentalManagement],
-      ["Belang verhuuropbrengst", d.rentalYieldImportance],
+    { title: tr("Investering"), rows: [
+      R("Interesse verhuurbeheer", tr(d.rentalManagement)),
+      R("Belang verhuuropbrengst", tr(d.rentalYieldImportance)),
     ]},
-    { title: "Tot slot", rows: [
-      ["Al woningen gezien", seen], ["Droombeschrijving", d.dreamDescription],
-      ["Opmerkingen", d.remarks],
+    { title: tr("Tot slot"), rows: [
+      R("Al woningen gezien", seen), R("Droombeschrijving", d.dreamDescription),
+      R("Opmerkingen", d.remarks),
     ]},
   ];
 }
@@ -278,8 +313,9 @@ function wrapText(text, font, size, maxW) {
   return out.length ? out : [""];
 }
 
-async function buildPdf(d) {
-  const sections = buildSections(d);
+async function buildPdf(d, langCode) {
+  const tr = (langCode === "it") ? itT : function(s){ return s; };
+  const sections = buildSections(d, tr);
   const pdf = await PDFDocument.create();
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
@@ -303,7 +339,7 @@ async function buildPdf(d) {
     page.drawRectangle({ x: 0, y: H - 96, width: W, height: 96, color: GREEN });
     page.drawText("PUGLIAFFARI", { x: M, y: H - 50, font: bold, size: 20, color: rgb(1, 1, 1) });
     page.drawText("PROPERTY MANAGEMENT & INVESTMENTS", { x: M, y: H - 66, font, size: 8, color: GOLD });
-    const title = "Aankoopdossier";
+    const title = pdfSafe(tr("Aankoopdossier"));
     page.drawText(title, { x: W - M - bold.widthOfTextAtSize(title, 16), y: H - 52, font: bold, size: 16, color: GOLD });
     y = H - 96 - 34;
   }
@@ -315,10 +351,10 @@ async function buildPdf(d) {
 
   // Klant + datum
   const fullName = `${d.firstName || ""} ${d.lastName || ""}`.trim() || "—";
-  const dateStr = new Date().toLocaleDateString("nl-BE", { day: "2-digit", month: "long", year: "numeric" });
+  const dateStr = new Date().toLocaleDateString(langCode === "it" ? "it-IT" : "nl-BE", { day: "2-digit", month: "long", year: "numeric" });
   page.drawText(pdfSafe(fullName), { x: M, y, font: bold, size: 15, color: INK });
   y -= 16;
-  page.drawText(pdfSafe(`Aankoopdossier ontvangen op ${dateStr}`), { x: M, y, font, size: 9.5, color: MUTED });
+  page.drawText(pdfSafe(tr("Aankoopdossier ontvangen op") + " " + dateStr), { x: M, y, font, size: 9.5, color: MUTED });
   y -= 22;
 
   const size = 9.5, lh = 13;
@@ -347,7 +383,7 @@ async function buildPdf(d) {
   // Footer op elke pagina
   const pages = pdf.getPages();
   pages.forEach((p, i) => {
-    p.drawText(pdfSafe("Pugliaffari — Property management & investments · Puglia, Italië"),
+    p.drawText(pdfSafe(tr("Pugliaffari — Property management & investments · Puglia, Italië")),
       { x: M, y: 30, font: italic, size: 8, color: MUTED });
     const pg = `${i + 1} / ${pages.length}`;
     p.drawText(pg, { x: W - M - font.widthOfTextAtSize(pg, 8), y: 30, font, size: 8, color: MUTED });
@@ -360,15 +396,19 @@ async function buildPdf(d) {
 /* Email (Resend)                                                      */
 /* ------------------------------------------------------------------ */
 
-async function sendEmails(data, env, pdfBase64) {
+async function sendEmails(data, env, pdfNl, pdfIt) {
   const fromEmail = env.FROM_EMAIL || "Pugliaffari <onboarding@resend.dev>";
   const internalEmail = env.INTERNAL_EMAIL || "ciao@pugliaffari.com";
   const fullName = `${data.firstName} ${data.lastName}`.trim();
-  const sections = buildSections(data);
+  const sections = buildSections(data); // Nederlands voor de e-mailtekst
 
-  const attachments = pdfBase64
-    ? [{ filename: `Aankoopdossier-${(fullName || "Pugliaffari").replace(/[^\w\- ]/g, "").trim().replace(/\s+/g, "-")}.pdf`, content: pdfBase64 }]
-    : undefined;
+  const safeName = (fullName || "Pugliaffari").replace(/[^\w\- ]/g, "").trim().replace(/\s+/g, "-");
+  const nlAtt = pdfNl ? { filename: `Aankoopdossier-${safeName}.pdf`, content: pdfNl } : null;
+  const itAtt = pdfIt ? { filename: `Dossier-${safeName}-IT.pdf`, content: pdfIt } : null;
+  // Klant: enkel het Nederlandse dossier. Team: NL + IT (IT om door te sturen naar makelaarpartners).
+  const clientAttachments = nlAtt ? [nlAtt] : undefined;
+  const internalList = [nlAtt, itAtt].filter(Boolean);
+  const internalAttachments = internalList.length ? internalList : undefined;
 
   const [clientRes, internalRes] = await Promise.all([
     resendSend(env, {
@@ -377,7 +417,7 @@ async function sendEmails(data, env, pdfBase64) {
       reply_to: internalEmail,
       subject: "Uw aankoopdossier bij Pugliaffari is ontvangen",
       html: clientEmailHtml(data, fullName, sections),
-      attachments,
+      attachments: clientAttachments,
     }),
     resendSend(env, {
       from: fromEmail,
@@ -385,7 +425,7 @@ async function sendEmails(data, env, pdfBase64) {
       reply_to: data.email || undefined,
       subject: `Nieuwe aankoop-lead: ${fullName || data.email}`,
       html: internalEmailHtml(data, fullName, sections),
-      attachments,
+      attachments: internalAttachments,
     }),
   ]);
 
@@ -438,7 +478,7 @@ function internalEmailHtml(d, fullName, sections) {
   <div style="font-family:Arial,sans-serif;padding:24px;color:#26261F;">
     <h2 style="color:#1D3528;margin:0 0 4px;">Nieuwe aankoop-lead: ${esc(fullName || d.email)}</h2>
     <p style="color:#75756B;font-size:13px;margin:0 0 8px;">${esc(d.email || "")}${d.phone ? " · " + esc(d.phone) : ""} · Voorkeur: ${esc(d.contactPreference || "—")}</p>
-    <p style="color:#75756B;font-size:13px;margin:0 0 12px;">Het volledige dossier zit ook als PDF in de bijlage.</p>
+    <p style="color:#75756B;font-size:13px;margin:0 0 12px;">In de bijlage zit het volledige dossier als PDF (Nederlands) én een Italiaanse vertaling (<em>-IT.pdf</em>) om door te sturen naar de makelaarpartners.</p>
     <div style="max-width:640px;">${sectionsTableHtml(sections)}</div>
   </div>`;
 }

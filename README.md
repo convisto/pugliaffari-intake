@@ -160,6 +160,7 @@ Functionaliteit:
 
 Bij afronden (in de `worker/`-backend):
 - Er wordt een **nette PDF** van het volledige dossier gegenereerd (pdf-lib, in Pugliaffari-huisstijl).
-- De **klant** krijgt een bevestigingsmail met het **volledige overzicht** én de PDF als bijlage.
-- Het **team** (`ciao@pugliaffari.com`) krijgt een lead-notificatie met hetzelfde overzicht + PDF.
+- De **klant** krijgt een bevestigingsmail met het **volledige overzicht** én de (Nederlandse) PDF als bijlage.
+- Het **team** (`ciao@pugliaffari.com`) krijgt een lead-notificatie met hetzelfde overzicht + **twee PDF's**:
+  het Nederlandse dossier én een **Italiaanse vertaling** (`…-IT.pdf`) om door te sturen naar makelaarpartners.
 - **Alle data** wordt naar Notion weggeschreven (vergeet de nieuwe `Opmerkingen`-kolom niet, zie stap 1).
