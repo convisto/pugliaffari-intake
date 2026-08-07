@@ -430,7 +430,7 @@ async function buildPdfFromPayload(p) {
 
 async function sendEmails(data, env, clientPdf, teamNlPdf, brokerItPdf) {
   const fromEmail = env.FROM_EMAIL || "Pugliaffari <onboarding@resend.dev>";
-  const internalEmail = env.INTERNAL_EMAIL || "ciao@pugliaffari.com";
+  const internalTo = (env.INTERNAL_EMAIL || "ciao@pugliaffari.com").split(",").map(function(s){ return s.trim(); }).filter(Boolean);
   const fullName = `${data.firstName} ${data.lastName}`.trim();
   const sections = buildSections(data); // Nederlands — voor de interne (team) e-mail
   const clientLang = (data.lang && CLIENT_MAIL[data.lang]) ? data.lang : "nl";
@@ -449,14 +449,14 @@ async function sendEmails(data, env, clientPdf, teamNlPdf, brokerItPdf) {
     resendSend(env, {
       from: fromEmail,
       to: data.email,
-      reply_to: internalEmail,
+      reply_to: internalTo,
       subject: (CLIENT_MAIL[clientLang] || CLIENT_MAIL.nl).subject,
       html: clientEmailHtml(data, fullName, clientSections, clientLang),
       attachments: clientAttachments,
     }),
     resendSend(env, {
       from: fromEmail,
-      to: internalEmail,
+      to: internalTo,
       reply_to: data.email || undefined,
       subject: `Nieuwe aankoop-lead: ${fullName || data.email}`,
       html: internalEmailHtml(data, fullName, sections),

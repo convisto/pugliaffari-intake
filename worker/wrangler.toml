@@ -5,7 +5,8 @@ compatibility_date = "2024-11-01"
 # Niet-geheime variabelen (al ingevuld):
 [vars]
 ALLOWED_ORIGIN = "*"
-INTERNAL_EMAIL = "ciao@pugliaffari.com"
+# Interne ontvangers (komma-gescheiden = meerdere ontvangers):
+INTERNAL_EMAIL = "gianluca@pugliaffari.com, giuliano@pugliaffari.com"
 NOTION_DATABASE_ID = "729f5e4c70a54fd980f1015752a766ec"
 # FROM_EMAIL: verstuurd vanaf het (gratis) geverifieerde convisto.be-domein,
 # met "Pugliaffari" als weergavenaam. Antwoorden gaan via reply-to naar ciao@pugliaffari.com.
