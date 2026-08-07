@@ -163,7 +163,7 @@ Functionaliteit:
   - het **team** krijgt het dossier in het **Nederlands** (met contactgegevens);
   - het **team** krijgt óók een **Italiaanse versie zónder naam/contactgegevens** (`Ricerca-immobiliare-IT.pdf`)
     om door te sturen naar de makelaarpartners.
-  De klant-bevestigingsmail-tekst zelf is momenteel nog Nederlands (de bijgevoegde PDF is wél in de klanttaal).
+  De **klant-bevestigingsmail** (onderwerp, begroeting, tekst én het overzicht) is óók in de taal van de klant.
 
 Bij afronden (in de `worker/`-backend):
 - Er wordt een **nette PDF** van het volledige dossier gegenereerd (pdf-lib, in Pugliaffari-huisstijl).

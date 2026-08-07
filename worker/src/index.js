@@ -432,7 +432,10 @@ async function sendEmails(data, env, clientPdf, teamNlPdf, brokerItPdf) {
   const fromEmail = env.FROM_EMAIL || "Pugliaffari <onboarding@resend.dev>";
   const internalEmail = env.INTERNAL_EMAIL || "ciao@pugliaffari.com";
   const fullName = `${data.firstName} ${data.lastName}`.trim();
-  const sections = buildSections(data); // Nederlands voor de e-mailtekst
+  const sections = buildSections(data); // Nederlands — voor de interne (team) e-mail
+  const clientLang = (data.lang && CLIENT_MAIL[data.lang]) ? data.lang : "nl";
+  // Klant-e-mail in eigen taal: gebruik de reeds vertaalde secties uit de payload (fallback NL)
+  const clientSections = (data.pdf && Array.isArray(data.pdf.sections) && data.pdf.sections.length) ? data.pdf.sections : sections;
 
   const safeName = (fullName || "Pugliaffari").replace(/[^\w\- ]/g, "").trim().replace(/\s+/g, "-");
   // Klant: dossier in eigen taal. Team: NL-dossier + geanonimiseerde IT-versie voor de makelaars.
@@ -447,8 +450,8 @@ async function sendEmails(data, env, clientPdf, teamNlPdf, brokerItPdf) {
       from: fromEmail,
       to: data.email,
       reply_to: internalEmail,
-      subject: "Uw aankoopdossier bij Pugliaffari is ontvangen",
-      html: clientEmailHtml(data, fullName, sections),
+      subject: (CLIENT_MAIL[clientLang] || CLIENT_MAIL.nl).subject,
+      html: clientEmailHtml(data, fullName, clientSections, clientLang),
       attachments: clientAttachments,
     }),
     resendSend(env, {
@@ -488,20 +491,45 @@ function sectionsTableHtml(sections) {
   }).join("");
 }
 
-function clientEmailHtml(d, fullName, sections) {
-  const name = fullName || "toekomstige eigenaar";
+/* Meertalige teksten voor de klant-bevestigingsmail. {name} wordt vervangen. */
+const CLIENT_MAIL = {
+  nl: { subject:"Uw aankoopdossier bij Pugliaffari is ontvangen", greeting:"Beste {name},", fallbackName:"toekomstige eigenaar",
+    p1:"Bedankt voor het invullen van je aankoopdossier bij <strong>Pugliaffari</strong>. We hebben je wensen goed ontvangen. Ons team neemt je dossier nu in behandeling en neemt <strong>binnen 48 uur</strong> persoonlijk contact met je op met een eerste selectie van panden die aansluiten bij je wensen.",
+    p2:"Ter bevestiging vind je hieronder én in de bijgevoegde PDF een overzicht van wat je hebt doorgegeven:",
+    p3:"Klopt er iets niet of wil je nog iets toevoegen? Antwoord gerust op deze e-mail of schrijf naar", signoff:"A presto,", team:"Team Pugliaffari", footer:"Pugliaffari — Property management & investments · Puglia, Italië" },
+  it: { subject:"Il tuo dossier d'acquisto presso Pugliaffari è stato ricevuto", greeting:"Gentile {name},", fallbackName:"futuro proprietario",
+    p1:"Grazie per aver compilato il tuo dossier d'acquisto presso <strong>Pugliaffari</strong>. Abbiamo ricevuto correttamente le tue preferenze. Il nostro team prende ora in carico il tuo dossier e ti contatterà personalmente <strong>entro 48 ore</strong> con una prima selezione di immobili in linea con i tuoi desideri.",
+    p2:"Per conferma trovi qui sotto e nel PDF allegato una panoramica di quanto hai indicato:",
+    p3:"C'è qualcosa che non va o vuoi aggiungere qualcosa? Rispondi pure a questa e-mail o scrivi a", signoff:"A presto,", team:"Il team di Pugliaffari", footer:"Pugliaffari — Property management & investments · Puglia, Italia" },
+  en: { subject:"Your purchase file at Pugliaffari has been received", greeting:"Dear {name},", fallbackName:"future owner",
+    p1:"Thank you for completing your purchase file at <strong>Pugliaffari</strong>. We've received your wishes. Our team is now reviewing your file and will personally contact you <strong>within 48 hours</strong> with a first selection of properties that match your wishes.",
+    p2:"For your confirmation, you'll find an overview of what you provided below and in the attached PDF:",
+    p3:"Is something not right, or would you like to add anything? Feel free to reply to this email or write to", signoff:"A presto,", team:"The Pugliaffari team", footer:"Pugliaffari — Property management & investments · Puglia, Italy" },
+  de: { subject:"Ihr Kaufdossier bei Pugliaffari ist eingegangen", greeting:"Hallo {name},", fallbackName:"zukünftiger Eigentümer",
+    p1:"Vielen Dank für das Ausfüllen deines Kaufdossiers bei <strong>Pugliaffari</strong>. Wir haben deine Wünsche gut erhalten. Unser Team bearbeitet dein Dossier nun und meldet sich <strong>innerhalb von 48 Stunden</strong> persönlich bei dir mit einer ersten Auswahl an Immobilien, die zu deinen Wünschen passen.",
+    p2:"Zur Bestätigung findest du unten und im beigefügten PDF eine Übersicht deiner Angaben:",
+    p3:"Stimmt etwas nicht oder möchtest du etwas ergänzen? Antworte gerne auf diese E-Mail oder schreib an", signoff:"A presto,", team:"Dein Pugliaffari-Team", footer:"Pugliaffari — Property management & investments · Apulien, Italien" },
+  fr: { subject:"Votre dossier d'achat chez Pugliaffari a bien été reçu", greeting:"Bonjour {name},", fallbackName:"futur propriétaire",
+    p1:"Merci d'avoir complété votre dossier d'achat chez <strong>Pugliaffari</strong>. Nous avons bien reçu vos souhaits. Notre équipe traite maintenant votre dossier et vous contactera personnellement <strong>sous 48 heures</strong> avec une première sélection de biens correspondant à vos souhaits.",
+    p2:"Pour confirmation, vous trouverez ci-dessous et dans le PDF joint un récapitulatif de vos indications :",
+    p3:"Quelque chose ne va pas ou souhaitez-vous ajouter quelque chose ? Répondez à cet e-mail ou écrivez à", signoff:"A presto,", team:"L'équipe Pugliaffari", footer:"Pugliaffari — Property management & investments · Pouilles, Italie" },
+};
+
+function clientEmailHtml(d, fullName, sections, lang) {
+  const c = CLIENT_MAIL[lang] || CLIENT_MAIL.nl;
+  const name = fullName || c.fallbackName;
   return `
   <div style="font-family:Georgia,serif;background:#FBF8F2;padding:32px;color:#26261F;">
     <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:14px;padding:36px;border:1px solid #E6E0D2;">
       <div style="text-align:center;margin-bottom:6px;font-family:Arial,sans-serif;letter-spacing:0.18em;font-size:12px;color:#8A6A24;">PUGLIAFFARI</div>
-      <h2 style="color:#1D3528;margin:0 0 14px;text-align:center;">Beste ${esc(name)},</h2>
-      <p style="line-height:1.6;">Bedankt voor het invullen van je aankoopdossier bij <strong>Pugliaffari</strong>. We hebben je wensen goed ontvangen. Ons team neemt je dossier nu in behandeling en neemt <strong>binnen 48 uur</strong> persoonlijk contact met je op met een eerste selectie van panden die aansluiten bij je wensen.</p>
-      <p style="line-height:1.6;">Ter bevestiging vind je hieronder én in de bijgevoegde PDF een overzicht van wat je hebt doorgegeven:</p>
+      <h2 style="color:#1D3528;margin:0 0 14px;text-align:center;">${esc(c.greeting.replace("{name}", name))}</h2>
+      <p style="line-height:1.6;">${c.p1}</p>
+      <p style="line-height:1.6;">${esc(c.p2)}</p>
       ${sectionsTableHtml(sections)}
-      <p style="margin-top:26px;line-height:1.6;">Klopt er iets niet of wil je nog iets toevoegen? Antwoord gerust op deze e-mail of schrijf naar <a href="mailto:ciao@pugliaffari.com" style="color:#8A6A24;">ciao@pugliaffari.com</a>.</p>
-      <p style="margin-top:22px;">A presto,<br><strong style="color:#1D3528;">Team Pugliaffari</strong></p>
+      <p style="margin-top:26px;line-height:1.6;">${esc(c.p3)} <a href="mailto:ciao@pugliaffari.com" style="color:#8A6A24;">ciao@pugliaffari.com</a>.</p>
+      <p style="margin-top:22px;">${esc(c.signoff)}<br><strong style="color:#1D3528;">${esc(c.team)}</strong></p>
     </div>
-    <div style="text-align:center;color:#9A998C;font-size:11px;margin-top:16px;font-family:Arial,sans-serif;">Pugliaffari — Property management &amp; investments · Puglia, Italië</div>
+    <div style="text-align:center;color:#9A998C;font-size:11px;margin-top:16px;font-family:Arial,sans-serif;">${esc(c.footer)}</div>
   </div>`;
 }
 
