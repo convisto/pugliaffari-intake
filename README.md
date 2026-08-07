@@ -154,9 +154,16 @@ Functionaliteit:
 - **Interactieve kaart van Puglia** bij de regiostap: gebieden lichten op de kaart op wanneer je ze
   aanvinkt (en omgekeerd), klikbaar en toetsenbord-toegankelijk.
 - Vrij **"Opmerkingen"-veld** op de laatste stap.
-- **Drietalig** (Nederlands / Italiaans / Engels) via een taalkiezer in de header. Alleen de weergegeven
-  tekst vertaalt; de antwoordwaarden die naar Notion/e-mail gaan blijven canoniek Nederlands. De
-  taalkeuze wordt onthouden. (De backend-e-mails en PDF zijn voorlopig Nederlands — kan later meertalig.)
+- **Vijftalig** (Nederlands / Italiaans / Engels / Duits / Frans). De bezoeker kiest de taal op een
+  **taalkeuze-startscherm** (met vlaggen) vóór de vragenlijst begint. Alleen de weergegeven tekst
+  vertaalt; de antwoordwaarden die naar Notion/e-mail gaan blijven canoniek Nederlands.
+- **PDF's per ontvanger** bij afronden:
+  - de **klant** krijgt het dossier in **zijn/haar eigen taal** (de front-end stuurt de vertaalde
+    inhoud mee; de Worker rendert die);
+  - het **team** krijgt het dossier in het **Nederlands** (met contactgegevens);
+  - het **team** krijgt óók een **Italiaanse versie zónder naam/contactgegevens** (`Ricerca-immobiliare-IT.pdf`)
+    om door te sturen naar de makelaarpartners.
+  De klant-bevestigingsmail-tekst zelf is momenteel nog Nederlands (de bijgevoegde PDF is wél in de klanttaal).
 
 Bij afronden (in de `worker/`-backend):
 - Er wordt een **nette PDF** van het volledige dossier gegenereerd (pdf-lib, in Pugliaffari-huisstijl).

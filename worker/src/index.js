@@ -57,15 +57,22 @@ export default {
       results.notion = { error: String(err) };
     }
 
-    // 2. PDF's — Nederlands (klant + team) en Italiaans (team, om door te sturen naar makelaars).
-    //    Mogen falen zonder de submission te blokkeren.
-    let pdfNl = null, pdfIt = null;
-    try { pdfNl = bytesToBase64(await buildPdf(data, "nl")); } catch (err) { results.pdf = { error: String(err) }; }
-    try { pdfIt = bytesToBase64(await buildPdf(data, "it")); } catch (err) { results.pdfIt = { error: String(err) }; }
+    // 2. PDF's (mogen falen zonder de submission te blokkeren):
+    //    - klant: in de taal van de klant (uit de meegestuurde payload; fallback NL)
+    //    - team:  Nederlands (met contactgegevens)
+    //    - makelaar: Italiaans, GEANONIMISEERD (zonder naam/e-mail/telefoon)
+    let clientPdf = null, teamNlPdf = null, brokerItPdf = null;
+    try {
+      clientPdf = (data.pdf && Array.isArray(data.pdf.sections) && data.pdf.sections.length)
+        ? bytesToBase64(await buildPdfFromPayload(data.pdf))
+        : bytesToBase64(await buildPdf(data, "nl"));
+    } catch (err) { results.pdfClient = { error: String(err) }; }
+    try { teamNlPdf = bytesToBase64(await buildPdf(data, "nl")); } catch (err) { results.pdf = { error: String(err) }; }
+    try { brokerItPdf = bytesToBase64(await buildPdf(data, "it", { anonymize: true })); } catch (err) { results.pdfIt = { error: String(err) }; }
 
     // 3 + 4. E-mails
     try {
-      results.email = await sendEmails(data, env, pdfNl, pdfIt);
+      results.email = await sendEmails(data, env, clientPdf, teamNlPdf, brokerItPdf);
     } catch (err) {
       results.email = { error: String(err) };
     }
@@ -155,8 +162,9 @@ function itT(s){ if(s==null) return s; return WT_IT[s]!=null ? WT_IT[s] : s; }
  * de klant-mail en de interne mail. Met `tr` (vertaalfunctie) worden
  * sectietitels, labels en canonieke antwoordwaarden vertaald; vrije tekst blijft.
  */
-function buildSections(d, tr) {
+function buildSections(d, tr, opts) {
   tr = tr || function(s){ return s; };
+  opts = opts || {};
   const A = function(arr){ return (Array.isArray(arr) ? arr : (arr ? [arr] : [])).map(function(v){ return tr(v); }); };
   const R = function(label, value){ return [tr(label), value]; };
   const fullName = `${d.firstName || ""} ${d.lastName || ""}`.trim();
@@ -165,12 +173,13 @@ function buildSections(d, tr) {
   const avoid = A(d.avoid).concat(d.avoidOther ? [d.avoidOther] : []);
   const seen = tr(val(d.seenHomes)) + (d.seenHomesLinks ? " — " + d.seenHomesLinks : "");
   return [
-    { title: tr("Contact"), rows: [
+    { title: tr("Contact"), rows: (opts.anonymize ? [] : [
       R("Naam", fullName), R("E-mail", d.email), R("Telefoon", d.phone),
+    ]).concat([
       R("Voorkeurscontact", tr(d.contactPreference)),
       R("Eerder in Puglia geweest", tr(d.visitedBefore ? "Ja" : "Nee")),
       R("Hoe gehoord van Pugliaffari", tr(d.source)),
-    ]},
+    ]) },
     { title: tr("Jouw zoektocht"), rows: [
       R("Doel aankoop", tr(d.purpose)), R("Belangrijkste reden", reason),
       R("Fase aankoopproces", tr(d.processStage)), R("Tijdslijn aankoop", tr(d.timeline)),
@@ -313,9 +322,9 @@ function wrapText(text, font, size, maxW) {
   return out.length ? out : [""];
 }
 
-async function buildPdf(d, langCode) {
-  const tr = (langCode === "it") ? itT : function(s){ return s; };
-  const sections = buildSections(d, tr);
+async function renderPdf(model) {
+  const title = model.title, heading = model.heading, receivedLine = model.receivedLine, footer = model.footer;
+  const sections = Array.isArray(model.sections) ? model.sections : [];
   const pdf = await PDFDocument.create();
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
@@ -339,8 +348,8 @@ async function buildPdf(d, langCode) {
     page.drawRectangle({ x: 0, y: H - 96, width: W, height: 96, color: GREEN });
     page.drawText("PUGLIAFFARI", { x: M, y: H - 50, font: bold, size: 20, color: rgb(1, 1, 1) });
     page.drawText("PROPERTY MANAGEMENT & INVESTMENTS", { x: M, y: H - 66, font, size: 8, color: GOLD });
-    const title = pdfSafe(tr("Aankoopdossier"));
-    page.drawText(title, { x: W - M - bold.widthOfTextAtSize(title, 16), y: H - 52, font: bold, size: 16, color: GOLD });
+    const ttl = pdfSafe(title || "Aankoopdossier");
+    page.drawText(ttl, { x: W - M - bold.widthOfTextAtSize(ttl, 16), y: H - 52, font: bold, size: 16, color: GOLD });
     y = H - 96 - 34;
   }
   function ensure(space) {
@@ -349,13 +358,9 @@ async function buildPdf(d, langCode) {
 
   header();
 
-  // Klant + datum
-  const fullName = `${d.firstName || ""} ${d.lastName || ""}`.trim() || "—";
-  const dateStr = new Date().toLocaleDateString(langCode === "it" ? "it-IT" : "nl-BE", { day: "2-digit", month: "long", year: "numeric" });
-  page.drawText(pdfSafe(fullName), { x: M, y, font: bold, size: 15, color: INK });
-  y -= 16;
-  page.drawText(pdfSafe(tr("Aankoopdossier ontvangen op") + " " + dateStr), { x: M, y, font, size: 9.5, color: MUTED });
-  y -= 22;
+  // Kop (naam of leeg bij anonieme makelaar-PDF) + datumregel
+  if (heading) { page.drawText(pdfSafe(heading), { x: M, y, font: bold, size: 15, color: INK }); y -= 16; }
+  if (receivedLine) { page.drawText(pdfSafe(receivedLine), { x: M, y, font, size: 9.5, color: MUTED }); y -= 22; } else { y -= 6; }
 
   const size = 9.5, lh = 13;
   for (const sec of sections) {
@@ -383,7 +388,7 @@ async function buildPdf(d, langCode) {
   // Footer op elke pagina
   const pages = pdf.getPages();
   pages.forEach((p, i) => {
-    p.drawText(pdfSafe(tr("Pugliaffari — Property management & investments · Puglia, Italië")),
+    p.drawText(pdfSafe(footer || "Pugliaffari — Property management & investments · Puglia, Italië"),
       { x: M, y: 30, font: italic, size: 8, color: MUTED });
     const pg = `${i + 1} / ${pages.length}`;
     p.drawText(pg, { x: W - M - font.widthOfTextAtSize(pg, 8), y: 30, font, size: 8, color: MUTED });
@@ -392,22 +397,49 @@ async function buildPdf(d, langCode) {
   return await pdf.save();
 }
 
+// Bouwt een PDF vanuit de ruwe data in een bepaalde taal (nl of it). opts.anonymize verbergt naam/contact.
+async function buildPdf(d, langCode, opts) {
+  opts = opts || {};
+  const tr = (langCode === "it") ? itT : function (s) { return s; };
+  const sections = buildSections(d, tr, opts);
+  const dateStr = new Date().toLocaleDateString(langCode === "it" ? "it-IT" : "nl-BE", { day: "2-digit", month: "long", year: "numeric" });
+  const heading = opts.anonymize ? "" : (`${d.firstName || ""} ${d.lastName || ""}`.trim() || "—");
+  return renderPdf({
+    title: tr("Aankoopdossier"),
+    heading,
+    receivedLine: tr("Aankoopdossier ontvangen op") + " " + dateStr,
+    footer: tr("Pugliaffari — Property management & investments · Puglia, Italië"),
+    sections,
+  });
+}
+
+// Bouwt de klant-PDF vanuit de door de front-end meegestuurde, reeds vertaalde inhoud.
+async function buildPdfFromPayload(p) {
+  return renderPdf({
+    title: p.title || "Aankoopdossier",
+    heading: p.heading || "",
+    receivedLine: p.receivedLine || "",
+    footer: p.footer || "",
+    sections: Array.isArray(p.sections) ? p.sections : [],
+  });
+}
+
 /* ------------------------------------------------------------------ */
 /* Email (Resend)                                                      */
 /* ------------------------------------------------------------------ */
 
-async function sendEmails(data, env, pdfNl, pdfIt) {
+async function sendEmails(data, env, clientPdf, teamNlPdf, brokerItPdf) {
   const fromEmail = env.FROM_EMAIL || "Pugliaffari <onboarding@resend.dev>";
   const internalEmail = env.INTERNAL_EMAIL || "ciao@pugliaffari.com";
   const fullName = `${data.firstName} ${data.lastName}`.trim();
   const sections = buildSections(data); // Nederlands voor de e-mailtekst
 
   const safeName = (fullName || "Pugliaffari").replace(/[^\w\- ]/g, "").trim().replace(/\s+/g, "-");
-  const nlAtt = pdfNl ? { filename: `Aankoopdossier-${safeName}.pdf`, content: pdfNl } : null;
-  const itAtt = pdfIt ? { filename: `Dossier-${safeName}-IT.pdf`, content: pdfIt } : null;
-  // Klant: enkel het Nederlandse dossier. Team: NL + IT (IT om door te sturen naar makelaarpartners).
-  const clientAttachments = nlAtt ? [nlAtt] : undefined;
-  const internalList = [nlAtt, itAtt].filter(Boolean);
+  // Klant: dossier in eigen taal. Team: NL-dossier + geanonimiseerde IT-versie voor de makelaars.
+  const clientAttachments = clientPdf ? [{ filename: `Aankoopdossier-${safeName}.pdf`, content: clientPdf }] : undefined;
+  const teamNlAtt = teamNlPdf ? { filename: `Aankoopdossier-${safeName}-NL.pdf`, content: teamNlPdf } : null;
+  const brokerAtt = brokerItPdf ? { filename: `Ricerca-immobiliare-IT.pdf`, content: brokerItPdf } : null;
+  const internalList = [teamNlAtt, brokerAtt].filter(Boolean);
   const internalAttachments = internalList.length ? internalList : undefined;
 
   const [clientRes, internalRes] = await Promise.all([
@@ -478,7 +510,7 @@ function internalEmailHtml(d, fullName, sections) {
   <div style="font-family:Arial,sans-serif;padding:24px;color:#26261F;">
     <h2 style="color:#1D3528;margin:0 0 4px;">Nieuwe aankoop-lead: ${esc(fullName || d.email)}</h2>
     <p style="color:#75756B;font-size:13px;margin:0 0 8px;">${esc(d.email || "")}${d.phone ? " · " + esc(d.phone) : ""} · Voorkeur: ${esc(d.contactPreference || "—")}</p>
-    <p style="color:#75756B;font-size:13px;margin:0 0 12px;">In de bijlage zit het volledige dossier als PDF (Nederlands) én een Italiaanse vertaling (<em>-IT.pdf</em>) om door te sturen naar de makelaarpartners.</p>
+    <p style="color:#75756B;font-size:13px;margin:0 0 12px;">In de bijlage: het volledige dossier (Nederlands) én een Italiaanse versie <strong>zonder naam en contactgegevens</strong> (<em>Ricerca-immobiliare-IT.pdf</em>) om door te sturen naar de makelaarpartners.</p>
     <div style="max-width:640px;">${sectionsTableHtml(sections)}</div>
   </div>`;
 }

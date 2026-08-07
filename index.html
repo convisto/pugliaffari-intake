@@ -390,17 +390,24 @@
   .amount-prefix{position:absolute;left:16px;font-size:1.05rem;color:var(--text-light);pointer-events:none;font-weight:400;}
   .amount-wrap input{padding-left:34px;font-variant-numeric:tabular-nums;}
 
-  /* Language switcher */
-  .lang-switch{display:inline-flex;gap:2px;background:var(--cream-deep);border:1px solid var(--border);border-radius:100px;padding:3px;}
-  .lang-btn{
-    font-family:'Jost',sans-serif;font-weight:500;font-size:0.72rem;letter-spacing:0.06em;
-    border:none;background:transparent;color:var(--text-light);cursor:pointer;
-    padding:5px 11px;border-radius:100px;transition:all .18s var(--ease);
+  /* Language gate (first screen) */
+  .langgate{text-align:center;padding:26px 8px 20px;}
+  .langgate-globe{color:var(--gold-text);margin:0 auto 16px;display:block;}
+  .langgate-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;color:var(--green);line-height:1.5;max-width:40ch;margin:0 auto 26px;}
+  .intro-back{font-size:1.2rem;padding:15px 16px;}
+  .langgate-grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:470px;margin:0 auto;}
+  .langgate-btn{
+    flex:0 0 150px;width:150px;box-sizing:border-box;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:'Jost',sans-serif;font-weight:500;font-size:1rem;
+    padding:15px 14px;border-radius:14px;border:1.5px solid var(--border);background:var(--cream);
+    color:var(--green);cursor:pointer;transition:all .18s var(--ease);
   }
-  .lang-btn:hover{color:var(--green);}
-  .lang-btn.active{background:var(--green);color:#fff;}
-  .lang-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
-  @media (max-width:640px){ .lang-btn{padding:5px 9px;font-size:0.68rem;} }
+  .langgate-btn .flag{font-size:1.25em;line-height:1;}
+  .langgate-btn:hover{border-color:var(--green);background:var(--green-pale);transform:translateY(-2px);}
+  .langgate-btn.active{border-color:var(--green);background:var(--green-pale);}
+  .langgate-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+  @media (max-width:400px){ .langgate-btn{flex:0 0 100%;width:100%;} }
 
   /* Live region for validation announcements */
   .sr-status{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
@@ -470,11 +477,6 @@
         <span class="brand-sub">Property management &amp; investments</span>
       </span>
     </div>
-    <div class="lang-switch" id="langSwitch" role="group" aria-label="Taal / Lingua / Language">
-      <button type="button" class="lang-btn" data-lang="nl" lang="nl">NL</button>
-      <button type="button" class="lang-btn" data-lang="it" lang="it">IT</button>
-      <button type="button" class="lang-btn" data-lang="en" lang="en">EN</button>
-    </div>
   </div>
   <div class="chapter-progress" id="chapterProgress" style="display:none;">
     <div class="chapter-track" id="chapterTrack"></div>
@@ -495,8 +497,23 @@
       </div>
       <div class="sr-status" role="status" aria-live="polite" id="srStatus"></div>
 
+      <!-- LANGUAGE GATE -->
+      <section class="step active" id="langgate">
+        <div class="langgate">
+          <svg class="langgate-globe" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>
+          <p class="langgate-title">Kies je taal · Choose your language · Scegli la lingua · Wähle deine Sprache · Choisissez votre langue</p>
+          <div class="langgate-grid" id="langChoice">
+            <button type="button" class="langgate-btn" data-lang="nl" lang="nl"><span class="flag">🇳🇱</span> Nederlands</button>
+            <button type="button" class="langgate-btn" data-lang="it" lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+            <button type="button" class="langgate-btn" data-lang="en" lang="en"><span class="flag">🇬🇧</span> English</button>
+            <button type="button" class="langgate-btn" data-lang="de" lang="de"><span class="flag">🇩🇪</span> Deutsch</button>
+            <button type="button" class="langgate-btn" data-lang="fr" lang="fr"><span class="flag">🇫🇷</span> Français</button>
+          </div>
+        </div>
+      </section>
+
       <!-- INTRO -->
-      <section class="step active" id="intro">
+      <section class="step" id="intro">
         <span class="eyebrow">Persoonlijke aankoopbegeleiding</span>
         <h1>Laat je betoveren door<br>de magie van <em>Puglia</em></h1>
         <svg class="ornament intro-ornament" aria-hidden="true" focusable="false"><use href="#pa-ornament"/></svg>
@@ -507,6 +524,7 @@
           <div class="meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Reactie binnen 48 uur</div>
         </div>
         <div class="nav-row">
+          <button type="button" class="btn btn-ghost intro-back" onclick="goTo('langgate')" aria-label="Terug / Back">←</button>
           <span class="spacer"></span>
           <button type="button" class="btn btn-primary" onclick="goTo('c1-details')">Start
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -1065,7 +1083,8 @@ const PA_TR = {
     "Start":"Inizia","Volgende":"Avanti","Vorige":"Indietro","Verder":"Continua","Dossier versturen":"Invia la pratica","Terug naar overzicht":"Torna al riepilogo","Naar overzicht":"Al riepilogo","Hoofdstuk":"Capitolo","van":"di","Even op adem komen":"Un momento di pausa","Wijzig":"Modifica","Niet ingevuld":"Non compilato","Je dossier wordt verstuurd...":"Invio della pratica in corso...",
     "Er ging iets mis bij het versturen. Controleer je internetverbinding en probeer opnieuw. Blijft dit gebeuren? Mail ons gerust rechtstreeks op ciao@pugliaffari.com.":"Qualcosa è andato storto durante l'invio. Controlla la connessione e riprova. Continua a succedere? Scrivici pure direttamente a ciao@pugliaffari.com.",
     "Enkele antwoorden ontbreken nog. Controleer de gemarkeerde velden.":"Mancano ancora alcune risposte. Controlla i campi evidenziati.","Vink de toestemming aan om te kunnen versturen.":"Seleziona il consenso per poter inviare.",
-    "Naam":"Nome","Telefoon":"Telefono","Voorkeurscontact":"Contatto preferito","Eerder in Puglia geweest":"Già stato in Puglia","Hoe gehoord":"Come ci hai conosciuto","Doel aankoop":"Scopo dell'acquisto","Belangrijkste reden":"Motivo principale","Fase proces":"Fase del processo","Tijdslijn":"Tempistica","Bezichtigingsreis":"Viaggio per le visite","Incl. aankoopkosten":"Spese d'acquisto incluse","Financiering":"Finanziamento","Regio":"Zona","Bekende plaatsen":"Località conosciute","Afstand zee/vliegveld":"Distanza mare/aeroporto","Type pand":"Tipo di immobile","Perceel":"Terreno","Voorzieningen":"Comfort","Staat pand":"Condizioni immobile","Renovatiebegeleiding":"Assistenza ristrutturazione","Te vermijden":"Da evitare","Wie gebruikt de woning":"Chi usa la casa","Reist met":"Viaggia con","Slaapkamers":"Camere da letto","Verhuurbeheer":"Gestione affitti","Belang rendement":"Importanza del rendimento","Al woningen gezien":"Immobili già visti","Droombeschrijving":"Descrizione del sogno","Opmerkingen":"Osservazioni"
+    "Naam":"Nome","Telefoon":"Telefono","Voorkeurscontact":"Contatto preferito","Eerder in Puglia geweest":"Già stato in Puglia","Hoe gehoord":"Come ci hai conosciuto","Doel aankoop":"Scopo dell'acquisto","Belangrijkste reden":"Motivo principale","Fase proces":"Fase del processo","Tijdslijn":"Tempistica","Bezichtigingsreis":"Viaggio per le visite","Incl. aankoopkosten":"Spese d'acquisto incluse","Financiering":"Finanziamento","Regio":"Zona","Bekende plaatsen":"Località conosciute","Afstand zee/vliegveld":"Distanza mare/aeroporto","Type pand":"Tipo di immobile","Perceel":"Terreno","Voorzieningen":"Comfort","Staat pand":"Condizioni immobile","Renovatiebegeleiding":"Assistenza ristrutturazione","Te vermijden":"Da evitare","Wie gebruikt de woning":"Chi usa la casa","Reist met":"Viaggia con","Slaapkamers":"Camere da letto","Verhuurbeheer":"Gestione affitti","Belang rendement":"Importanza del rendimento","Al woningen gezien":"Immobili già visti","Droombeschrijving":"Descrizione del sogno","Opmerkingen":"Osservazioni",
+    "Aankoopdossier":"Dossier d'acquisto","Aankoopdossier ontvangen op":"Dossier d'acquisto ricevuto il","Pugliaffari — Property management & investments · Puglia, Italië":"Pugliaffari — Property management & investments · Puglia, Italia","Kies je taal om te beginnen":"Scegli la lingua per iniziare"
   },
   en: {
     "We hebben je eerdere antwoorden bewaard. Wil je verdergaan waar je gebleven was?":"We saved your previous answers. Would you like to continue where you left off?",
@@ -1118,7 +1137,116 @@ const PA_TR = {
     "Start":"Start","Volgende":"Next","Vorige":"Back","Verder":"Continue","Dossier versturen":"Submit file","Terug naar overzicht":"Back to summary","Naar overzicht":"To summary","Hoofdstuk":"Chapter","van":"of","Even op adem komen":"A moment to pause","Wijzig":"Edit","Niet ingevuld":"Not provided","Je dossier wordt verstuurd...":"Submitting your file...",
     "Er ging iets mis bij het versturen. Controleer je internetverbinding en probeer opnieuw. Blijft dit gebeuren? Mail ons gerust rechtstreeks op ciao@pugliaffari.com.":"Something went wrong while submitting. Please check your internet connection and try again. Keeps happening? Feel free to email us directly at ciao@pugliaffari.com.",
     "Enkele antwoorden ontbreken nog. Controleer de gemarkeerde velden.":"Some answers are still missing. Please check the highlighted fields.","Vink de toestemming aan om te kunnen versturen.":"Please tick the consent box to submit.",
-    "Naam":"Name","Telefoon":"Phone","Voorkeurscontact":"Preferred contact","Eerder in Puglia geweest":"Been to Puglia before","Hoe gehoord":"How you heard","Doel aankoop":"Purchase purpose","Belangrijkste reden":"Main reason","Fase proces":"Process stage","Tijdslijn":"Timeline","Bezichtigingsreis":"Viewing trip","Incl. aankoopkosten":"Incl. purchase costs","Financiering":"Financing","Regio":"Region","Bekende plaatsen":"Familiar places","Afstand zee/vliegveld":"Distance sea/airport","Type pand":"Property type","Perceel":"Plot","Voorzieningen":"Features","Staat pand":"Property condition","Renovatiebegeleiding":"Renovation guidance","Te vermijden":"To avoid","Wie gebruikt de woning":"Who uses the property","Reist met":"Travels with","Slaapkamers":"Bedrooms","Verhuurbeheer":"Rental management","Belang rendement":"Yield importance","Al woningen gezien":"Properties already seen","Droombeschrijving":"Dream description","Opmerkingen":"Comments"
+    "Naam":"Name","Telefoon":"Phone","Voorkeurscontact":"Preferred contact","Eerder in Puglia geweest":"Been to Puglia before","Hoe gehoord":"How you heard","Doel aankoop":"Purchase purpose","Belangrijkste reden":"Main reason","Fase proces":"Process stage","Tijdslijn":"Timeline","Bezichtigingsreis":"Viewing trip","Incl. aankoopkosten":"Incl. purchase costs","Financiering":"Financing","Regio":"Region","Bekende plaatsen":"Familiar places","Afstand zee/vliegveld":"Distance sea/airport","Type pand":"Property type","Perceel":"Plot","Voorzieningen":"Features","Staat pand":"Property condition","Renovatiebegeleiding":"Renovation guidance","Te vermijden":"To avoid","Wie gebruikt de woning":"Who uses the property","Reist met":"Travels with","Slaapkamers":"Bedrooms","Verhuurbeheer":"Rental management","Belang rendement":"Yield importance","Al woningen gezien":"Properties already seen","Droombeschrijving":"Dream description","Opmerkingen":"Comments",
+    "Aankoopdossier":"Purchase file","Aankoopdossier ontvangen op":"Purchase file received on","Pugliaffari — Property management & investments · Puglia, Italië":"Pugliaffari — Property management & investments · Puglia, Italy","Kies je taal om te beginnen":"Choose your language to begin"
+  },
+  de: {
+    "We hebben je eerdere antwoorden bewaard. Wil je verdergaan waar je gebleven was?":"Wir haben deine vorherigen Antworten gespeichert. Möchtest du dort weitermachen, wo du aufgehört hast?",
+    "Verdergaan":"Weiter","Opnieuw beginnen":"Neu beginnen","Persoonlijke aankoopbegeleiding":"Persönliche Kaufbegleitung",
+    "Laat je betoveren door<br>de magie van <em>Puglia</em>":"Lass dich verzaubern<br>vom Zauber <em>Apuliens</em>",
+    "Iedere zoektocht is anders. Daarom willen we eerst begrijpen hoe jíj wilt leven in Puglia, voordat we woningen voor je gaan zoeken. Vertel ons je verhaal — wij doen de rest.":"Jede Suche ist anders. Deshalb möchten wir zuerst verstehen, wie du in Apulien leben möchtest, bevor wir Immobilien für dich suchen. Erzähl uns deine Geschichte — den Rest übernehmen wir.",
+    "Ongeveer 6-8 minuten":"Etwa 6-8 Minuten","Vertrouwelijk behandeld":"Vertraulich behandelt","Reactie binnen 48 uur":"Antwort innerhalb von 48 Stunden",
+    "Hoe kunnen we je bereiken?":"Wie können wir dich erreichen?","We gebruiken deze gegevens uitsluitend om je dossier op te volgen.":"Wir verwenden diese Daten ausschließlich zur Bearbeitung deiner Anfrage.",
+    "Voornaam *":"Vorname *","Vul je voornaam in.":"Bitte gib deinen Vornamen ein.","Achternaam *":"Nachname *","Vul je achternaam in.":"Bitte gib deinen Nachnamen ein.",
+    "E-mailadres *":"E-Mail-Adresse *","Vul een geldig e-mailadres in.":"Bitte gib eine gültige E-Mail-Adresse ein.","Telefoonnummer *":"Telefonnummer *","Vul je telefoonnummer in.":"Bitte gib deine Telefonnummer ein.",
+    "Nog twee korte dingen":"Noch zwei kurze Fragen","Hoe neem je het liefst contact op? *":"Wie möchtest du am liebsten kontaktiert werden? *","Kies een optie.":"Bitte wähle eine Option.",
+    "Ben je eerder in Puglia geweest?":"Warst du schon einmal in Apulien?","Hoe hoorde je van Pugliaffari? *":"Wie hast du von Pugliaffari erfahren? *",
+    "Wat is het doel van de aankoop?":"Was ist der Zweck des Kaufs?","Wat is de belangrijkste reden dat je een woning in Puglia zoekt?":"Was ist der wichtigste Grund für deine Immobiliensuche in Apulien?","Dit vertelt ons veel meer dan alleen het doel.":"Das sagt uns viel mehr als nur der Zweck.","Vertel er kort iets meer over":"Erzähl uns kurz mehr dazu",
+    "Waar bevind je je momenteel in het aankoopproces?":"Wo stehst du derzeit im Kaufprozess?","Termijn en bezichtiging":"Zeitrahmen und Besichtigung","Binnen welke termijn wil je kopen? *":"In welchem Zeitrahmen möchtest du kaufen? *","Wil je binnenkort een bezichtigingsreis plannen? *":"Möchtest du bald eine Besichtigungsreise planen? *",
+    "Wat mag de woning maximaal kosten?":"Was darf die Immobilie maximal kosten?","Geef je maximale aankoopbedrag in euro — zo tonen we alleen wat echt binnen bereik ligt.":"Gib deinen maximalen Kaufbetrag in Euro an — so zeigen wir nur, was wirklich in Reichweite liegt.","Maximaal budget (€) *":"Maximales Budget (€) *","Vul je maximale budget in.":"Bitte gib dein maximales Budget ein.","bv. 450.000":"z. B. 450.000",
+    "Wat is je budget?":"Wie hoch ist dein Budget?","Budgetrange *":"Budgetbereich *","Kies een budgetrange.":"Bitte wähle einen Budgetbereich.",
+    "Nog even preciseren":"Noch etwas präzisieren","Veel kopers bedoelen met hun budget eigenlijk het totaal inclusief aankoopkosten — goed om dit meteen scherp te hebben.":"Viele Käufer meinen mit ihrem Budget eigentlich die Gesamtsumme inklusive Kaufnebenkosten — gut, das gleich zu klären.","Is dit budget inclusief aankoopkosten (belasting, notaris, etc.)? *":"Ist dieses Budget inklusive Kaufnebenkosten (Steuern, Notar usw.)? *","Financiering *":"Finanzierung *",
+    "Welke gebieden van Puglia hebben je voorkeur?":"Welche Gebiete Apuliens bevorzugst du?","Meerdere keuzes mogelijk — dit dekt heel Puglia, van noord naar zuid. Tik gerust ook op de kaart.":"Mehrfachauswahl möglich — dies deckt ganz Apulien ab, von Nord nach Süd. Tippe ruhig auch auf die Karte.",
+    "Vieste, Peschici, het groene schiereiland":"Vieste, Peschici, die grüne Halbinsel","Binnenland noord-Puglia":"Hinterland Nordapuliens","Ionische kust":"Ionische Küste","Adriatische zijde":"Adriaseite","Kies minstens één gebied.":"Wähle mindestens ein Gebiet.","Tik een gebied aan op de kaart of in de lijst":"Tippe ein Gebiet auf der Karte oder in der Liste an","optioneel":"optional",
+    "Welke plaatsen in Puglia ken je al?":"Welche Orte in Apulien kennst du schon?","Dit helpt ons je verwachtingen goed in te schatten.":"Das hilft uns, deine Erwartungen gut einzuschätzen.",
+    "Hoe belangrijk is nabijheid van zee of vliegveld?":"Wie wichtig ist die Nähe zu Meer oder Flughafen?",
+    "Naar welk type pand ben je op zoek?":"Nach welcher Art von Immobilie suchst du?","Meerdere keuzes mogelijk — van authentieke trullo tot villa aan zee.":"Mehrfachauswahl möglich — vom authentischen Trullo bis zur Villa am Meer.","Kies minstens één type.":"Wähle mindestens einen Typ.",
+    "Hoe groot mag het perceel zijn?":"Wie groß darf das Grundstück sein?",
+    "Welke voorzieningen zijn voor jou belangrijk?":"Welche Ausstattung ist dir wichtig?","Meerdere keuzes mogelijk.":"Mehrfachauswahl möglich.",
+    "Zwembad":"Pool","Zeezicht":"Meerblick","Wandelafstand dorp":"Dorf zu Fuß erreichbar","Horeca dichtbij":"Restaurants und Bars in der Nähe","Airconditioning":"Klimaanlage","Authentieke uitstraling":"Authentischer Charakter","Moderne afwerking":"Moderne Ausstattung","Groot perceel":"Großes Grundstück","Olijfgaard":"Olivenhain","Gastenverblijf":"Gästehaus","Geen directe buren":"Keine direkten Nachbarn","Nog iets anders?":"Noch etwas anderes?",
+    "In welke staat mag het pand zich bevinden?":"In welchem Zustand darf die Immobilie sein?","Meerdere antwoorden mogelijk — bijvoorbeeld als je openstaat voor zowel instapklaar als een licht opknapproject.":"Mehrere Antworten möglich — zum Beispiel, wenn du sowohl für bezugsfertig als auch für ein kleines Renovierungsprojekt offen bist.","Kies minstens één optie.":"Wähle mindestens eine Option.",
+    "Ben je bereid een renovatie te laten begeleiden?":"Bist du bereit, eine Renovierung begleiten zu lassen?","Wij werken samen met betrouwbare vakmensen en kunnen het proces van A tot Z begeleiden.":"Wir arbeiten mit zuverlässigen Fachleuten zusammen und begleiten den gesamten Prozess von A bis Z.",
+    "Wat wil je absoluut vermijden?":"Was möchtest du unbedingt vermeiden?","Zo voorkomen we voorstellen die niet bij je passen.":"So vermeiden wir Vorschläge, die nicht zu dir passen.","Drukke weg":"Stark befahrene Straße","Afgelegen":"Abgelegen","Renovatie":"Renovierung","Toeristisch":"Touristisch","Appartement":"Wohnung","Veel onderhoud":"Viel Pflegeaufwand","Nog iets anders om te vermijden?":"Noch etwas anderes zu vermeiden?",
+    "Wie gaat de woning voornamelijk gebruiken?":"Wer wird die Immobilie hauptsächlich nutzen?","Reis je regelmatig met kinderen of huisdieren?":"Reist du regelmäßig mit Kindern oder Haustieren?","Dit bepaalt vaak of zwembad-beveiliging, tuin of locatie extra aandacht nodig hebben.":"Das bestimmt oft, ob Poolsicherung, Garten oder Lage besondere Aufmerksamkeit brauchen.","Kinderen":"Kinder","Huisdieren":"Haustiere","Gewenst aantal slaapkamers":"Gewünschte Anzahl Schlafzimmer",
+    "Interesse in verhuurbeheer door Pugliaffari?":"Interesse an der Vermietungsverwaltung durch Pugliaffari?","Wij beheren je woning professioneel — van online zichtbaarheid tot gastbeleving en nazorg.":"Wir verwalten deine Immobilie professionell — von der Online-Sichtbarkeit bis zum Gästeerlebnis und der Nachbetreuung.","Hoe belangrijk is verhuuropbrengst voor jou?":"Wie wichtig sind dir die Mieteinnahmen?","Helemaal niet":"Überhaupt nicht","Klein beetje":"Ein wenig","Redelijk":"Ziemlich","Belangrijk":"Wichtig","Doorslaggevend":"Entscheidend",
+    "Heb je al woningen gezien die je aanspreken?":"Hast du bereits Immobilien gesehen, die dir gefallen?","Deel gerust de links hieronder":"Teile die Links gerne unten","Als je één perfecte woning zou mogen omschrijven, hoe ziet die eruit?":"Wenn du eine perfekte Immobilie beschreiben dürftest, wie sähe sie aus?","Laat je fantasie de vrije loop — dit helpt ons meer dan nog een technische specificatie.":"Lass deiner Fantasie freien Lauf — das hilft uns mehr als eine weitere technische Angabe.","Nog opmerkingen of vragen?":"Weitere Anmerkungen oder Fragen?",
+    "Klopt alles?":"Stimmt alles?","Controleer je antwoorden en pas ze indien nodig aan voor je het dossier verstuurt.":"Überprüfe deine Antworten und passe sie bei Bedarf an, bevor du das Dossier absendest.","Vink dit aan om te kunnen versturen.":"Bitte ankreuzen, um absenden zu können.",
+    "Grazie mille — dossier ontvangen!":"Grazie mille — Dossier erhalten!","We hebben je wensen goed genoteerd en nemen binnen 48 uur persoonlijk contact met je op met een eerste selectie van panden.":"Wir haben deine Wünsche gut notiert und melden uns innerhalb von 48 Stunden persönlich bei dir mit einer ersten Auswahl an Immobilien.","Je ontvangt zo meteen ook een bevestiging per e-mail.":"Du erhältst gleich auch eine Bestätigung per E-Mail.",
+    "Iedere zoektocht is anders. Daarom proberen we eerst te begrijpen hoe jíj wilt leven in Puglia, voordat we woningen gaan zoeken.":"Jede Suche ist anders. Deshalb versuchen wir zuerst zu verstehen, wie du in Apulien leben möchtest, bevor wir Immobilien suchen.","Met Pugliaffari koop je niet zomaar een huis; je investeert in een zorgeloos Italiaans avontuur.":"Mit Pugliaffari kaufst du nicht einfach ein Haus; du investierst in ein sorgloses italienisches Abenteuer.",
+    "Hoofdstuk 1 — Contact":"Kapitel 1 — Kontakt","Hoofdstuk 2 — Jouw zoektocht":"Kapitel 2 — Deine Suche","Hoofdstuk 3 — Budget":"Kapitel 3 — Budget","Hoofdstuk 4 — Locatie":"Kapitel 4 — Lage","Hoofdstuk 5 — Het pand":"Kapitel 5 — Die Immobilie","Hoofdstuk 6 — Leefstijl":"Kapitel 6 — Lebensstil","Hoofdstuk 7 — Investering":"Kapitel 7 — Investition","Hoofdstuk 8 — Tot slot":"Kapitel 8 — Zum Abschluss","Controle":"Überprüfung",
+    "Contact":"Kontakt","Jouw zoektocht":"Deine Suche","Budget":"Budget","Locatie":"Lage","Het pand":"Die Immobilie","Leefstijl":"Lebensstil","Investering":"Investition","Tot slot":"Zum Abschluss",
+    "Telefonisch":"Telefonisch","Ja":"Ja","Nee":"Nein","Referral / mond-tot-mond":"Empfehlung / Mundpropaganda","Instagram / social media":"Instagram / Social Media","Anders":"Andere",
+    "Permanente woning":"Hauptwohnsitz","Vakantiehuis":"Ferienhaus","Investering / verhuur":"Investition / Vermietung","Gemengd gebruik":"Gemischte Nutzung",
+    "Een droom die we al jaren hebben":"Ein Traum, den wir schon seit Jahren haben","Vakantie met familie":"Urlaub mit der Familie","Combinatie eigen gebruik en verhuur":"Kombination aus Eigennutzung und Vermietung","Emigreren":"Auswandern","Pensioen":"Ruhestand",
+    "We oriënteren ons nog":"Wir orientieren uns noch","We hebben al meerdere woningen bekeken":"Wir haben bereits mehrere Immobilien besichtigt","We zijn klaar om snel een bod uit te brengen":"Wir sind bereit, bald ein Angebot abzugeben","We hebben al eerder een woning misgelopen":"Uns ist schon einmal eine Immobilie entgangen",
+    "< 3 maanden":"< 3 Monate","3 – 6 maanden":"3 – 6 Monate","6 – 12 maanden":"6 – 12 Monate","Verkennend, geen haast":"Erkundend, keine Eile","Misschien":"Vielleicht","Nog niet":"Noch nicht",
+    "< €150.000":"< 150.000 €","€150.000 – €300.000":"150.000 € – 300.000 €","€300.000 – €500.000":"300.000 € – 500.000 €","€500.000 – €1.000.000":"500.000 € – 1.000.000 €","€1.000.000+":"1.000.000 €+","We weten dit nog niet":"Das wissen wir noch nicht","Cash":"Bar","Hypotheek":"Hypothek","Nog te bepalen":"Noch festzulegen",
+    "Foggia en Tavoliere":"Foggia und Tavoliere","Bari en kust":"Bari und Küste","Brindisi en kust":"Brindisi und Küste","Geen specifieke voorkeur":"Keine besondere Präferenz",
+    "Zeer belangrijk — max. 15 minuten":"Sehr wichtig — max. 15 Minuten","Belangrijk — max. 30 minuten":"Wichtig — max. 30 Minuten","Niet doorslaggevend":"Nicht entscheidend",
+    "Moderne villa":"Moderne Villa","Stadswoning / palazzo":"Stadthaus / Palazzo","Boerderij met land":"Bauernhaus mit Land","Geen voorkeur":"Keine Präferenz","Tot 2.000 m²":"Bis 2.000 m²","2.000 – 10.000 m²":"2.000 – 10.000 m²","Meer dan 10.000 m²":"Mehr als 10.000 m²",
+    "Volledig gerenoveerd / instapklaar":"Vollständig renoviert / bezugsfertig","Licht opknapwerk is oké":"Kleine Renovierung ist ok","Een volledig renovatieproject is oké":"Ein komplettes Renovierungsprojekt ist ok","Alleen als Pugliaffari de begeleiding verzorgt":"Nur wenn Pugliaffari die Begleitung übernimmt",
+    "Alleen wij twee":"Nur wir beide","Gezin":"Familie (Haushalt)","Familie":"Großfamilie","Verhuur":"Vermietung","Retreats":"Retreats","Nog niet zeker":"Noch nicht sicher",
+    "Ik ga ermee akkoord dat Pugliaffari mijn gegevens gebruikt om mijn aankoopdossier persoonlijk op te volgen. Ze worden vertrouwelijk behandeld en niet met derden gedeeld.":"Ich stimme zu, dass Pugliaffari meine Daten verwenden darf, um mein Kaufdossier persönlich zu betreuen. Sie werden vertraulich behandelt und nicht an Dritte weitergegeben.",
+    "Jouw toelichting...":"Deine Erläuterung...","Bijv. Ostuni, Alberobello — we zijn er twee keer op vakantie geweest...":"Z. B. Ostuni, Alberobello — wir waren dort zweimal im Urlaub...","Optioneel...":"Optional...","Plak hier links naar woningen die je aanspreken...":"Füge hier Links zu Immobilien ein, die dir gefallen...","Jouw droomhuis in Puglia...":"Dein Traumhaus in Apulien...","Optioneel — alles wat je ons verder nog wilt meegeven...":"Optional — alles, was du uns noch mitteilen möchtest...",
+    "Start":"Start","Volgende":"Weiter","Vorige":"Zurück","Verder":"Weiter","Dossier versturen":"Dossier absenden","Terug naar overzicht":"Zurück zur Übersicht","Naar overzicht":"Zur Übersicht","Hoofdstuk":"Kapitel","van":"von","Even op adem komen":"Kurz durchatmen","Wijzig":"Ändern","Niet ingevuld":"Nicht ausgefüllt","Je dossier wordt verstuurd...":"Dein Dossier wird gesendet...","Kies je taal om te beginnen":"Wähle deine Sprache, um zu beginnen",
+    "Er ging iets mis bij het versturen. Controleer je internetverbinding en probeer opnieuw. Blijft dit gebeuren? Mail ons gerust rechtstreeks op ciao@pugliaffari.com.":"Beim Senden ist etwas schiefgelaufen. Bitte überprüfe deine Internetverbindung und versuche es erneut. Passiert das weiterhin? Schreib uns gerne direkt an ciao@pugliaffari.com.",
+    "Enkele antwoorden ontbreken nog. Controleer de gemarkeerde velden.":"Einige Antworten fehlen noch. Bitte überprüfe die markierten Felder.","Vink de toestemming aan om te kunnen versturen.":"Bitte kreuze die Einwilligung an, um absenden zu können.",
+    "Naam":"Name","E-mail":"E-Mail","Telefoon":"Telefon","Voorkeurscontact":"Bevorzugter Kontakt","Eerder in Puglia geweest":"Schon in Apulien gewesen","Hoe gehoord":"Wie erfahren","Doel aankoop":"Kaufzweck","Belangrijkste reden":"Hauptgrund","Fase proces":"Prozessphase","Tijdslijn":"Zeitrahmen","Bezichtigingsreis":"Besichtigungsreise","Incl. aankoopkosten":"Inkl. Kaufnebenkosten","Financiering":"Finanzierung","Regio":"Region","Bekende plaatsen":"Bekannte Orte","Afstand zee/vliegveld":"Entfernung Meer/Flughafen","Type pand":"Immobilientyp","Perceel":"Grundstück","Voorzieningen":"Ausstattung","Staat pand":"Zustand der Immobilie","Renovatiebegeleiding":"Renovierungsbegleitung","Te vermijden":"Zu vermeiden","Wie gebruikt de woning":"Wer nutzt die Immobilie","Reist met":"Reist mit","Slaapkamers":"Schlafzimmer","Verhuurbeheer":"Vermietungsverwaltung","Belang rendement":"Bedeutung der Rendite","Al woningen gezien":"Bereits Immobilien gesehen","Droombeschrijving":"Traumbeschreibung","Opmerkingen":"Anmerkungen",
+    "Aankoopdossier":"Kaufdossier","Aankoopdossier ontvangen op":"Kaufdossier erhalten am","Pugliaffari — Property management & investments · Puglia, Italië":"Pugliaffari — Property management & investments · Apulien, Italien"
+  },
+  fr: {
+    "We hebben je eerdere antwoorden bewaard. Wil je verdergaan waar je gebleven was?":"Nous avons enregistré vos réponses précédentes. Voulez-vous reprendre là où vous vous êtes arrêté ?",
+    "Verdergaan":"Continuer","Opnieuw beginnen":"Recommencer","Persoonlijke aankoopbegeleiding":"Accompagnement d'achat personnalisé",
+    "Laat je betoveren door<br>de magie van <em>Puglia</em>":"Laissez-vous envoûter<br>par la magie des <em>Pouilles</em>",
+    "Iedere zoektocht is anders. Daarom willen we eerst begrijpen hoe jíj wilt leven in Puglia, voordat we woningen voor je gaan zoeken. Vertel ons je verhaal — wij doen de rest.":"Chaque recherche est différente. C'est pourquoi nous voulons d'abord comprendre comment vous souhaitez vivre dans les Pouilles, avant de chercher des biens pour vous. Racontez-nous votre histoire — nous nous occupons du reste.",
+    "Ongeveer 6-8 minuten":"Environ 6-8 minutes","Vertrouwelijk behandeld":"Traité en toute confidentialité","Reactie binnen 48 uur":"Réponse sous 48 heures",
+    "Hoe kunnen we je bereiken?":"Comment pouvons-nous vous contacter ?","We gebruiken deze gegevens uitsluitend om je dossier op te volgen.":"Nous utilisons ces données uniquement pour le suivi de votre dossier.",
+    "Voornaam *":"Prénom *","Vul je voornaam in.":"Veuillez saisir votre prénom.","Achternaam *":"Nom *","Vul je achternaam in.":"Veuillez saisir votre nom.",
+    "E-mailadres *":"Adresse e-mail *","Vul een geldig e-mailadres in.":"Veuillez saisir une adresse e-mail valide.","Telefoonnummer *":"Numéro de téléphone *","Vul je telefoonnummer in.":"Veuillez saisir votre numéro de téléphone.",
+    "Nog twee korte dingen":"Encore deux brèves questions","Hoe neem je het liefst contact op? *":"Comment préférez-vous être contacté ? *","Kies een optie.":"Veuillez choisir une option.",
+    "Ben je eerder in Puglia geweest?":"Êtes-vous déjà allé dans les Pouilles ?","Hoe hoorde je van Pugliaffari? *":"Comment avez-vous connu Pugliaffari ? *",
+    "Wat is het doel van de aankoop?":"Quel est l'objectif de l'achat ?","Wat is de belangrijkste reden dat je een woning in Puglia zoekt?":"Quelle est la principale raison de votre recherche d'un bien dans les Pouilles ?","Dit vertelt ons veel meer dan alleen het doel.":"Cela nous en dit bien plus que le seul objectif.","Vertel er kort iets meer over":"Dites-nous en un peu plus",
+    "Waar bevind je je momenteel in het aankoopproces?":"Où en êtes-vous actuellement dans le processus d'achat ?","Termijn en bezichtiging":"Délai et visite","Binnen welke termijn wil je kopen? *":"Dans quel délai souhaitez-vous acheter ? *","Wil je binnenkort een bezichtigingsreis plannen? *":"Souhaitez-vous planifier bientôt un voyage de visite ? *",
+    "Wat mag de woning maximaal kosten?":"Quel est le prix maximum du bien ?","Geef je maximale aankoopbedrag in euro — zo tonen we alleen wat echt binnen bereik ligt.":"Indiquez votre budget d'achat maximum en euros — nous ne montrerons que ce qui est vraiment à votre portée.","Maximaal budget (€) *":"Budget maximum (€) *","Vul je maximale budget in.":"Veuillez saisir votre budget maximum.","bv. 450.000":"ex. 450.000",
+    "Wat is je budget?":"Quel est votre budget ?","Budgetrange *":"Fourchette de budget *","Kies een budgetrange.":"Veuillez choisir une fourchette de budget.",
+    "Nog even preciseren":"Encore une précision","Veel kopers bedoelen met hun budget eigenlijk het totaal inclusief aankoopkosten — goed om dit meteen scherp te hebben.":"Beaucoup d'acheteurs entendent par « budget » le total frais d'achat compris — mieux vaut le préciser tout de suite.","Is dit budget inclusief aankoopkosten (belasting, notaris, etc.)? *":"Ce budget inclut-il les frais d'achat (taxes, notaire, etc.) ? *","Financiering *":"Financement *",
+    "Welke gebieden van Puglia hebben je voorkeur?":"Quelles régions des Pouilles préférez-vous ?","Meerdere keuzes mogelijk — dit dekt heel Puglia, van noord naar zuid. Tik gerust ook op de kaart.":"Plusieurs choix possibles — cela couvre toutes les Pouilles, du nord au sud. N'hésitez pas à toucher la carte.",
+    "Vieste, Peschici, het groene schiereiland":"Vieste, Peschici, la péninsule verte","Binnenland noord-Puglia":"Arrière-pays du nord des Pouilles","Ionische kust":"Côte ionienne","Adriatische zijde":"Côté adriatique","Kies minstens één gebied.":"Choisissez au moins une région.","Tik een gebied aan op de kaart of in de lijst":"Touchez une région sur la carte ou dans la liste","optioneel":"facultatif",
+    "Welke plaatsen in Puglia ken je al?":"Quels endroits des Pouilles connaissez-vous déjà ?","Dit helpt ons je verwachtingen goed in te schatten.":"Cela nous aide à bien évaluer vos attentes.",
+    "Hoe belangrijk is nabijheid van zee of vliegveld?":"Quelle importance accordez-vous à la proximité de la mer ou de l'aéroport ?",
+    "Naar welk type pand ben je op zoek?":"Quel type de bien recherchez-vous ?","Meerdere keuzes mogelijk — van authentieke trullo tot villa aan zee.":"Plusieurs choix possibles — du trullo authentique à la villa en bord de mer.","Kies minstens één type.":"Choisissez au moins un type.",
+    "Hoe groot mag het perceel zijn?":"Quelle superficie de terrain souhaitez-vous ?",
+    "Welke voorzieningen zijn voor jou belangrijk?":"Quels équipements sont importants pour vous ?","Meerdere keuzes mogelijk.":"Plusieurs choix possibles.",
+    "Zwembad":"Piscine","Zeezicht":"Vue sur mer","Wandelafstand dorp":"Village à pied","Horeca dichtbij":"Restaurants et bars à proximité","Airconditioning":"Climatisation","Authentieke uitstraling":"Caractère authentique","Moderne afwerking":"Finitions modernes","Groot perceel":"Grand terrain","Olijfgaard":"Oliveraie","Gastenverblijf":"Maison d'hôtes","Geen directe buren":"Pas de voisins directs","Nog iets anders?":"Autre chose ?",
+    "In welke staat mag het pand zich bevinden?":"Dans quel état peut se trouver le bien ?","Meerdere antwoorden mogelijk — bijvoorbeeld als je openstaat voor zowel instapklaar als een licht opknapproject.":"Plusieurs réponses possibles — par exemple si vous êtes ouvert à la fois au clé en main et à un petit projet de rénovation.","Kies minstens één optie.":"Choisissez au moins une option.",
+    "Ben je bereid een renovatie te laten begeleiden?":"Êtes-vous prêt à faire accompagner une rénovation ?","Wij werken samen met betrouwbare vakmensen en kunnen het proces van A tot Z begeleiden.":"Nous collaborons avec des professionnels de confiance et pouvons accompagner tout le processus de A à Z.",
+    "Wat wil je absoluut vermijden?":"Que voulez-vous absolument éviter ?","Zo voorkomen we voorstellen die niet bij je passen.":"Ainsi, nous évitons les propositions qui ne vous conviennent pas.","Drukke weg":"Route passante","Afgelegen":"Isolé","Renovatie":"Rénovation","Toeristisch":"Touristique","Appartement":"Appartement","Veel onderhoud":"Beaucoup d'entretien","Nog iets anders om te vermijden?":"Autre chose à éviter ?",
+    "Wie gaat de woning voornamelijk gebruiken?":"Qui utilisera principalement le bien ?","Reis je regelmatig met kinderen of huisdieren?":"Voyagez-vous régulièrement avec des enfants ou des animaux ?","Dit bepaalt vaak of zwembad-beveiliging, tuin of locatie extra aandacht nodig hebben.":"Cela détermine souvent si la sécurité de la piscine, le jardin ou l'emplacement nécessitent une attention particulière.","Kinderen":"Enfants","Huisdieren":"Animaux de compagnie","Gewenst aantal slaapkamers":"Nombre de chambres souhaité",
+    "Interesse in verhuurbeheer door Pugliaffari?":"Intéressé par la gestion locative par Pugliaffari ?","Wij beheren je woning professioneel — van online zichtbaarheid tot gastbeleving en nazorg.":"Nous gérons votre bien de manière professionnelle — de la visibilité en ligne à l'expérience des hôtes et au suivi.","Hoe belangrijk is verhuuropbrengst voor jou?":"Quelle importance accordez-vous au rendement locatif ?","Helemaal niet":"Pas du tout","Klein beetje":"Un peu","Redelijk":"Assez","Belangrijk":"Important","Doorslaggevend":"Décisif",
+    "Heb je al woningen gezien die je aanspreken?":"Avez-vous déjà vu des biens qui vous plaisent ?","Deel gerust de links hieronder":"Partagez les liens ci-dessous","Als je één perfecte woning zou mogen omschrijven, hoe ziet die eruit?":"Si vous pouviez décrire le bien parfait, à quoi ressemblerait-il ?","Laat je fantasie de vrije loop — dit helpt ons meer dan nog een technische specificatie.":"Laissez libre cours à votre imagination — cela nous aide plus qu'une spécification technique de plus.","Nog opmerkingen of vragen?":"D'autres remarques ou questions ?",
+    "Klopt alles?":"Tout est correct ?","Controleer je antwoorden en pas ze indien nodig aan voor je het dossier verstuurt.":"Vérifiez vos réponses et modifiez-les si nécessaire avant d'envoyer le dossier.","Vink dit aan om te kunnen versturen.":"Cochez cette case pour pouvoir envoyer.",
+    "Grazie mille — dossier ontvangen!":"Grazie mille — dossier reçu !","We hebben je wensen goed genoteerd en nemen binnen 48 uur persoonlijk contact met je op met een eerste selectie van panden.":"Nous avons bien noté vos souhaits et vous contacterons personnellement sous 48 heures avec une première sélection de biens.","Je ontvangt zo meteen ook een bevestiging per e-mail.":"Vous recevrez également sous peu une confirmation par e-mail.",
+    "Iedere zoektocht is anders. Daarom proberen we eerst te begrijpen hoe jíj wilt leven in Puglia, voordat we woningen gaan zoeken.":"Chaque recherche est différente. C'est pourquoi nous essayons d'abord de comprendre comment vous souhaitez vivre dans les Pouilles, avant de chercher des biens.","Met Pugliaffari koop je niet zomaar een huis; je investeert in een zorgeloos Italiaans avontuur.":"Avec Pugliaffari, vous n'achetez pas simplement une maison ; vous investissez dans une aventure italienne sans souci.",
+    "Hoofdstuk 1 — Contact":"Chapitre 1 — Contact","Hoofdstuk 2 — Jouw zoektocht":"Chapitre 2 — Votre recherche","Hoofdstuk 3 — Budget":"Chapitre 3 — Budget","Hoofdstuk 4 — Locatie":"Chapitre 4 — Emplacement","Hoofdstuk 5 — Het pand":"Chapitre 5 — Le bien","Hoofdstuk 6 — Leefstijl":"Chapitre 6 — Style de vie","Hoofdstuk 7 — Investering":"Chapitre 7 — Investissement","Hoofdstuk 8 — Tot slot":"Chapitre 8 — Pour terminer","Controle":"Vérification",
+    "Contact":"Contact","Jouw zoektocht":"Votre recherche","Budget":"Budget","Locatie":"Emplacement","Het pand":"Le bien","Leefstijl":"Style de vie","Investering":"Investissement","Tot slot":"Pour terminer",
+    "Telefonisch":"Par téléphone","Ja":"Oui","Nee":"Non","Referral / mond-tot-mond":"Recommandation / bouche-à-oreille","Instagram / social media":"Instagram / réseaux sociaux","Anders":"Autre",
+    "Permanente woning":"Résidence permanente","Vakantiehuis":"Maison de vacances","Investering / verhuur":"Investissement / location","Gemengd gebruik":"Usage mixte",
+    "Een droom die we al jaren hebben":"Un rêve que nous avons depuis des années","Vakantie met familie":"Vacances en famille","Combinatie eigen gebruik en verhuur":"Combinaison usage personnel et location","Emigreren":"S'expatrier","Pensioen":"Retraite",
+    "We oriënteren ons nog":"Nous nous renseignons encore","We hebben al meerdere woningen bekeken":"Nous avons déjà visité plusieurs biens","We zijn klaar om snel een bod uit te brengen":"Nous sommes prêts à faire une offre rapidement","We hebben al eerder een woning misgelopen":"Nous avons déjà manqué un bien",
+    "< 3 maanden":"< 3 mois","3 – 6 maanden":"3 – 6 mois","6 – 12 maanden":"6 – 12 mois","Verkennend, geen haast":"Exploration, sans urgence","Misschien":"Peut-être","Nog niet":"Pas encore",
+    "< €150.000":"< 150 000 €","€150.000 – €300.000":"150 000 € – 300 000 €","€300.000 – €500.000":"300 000 € – 500 000 €","€500.000 – €1.000.000":"500 000 € – 1 000 000 €","€1.000.000+":"1 000 000 €+","We weten dit nog niet":"Nous ne le savons pas encore","Cash":"Comptant","Hypotheek":"Prêt immobilier","Nog te bepalen":"À déterminer",
+    "Foggia en Tavoliere":"Foggia et Tavoliere","Bari en kust":"Bari et côte","Brindisi en kust":"Brindisi et côte","Geen specifieke voorkeur":"Aucune préférence particulière",
+    "Zeer belangrijk — max. 15 minuten":"Très important — max. 15 minutes","Belangrijk — max. 30 minuten":"Important — max. 30 minutes","Niet doorslaggevend":"Pas déterminant",
+    "Moderne villa":"Villa moderne","Stadswoning / palazzo":"Maison de ville / palazzo","Boerderij met land":"Ferme avec terrain","Geen voorkeur":"Aucune préférence","Tot 2.000 m²":"Jusqu'à 2 000 m²","2.000 – 10.000 m²":"2 000 – 10 000 m²","Meer dan 10.000 m²":"Plus de 10 000 m²",
+    "Volledig gerenoveerd / instapklaar":"Entièrement rénové / clé en main","Licht opknapwerk is oké":"Petits travaux acceptables","Een volledig renovatieproject is oké":"Un projet de rénovation complet est acceptable","Alleen als Pugliaffari de begeleiding verzorgt":"Uniquement si Pugliaffari assure l'accompagnement",
+    "Alleen wij twee":"Juste nous deux","Gezin":"Foyer","Familie":"Famille élargie","Verhuur":"Location","Retreats":"Retraites","Nog niet zeker":"Pas encore sûr",
+    "Ik ga ermee akkoord dat Pugliaffari mijn gegevens gebruikt om mijn aankoopdossier persoonlijk op te volgen. Ze worden vertrouwelijk behandeld en niet met derden gedeeld.":"J'accepte que Pugliaffari utilise mes données pour assurer personnellement le suivi de mon dossier d'achat. Elles sont traitées de manière confidentielle et ne sont pas partagées avec des tiers.",
+    "Jouw toelichting...":"Votre explication...","Bijv. Ostuni, Alberobello — we zijn er twee keer op vakantie geweest...":"Ex. Ostuni, Alberobello — nous y sommes allés deux fois en vacances...","Optioneel...":"Facultatif...","Plak hier links naar woningen die je aanspreken...":"Collez ici les liens vers les biens qui vous plaisent...","Jouw droomhuis in Puglia...":"Votre maison de rêve dans les Pouilles...","Optioneel — alles wat je ons verder nog wilt meegeven...":"Facultatif — tout ce que vous souhaitez encore nous communiquer...",
+    "Start":"Commencer","Volgende":"Suivant","Vorige":"Précédent","Verder":"Continuer","Dossier versturen":"Envoyer le dossier","Terug naar overzicht":"Retour au récapitulatif","Naar overzicht":"Au récapitulatif","Hoofdstuk":"Chapitre","van":"sur","Even op adem komen":"Une pause","Wijzig":"Modifier","Niet ingevuld":"Non renseigné","Je dossier wordt verstuurd...":"Envoi de votre dossier...","Kies je taal om te beginnen":"Choisissez votre langue pour commencer",
+    "Er ging iets mis bij het versturen. Controleer je internetverbinding en probeer opnieuw. Blijft dit gebeuren? Mail ons gerust rechtstreeks op ciao@pugliaffari.com.":"Un problème est survenu lors de l'envoi. Veuillez vérifier votre connexion internet et réessayer. Cela persiste ? Écrivez-nous directement à ciao@pugliaffari.com.",
+    "Enkele antwoorden ontbreken nog. Controleer de gemarkeerde velden.":"Certaines réponses manquent encore. Veuillez vérifier les champs indiqués.","Vink de toestemming aan om te kunnen versturen.":"Veuillez cocher le consentement pour pouvoir envoyer.",
+    "Naam":"Nom","E-mail":"E-mail","Telefoon":"Téléphone","Voorkeurscontact":"Contact préféré","Eerder in Puglia geweest":"Déjà allé dans les Pouilles","Hoe gehoord":"Comment connu","Doel aankoop":"Objectif d'achat","Belangrijkste reden":"Raison principale","Fase proces":"Étape du processus","Tijdslijn":"Délai","Bezichtigingsreis":"Voyage de visite","Incl. aankoopkosten":"Frais d'achat inclus","Financiering":"Financement","Regio":"Région","Bekende plaatsen":"Lieux connus","Afstand zee/vliegveld":"Distance mer/aéroport","Type pand":"Type de bien","Perceel":"Terrain","Voorzieningen":"Équipements","Staat pand":"État du bien","Renovatiebegeleiding":"Accompagnement rénovation","Te vermijden":"À éviter","Wie gebruikt de woning":"Qui utilise le bien","Reist met":"Voyage avec","Slaapkamers":"Chambres","Verhuurbeheer":"Gestion locative","Belang rendement":"Importance du rendement","Al woningen gezien":"Biens déjà vus","Droombeschrijving":"Description du rêve","Opmerkingen":"Remarques",
+    "Aankoopdossier":"Dossier d'achat","Aankoopdossier ontvangen op":"Dossier d'achat reçu le","Pugliaffari — Property management & investments · Puglia, Italië":"Pugliaffari — Property management & investments · Pouilles, Italie"
   }
 };
 function t(s){ if(lang==="nl"||!s) return s; const m=PA_TR[lang]; return (m && m[s]!=null) ? m[s] : s; }
@@ -1154,7 +1282,7 @@ CHAPTERS.forEach((ch, ci) => {
 });
 order.push('review', 'submitting', 'success');
 
-let current = 'intro';
+let current = 'langgate';
 let editChapter = null;      // when editing a chapter from the review screen
 let pendingResume = null;
 const steps = Array.from(document.querySelectorAll('.step'));
@@ -1180,7 +1308,7 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;
 function announce(msg){ if(srStatus){ srStatus.textContent=''; srStatus.textContent = msg; } }
 
 function stepEl(key){
-  if(key === 'intro') return document.getElementById('intro');
+  if(key === 'intro' || key === 'langgate') return document.getElementById(key);
   return document.querySelector('.step[data-step="'+key+'"]');
 }
 
@@ -1209,7 +1337,7 @@ function showStep(key){
   stepEl(key).classList.add('active');
   if(key !== 'intro') resumeBanner.classList.remove('show');
 
-  if(key === 'intro' || key === 'review' || key === 'submitting' || key === 'success'){
+  if(key === 'langgate' || key === 'intro' || key === 'review' || key === 'submitting' || key === 'success'){
     chapterProgress.style.display = 'none';
   } else if(key === 'int1' || key === 'int2'){
     chapterProgress.style.display = 'block';
@@ -1220,7 +1348,7 @@ function showStep(key){
   }
 
   btnNext.disabled = false;
-  if(key === 'intro' || key === 'submitting' || key === 'success'){
+  if(key === 'langgate' || key === 'intro' || key === 'submitting' || key === 'success'){
     navRow.style.display = 'none';
   } else {
     navRow.style.display = 'flex';
@@ -1229,7 +1357,7 @@ function showStep(key){
       btnPrev.textContent = '← ' + t('Naar overzicht');
       btnNext.innerHTML = (isLastInChapter(key) ? t('Terug naar overzicht') : t('Volgende')) + ARROW;
     } else {
-      btnPrev.style.visibility = (key === order[1]) ? 'hidden' : 'visible';
+      btnPrev.style.visibility = 'visible';
       btnPrev.textContent = '← ' + t('Vorige');
       if(key === 'int1' || key === 'int2') btnNext.innerHTML = t('Verder') + ARROW;
       else if(key === 'review'){ btnNext.innerHTML = t('Dossier versturen') + ARROW; btnNext.disabled = !document.getElementById('consent').checked; }
@@ -1380,6 +1508,7 @@ function collectData(){
     dreamDescription: fd.get('dreamDescription')||'',
     remarks: fd.get('remarks')||'',
     consent: !!(document.getElementById('consent') && document.getElementById('consent').checked),
+    lang: lang,
     website: fd.get('website')||'',
     submittedFrom: window.location.href,
     submittedAt: new Date().toISOString()
@@ -1400,11 +1529,11 @@ function selText(name){
     return inp.value;
   });
 }
-function renderReview(){
+function reviewGroups(){
   const d = collectData();
   const S = function(n){ return selText(n).join(', '); };
   const other = function(n, extra){ const a=selText(n); if(extra) a.push(extra); return a.join(', '); };
-  const groups = [
+  return [
     {ci:0, rows:[['Naam',(d.firstName+' '+d.lastName).trim()],['E-mail',d.email],['Telefoon',d.phone],['Voorkeurscontact',S('contactPreference')],['Eerder in Puglia geweest',S('visitedBefore')],['Hoe gehoord',S('source')]]},
     {ci:1, rows:[['Doel aankoop',S('purpose')],['Belangrijkste reden', other('reason', d.reasonOther)],['Fase proces',S('processStage')],['Tijdslijn',S('timeline')],['Bezichtigingsreis',S('visitInterest')]]},
     {ci:2, rows:[['Budget', d.budget ? '€ '+d.budget : ''],['Incl. aankoopkosten',S('budgetIncludesCosts')],['Financiering',S('financing')]]},
@@ -1414,6 +1543,22 @@ function renderReview(){
     {ci:6, rows:[['Verhuurbeheer',S('rentalManagement')],['Belang rendement',S('rentalYieldImportance')]]},
     {ci:7, rows:[['Al woningen gezien', other('seenHomes', d.seenHomesLinks)],['Droombeschrijving',d.dreamDescription],['Opmerkingen',d.remarks]]},
   ];
+}
+function buildPdfPayload(){
+  const localeFor = { nl:'nl-BE', it:'it-IT', en:'en-GB', de:'de-DE', fr:'fr-FR' };
+  const dateStr = new Date().toLocaleDateString(localeFor[lang] || 'nl-BE', { day:'2-digit', month:'long', year:'numeric' });
+  return {
+    lang: lang,
+    title: t('Aankoopdossier'),
+    receivedLine: t('Aankoopdossier ontvangen op') + ' ' + dateStr,
+    footer: t('Pugliaffari — Property management & investments · Puglia, Italië'),
+    sections: reviewGroups().map(function(g){
+      return { title: t(CHAPTERS[g.ci].name), rows: g.rows.map(function(r){ return [t(r[0]), r[1]]; }) };
+    })
+  };
+}
+function renderReview(){
+  const groups = reviewGroups();
   const list = document.getElementById('reviewList');
   list.innerHTML = groups.map(function(g){
     const rows = g.rows.map(function(r){
@@ -1476,6 +1621,7 @@ function showSubmitError(msg){
 
 async function submitForm(){
   const data = collectData();
+  data.pdf = buildPdfPayload();  // gelokaliseerde inhoud voor de klant-PDF (in gekozen taal)
   if(data.website){ current='success'; showStep('success'); clearSaved(); return; }
 
   document.getElementById('submitError').classList.remove('show');
@@ -1655,10 +1801,10 @@ document.getElementById('resumeNo').addEventListener('click', ()=>{
    Init
    ============================================================ */
 function applyLang(l){
-  lang = (l==='it'||l==='en') ? l : 'nl';
+  lang = (['it','en','de','fr'].indexOf(l) >= 0) ? l : 'nl';
   try{ localStorage.setItem(LANG_KEY, lang); }catch(e){}
   document.documentElement.setAttribute('lang', lang);
-  document.querySelectorAll('#langSwitch .lang-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===lang); });
+  document.querySelectorAll('#langChoice .langgate-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===lang); });
   // whole-text elements
   document.querySelectorAll('.eyebrow,.lead,.interstitial p.quote,#quizForm h2,.step .hint,.field-label,.tag-optional,.chip .pill,.scale-pill .lbl,.option-card .sub,.error-msg,.map-cap,.map-hint,.rb-text,.btn-mini,#success p,.submitting p').forEach(function(el){
     if(el.dataset.tnl===undefined) el.dataset.tnl = el.textContent.trim();
@@ -1683,18 +1829,21 @@ function applyLang(l){
   // refresh dynamic UI in the new language
   if(typeof current !== 'undefined' && current){ showStep(current); if(current==='review') renderReview(); }
 }
-document.getElementById('langSwitch').addEventListener('click', function(e){ const b=e.target.closest('.lang-btn'); if(b) applyLang(b.dataset.lang); });
+document.getElementById('langChoice').addEventListener('click', function(e){ const b=e.target.closest('.langgate-btn'); if(b){ current='intro'; applyLang(b.dataset.lang); save(); } });
 
 initA11y();
 initPugliaMap();
 updateBedroomsUI();
 const savedLang = (function(){ try{ return localStorage.getItem(LANG_KEY); }catch(e){ return null; } })() || 'nl';
 const saved = loadSaved();
-if(saved && saved.step && saved.step!=='intro' && saved.step!=='submitting' && saved.step!=='success'){
+if(saved && saved.step && ['intro','langgate','submitting','success'].indexOf(saved.step) < 0){
+  // Terugkerende bezoeker met voortgang: herstel de taal, toon hervat-banner op de intro
   pendingResume = saved;
+  current = 'intro';
   resumeBanner.classList.add('show');
-} else if(saved){
-  clearSaved();
+} else {
+  if(saved) clearSaved();
+  current = 'langgate';
 }
 applyLang(savedLang);
 </script>
