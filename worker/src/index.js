@@ -373,14 +373,17 @@ async function renderPdf(model) {
     for (const [label, raw] of sec.rows) {
       const value = val(raw) || "—";
       const lines = wrapText(value, font, size, valW);
-      const rowH = Math.max(lh, lines.length * lh);
-      ensure(rowH + 4);
+      const n = Math.max(1, lines.length);
+      ensure(n * lh + 21);
+      // label + waarde op basislijn y
       page.drawText(pdfSafe(label), { x: M, y, font, size, color: MUTED });
       lines.forEach((ln, i) => {
         page.drawText(ln, { x: valX, y: y - i * lh, font: i === 0 ? bold : font, size, color: INK });
       });
-      y -= rowH + 6;
-      page.drawLine({ start: { x: M, y: y + 3 }, end: { x: W - M, y: y + 3 }, thickness: 0.5, color: LINE });
+      y -= (n - 1) * lh;   // naar de basislijn van de laatste regel
+      y -= 9;              // ruimte onder de tekst, boven de scheidingslijn
+      page.drawLine({ start: { x: M, y }, end: { x: W - M, y }, thickness: 0.5, color: LINE });
+      y -= 12;             // ruimte tussen scheidingslijn en volgende regel
     }
     y -= 10;
   }
